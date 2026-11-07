@@ -156,7 +156,7 @@
   <div class="timeline-container">
     <div class="timeline-grid" style="--days: {daysInMonth};">
       {#if todayNum}
-        <div class="global-today-line" style="left: calc(220px + (100% - 220px) * ({todayNum} - 0.5) / {daysInMonth});"></div>
+        <div class="global-today-line" style="left: calc(340px + (100% - 340px) * ({todayNum} - 0.5) / {daysInMonth});"></div>
       {/if}
       <!-- Days Header -->
       <div class="header-row">
@@ -233,12 +233,6 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--sp-3);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: var(--bg);
-    padding: var(--sp-2) 0;
-    border-bottom: 1px solid var(--border);
   }
 
   .cal-header h1 {
@@ -304,6 +298,8 @@
   /* Timeline Grid Layout */
   .timeline-container {
     overflow-x: auto;
+    overflow-y: auto;
+    height: calc(100vh - 220px);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     background: var(--bg-elev);
@@ -329,12 +325,11 @@
 
   .header-row {
     display: flex;
-    height: 38px;
-    border-bottom: 1px solid var(--border);
     position: sticky;
-    top: 50px; /* Di bawah cal-header */
-    z-index: 90;
+    top: 0;
     background: var(--bg-elev);
+    z-index: 20;
+    border-bottom: 1px solid var(--border);
   }
 
   .event-row {
@@ -344,25 +339,28 @@
   }
 
   .title-col {
-    width: 220px;
-    flex-shrink: 0;
-    padding: var(--sp-2) var(--sp-3);
-    display: flex;
-    align-items: center;
-    gap: var(--sp-2);
+    width: 340px;
+    min-width: 340px;
+    padding: 10px 12px;
+    font-weight: 600;
     border-right: 1px solid var(--border);
     background: var(--bg-elev);
     position: sticky;
     left: 0;
-    z-index: 2;
+    z-index: 11;
+    display: flex;
+    align-items: center;
   }
 
   .header-row .title-col {
-    z-index: 95;
     font-weight: var(--fw-bold);
     font-size: var(--fs-xs);
     text-transform: uppercase;
     color: var(--text-muted);
+    z-index: 30;
+    position: sticky;
+    left: 0;
+    top: 0;
   }
 
   .ev-icon {
@@ -435,7 +433,6 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    
     width: 2px;
     background: #e74c3c;
     z-index: 1;
@@ -515,7 +512,6 @@
     font-size: var(--fs-sm);
   }
 
-  /* Thin solid 1px marker lines */
   .vertical-event-line {
     position: absolute;
     width: 1px;
@@ -530,4 +526,41 @@
     background: #f39c12;
   }
 
+  /* Mobile Responsive: 1 baris untuk bulan & filter */
+  @media (max-width: 768px) {
+    .cal-header {
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+    .cal-header h1 {
+      display: none;
+    }
+    .controls {
+      width: 100%;
+      justify-content: space-between;
+      flex-wrap: nowrap;
+      gap: 4px;
+    }
+    .month-nav {
+      padding: 1px 2px;
+    }
+    .current-month {
+      min-width: 85px;
+      font-size: 10px;
+    }
+    .filters button {
+      padding: 3px 5px;
+      font-size: 9px;
+    }
+    .timeline-container {
+      height: calc(100vh - 180px);
+    }
+    .title-col {
+      width: 180px;
+      min-width: 180px;
+    }
+  }
 </style>
