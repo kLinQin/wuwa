@@ -1,0 +1,15 @@
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+}
+a { color: var(--accent); }
+a:hover { color: var(--accent-hover); }
+h1, h2, h3 { font-family: var(--font-heading); }
+h1 { font-size: var(--fs-xl); margin: 0 0 var(--sp-4); }
+h2 { font-size: var(--fs-lg); margin: 0 0 var(--sp-3); }
+code, pre { font-family: var(--font-mono); }

@@ -1,0 +1,275 @@
+
+.icon-mask {
+  display: block;
+  width: 20px;
+  height: 20px;
+  background-color: currentColor;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  flex-shrink: 0;
+}
+
+.raised {
+  background: var(--bg-elev);
+  color: var(--text);
+  border-style: solid;
+  border-color: var(--raised-color);
+  border-width: var(--raised-width);
+  border-radius: var(--radius);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-2);
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  user-select: none;
+}
+.raised:hover { border-color: var(--raised-hover-color); }
+.raised:active { border-color: var(--raised-active-color); border-width: var(--raised-active-width); }
+.raised[aria-pressed='true'] { color: var(--accent); }
+
+.raised.icon {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+}
+
+.icon-mask {
+  display: block;
+  width: 18px;
+  height: 18px;
+  background-color: currentColor;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  flex-shrink: 0;
+}
+
+/* ===== Toolbar & search ===== */
+.toolbar { display: flex; gap: var(--sp-2); margin-bottom: var(--sp-4); }
+.toolbar input {
+  flex: 1; padding: var(--sp-2) var(--sp-3);
+  background: var(--bg-elev); border: 1px solid var(--border);
+  border-radius: var(--radius); color: var(--text);
+  font-family: var(--font-ui); font-size: var(--fs-sm);
+}
+.toolbar input:focus { outline: 1px solid var(--accent); outline-offset: 0; }
+.count { color: var(--text-muted); font-size: var(--fs-xs); margin: 0 0 var(--sp-3); }
+
+/* ===== Card grid ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-3);
+}
+@media (min-width: 768px) {
+  .grid { grid-template-columns: repeat(5, 1fr); }
+}
+@media (min-width: 1024px) {
+  .grid { grid-template-columns: repeat(6, 1fr); }
+}
+@media (min-width: 1280px) {
+  .grid { grid-template-columns: repeat(6, 1fr); }
+}
+@media (min-width: 1536px) {
+  .grid { grid-template-columns: repeat(8, 1fr); }
+}
+.card {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--sp-3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--sp-1);
+  color: inherit;
+  text-decoration: none;
+  overflow: hidden;
+}
+.card:hover { background: var(--bg-hover); }
+.card-img {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  margin-bottom: var(--sp-1);
+}
+.card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: calc(var(--radius) - 1px);
+  background: var(--bg-hover);
+  display: block;
+}
+.card-img .rarity {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  color: #f5c518;
+  font-size: 13px;
+  line-height: 1.2;
+  text-shadow: 0 0 3px #000, 0 0 3px #000;
+}
+.card-img .element-wrap {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.card-img .element-wrap img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.28);
+  filter: drop-shadow(0 0 2px rgba(0,0,0,0.75)) drop-shadow(0 0 1px rgba(0,0,0,0.5));
+  border-radius: 50%;
+  padding: 2px;
+}
+.card-img .element-wrap span {
+  font-size: 11px;
+  color: #fff;
+  text-shadow: 0 0 3px #000, 0 0 3px #000;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* responsive: tablet / laptop / PC */
+@media (min-width: 640px) {
+  .card-img .element-wrap img { width: 24px; height: 24px; }
+  .card-img .element-wrap span { font-size: 14px; }
+}
+@media (min-width: 768px) {
+  .card-img .element-wrap img { width: 26px; height: 26px; }
+  .card-img .element-wrap span { font-size: 10px; }
+}
+@media (min-width: 1024px) {
+  .card-img .element-wrap img { width: 28px; height: 28px; }
+  .card-img .element-wrap span { font-size: 11px; }
+}
+@media (min-width: 1280px) {
+  .card-img .element-wrap img { width: 30px; height: 30px; }
+  .card-img .element-wrap span { font-size: 12px; }
+}
+@media (min-width: 1536px) {
+  .card-img .element-wrap img { width: 34px; height: 34px; }
+  .card-img .element-wrap span { font-size: 12px; }
+}
+
+/* mobile & tablet: icon only, no text */
+@media (max-width: 1023px) {
+  .card-img .element-wrap span { display: none; }
+}
+.card .name {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+.card .meta {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: var(--sp-1);
+  justify-content: center;
+  width: 100%;
+  overflow: hidden;
+}
+.card .meta .badge {
+  flex: 1 1 0;
+  min-width: 0;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badge {
+  display: inline-block; padding: 1px 6px;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  font-size: var(--fs-xs); white-space: nowrap;
+}
+.stars { color: #f5c518; font-size: var(--fs-xs); }
+
+/* ===== List ===== */
+.list { display: flex; flex-direction: column; gap: var(--sp-2); }
+.row {
+  padding: var(--sp-3); border: 1px solid var(--border);
+  border-radius: var(--radius); background: var(--bg-elev);
+  display: flex; gap: var(--sp-2); align-items: baseline;
+  flex-wrap: wrap;
+}
+.row .name { font-weight: var(--fw-medium); }
+.row .desc { font-size: var(--fs-sm); color: var(--text-muted); width: 100%; }
+
+/* ===== Tabs ===== */
+.tabs { display: flex; gap: var(--sp-2); margin-bottom: var(--sp-4); }
+
+.card-img .weapon-wrap {
+  position: absolute;
+  bottom: 4px;
+  left: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.card-img .weapon-wrap img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.28);
+  filter: drop-shadow(0 0 2px rgba(0,0,0,0.75)) drop-shadow(0 0 1px rgba(0,0,0,0.5));
+  border-radius: 50%;
+  padding: 2px;
+}
+.card-img .weapon-wrap span {
+  font-size: 9px;
+  color: #fff;
+  text-shadow: 0 0 3px #000, 0 0 3px #000;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* responsive weapon-wrap: same as element-wrap */
+@media (min-width: 640px) {
+  .card-img .weapon-wrap img { width: 24px; height: 24px; }
+  .card-img .weapon-wrap span { font-size: 10px; }
+}
+@media (min-width: 768px) {
+  .card-img .weapon-wrap img { width: 26px; height: 26px; }
+  .card-img .weapon-wrap span { font-size: 10px; }
+}
+@media (min-width: 1024px) {
+  .card-img .weapon-wrap img { width: 28px; height: 28px; }
+  .card-img .weapon-wrap span { font-size: 11px; }
+}
+@media (min-width: 1280px) {
+  .card-img .weapon-wrap img { width: 30px; height: 30px; }
+  .card-img .weapon-wrap span { font-size: 12px; }
+}
+@media (min-width: 1536px) {
+  .card-img .weapon-wrap img { width: 34px; height: 34px; }
+  .card-img .weapon-wrap span { font-size: 12px; }
+}
+@media (max-width: 1023px) {
+  .card-img .weapon-wrap span { display: none; }
+}

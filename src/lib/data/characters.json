@@ -1,0 +1,10 @@
+[
+  {
+    "id": "rover",
+    "name": "Rover",
+    "rarity": 5,
+    "element": "Spectro",
+    "weapon": "Sword",
+    "role": "Main"
+  }
+]
