@@ -18,6 +18,6 @@
 
 <div class="grid">
   {#each items as c}
-    <DataCard item={c} kind="character" href={`/characters/${c.id}`} />
+    <DataCard item={c} kind="character" href={`/characters/${c.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}`} />
   {/each}
 </div>

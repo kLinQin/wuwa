@@ -17,9 +17,9 @@
 
 <div class="list">
   {#each items as s}
-    <div class="row">
+    <a href={'/stories/' + s.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')} class="row card-link">
       <div class="name">{s.name}</div>
       <div class="desc">{s.description ?? ''}</div>
-    </div>
+    </a>
   {/each}
 </div>

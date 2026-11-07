@@ -18,6 +18,6 @@
 
 <div class="grid">
   {#each items as w}
-    <DataCard item={w} kind="weapon" />
+    <DataCard item={w} kind="weapon" href={`/weapons/${w.slug}`} />
   {/each}
 </div>

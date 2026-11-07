@@ -28,11 +28,11 @@ export const load: PageServerLoad = async ({ fetch }) => {
   ]);
 
   const quests = [
-    ...(c1 ?? []).map((x: any) => ({ type: 'Chapter 1', title: x.title })),
-    ...(c2 ?? []).map((x: any) => ({ type: 'Chapter 2', title: x.title })),
-    ...(prolog ?? []).map((x: any) => ({ type: 'Prologue', title: x.title })),
+    ...(c1 ?? []).map((x: any) => ({ type: 'Chapter 1', title: x.title, blocks: x.blocks })),
+    ...(c2 ?? []).map((x: any) => ({ type: 'Chapter 2', title: x.title, blocks: x.blocks })),
+    ...(prolog ?? []).map((x: any) => ({ type: 'Prologue', title: x.title, blocks: x.blocks })),
   ];
-  const terms = (glossary ?? []).map((x: any) => ({ name: x.name, description: x.description }));
+  const terms = (glossary ?? []).map((x: any) => ({ name: x.name, description: x.description, image: x.image }));
 
   return { quests, terms };
 };

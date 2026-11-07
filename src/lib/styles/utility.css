@@ -294,3 +294,18 @@
   background: var(--border);
   border-radius: var(--radius);
 }
+
+/* ===== Quest reader ===== */
+.reader { max-width: 720px; margin-top: var(--sp-4); }
+.block-text { font-family: var(--font-body); font-size: var(--fs-sm); line-height: 1.7; color: var(--text); margin: 0 0 var(--sp-4); white-space: pre-line; }
+.block-img { margin: 0 0 var(--sp-4); }
+.block-img img { max-width: 100%; border-radius: var(--radius); display: block; }
+
+/* ===== Quest row clickable ===== */
+.quest-row { cursor: pointer; text-align: left; font-family: inherit; font-size: inherit; width: 100%; }
+.quest-row:hover { background: var(--bg-hover); }
+
+/* ===== Glossary row ===== */
+.glossary-row { align-items: flex-start; }
+.glossary-img { width: 64px; height: 64px; object-fit: cover; border-radius: var(--radius); flex-shrink: 0; background: var(--bg-hover); }
+.glossary-body { flex: 1; min-width: 0; }
