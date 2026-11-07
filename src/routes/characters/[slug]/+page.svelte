@@ -8,13 +8,22 @@
   import ProfileInfo from '#lib/components/ProfileInfo.svelte';
   import TeamList from '#lib/components/TeamList.svelte';
   import ChartView from '#lib/components/ChartView.svelte';
+  import Tabs from '#lib/components/Tabs.svelte';
 
-  let { data }: PageProps = $props();
-  const item = data.item;
-  const materialsMap = data.materialsMap || {};
-  const teamsMap = data.teamsMap || {};
-  const rolesMap = data.rolesMap || {};
-  const sonatasMap = data.sonatasMap || {};
+  let props: PageProps = $props();
+  const item = $derived(props.data.item);
+  const materialsMap = $derived(props.data.materialsMap || {});
+  const teamsMap = $derived(props.data.teamsMap || {});
+  const rolesMap = $derived(props.data.rolesMap || {});
+  const sonatasMap = $derived(props.data.sonatasMap || {});
+  let activeTab = $state('overview');
+
+  const tabList = [
+    { id: 'overview', label: 'Overview' },
+    { id: 'kit', label: 'Kit & Sequences' },
+    { id: 'teams', label: 'Teams & Stats' },
+    { id: 'lore', label: 'Lore & Changelog' }
+  ];
 
   const elementNames: Record<number, string> = {
     1: 'Glacio', 2: 'Fusion', 3: 'Electro', 4: 'Aero', 5: 'Spectro', 6: 'Havoc'
@@ -26,17 +35,14 @@
   const elName = $derived(elementNames[item.element as number] ?? '');
   const wpName = $derived(weaponNames[item.weapon as number] ?? '');
 
-  // Resolve team slugs to full objects if possible, or just use names from build
   const resolvedTeams = $derived(
     item.build?.teams?.map((tSlug: string) => teamsMap[tSlug]).filter(Boolean) || []
   );
 
-  // Map role IDs to names
   const roleLabels = $derived(
     (item.roles || []).map(id => rolesMap[id]?.name || ('Role ' + id)).join(', ')
   );
 
-  // Map sonata IDs to names
   const sonataLabels = $derived(
     (item.sonatas || []).map(id => sonatasMap[id]?.name || ('Sonata ' + id)).join(', ')
   );
@@ -45,7 +51,6 @@
 <svelte:head><title>{item.name} — WuWa DB</title></svelte:head>
 
 <div class="detail-page">
-  <!-- Banner Background -->
   {#if item.imageBanner}
     <div class="banner-bg" style="background-image: url({item.imageBanner})"></div>
   {/if}
@@ -66,60 +71,66 @@
     </div>
   </header>
 
-  {#if item.skills}
-    <DataSection title="Skills">
-      <SkillList skills={item.skills} />
-    </DataSection>
+  <Tabs tabs={tabList} activeTab={activeTab} onchange={(id) => activeTab = id} />
+
+  {#if activeTab === 'overview'}
+    {#if item.recommendedStats || item.build}
+      <DataSection title="Build Guide">
+        <BuildView stats={item.recommendedStats} build={item.build} />
+      </DataSection>
+    {/if}
+    {#if item.materials}
+      <DataSection title="Ascension Materials">
+        <MaterialList materials={item.materials} map={materialsMap} />
+      </DataSection>
+    {/if}
   {/if}
 
-  {#if item.sequences}
-    <DataSection title="Sequences">
-      <SequenceList sequences={item.sequences} />
-    </DataSection>
+  {#if activeTab === 'kit'}
+    {#if item.skills}
+      <DataSection title="Skills">
+        <SkillList skills={item.skills} />
+      </DataSection>
+    {/if}
+    {#if item.sequences}
+      <DataSection title="Sequences">
+        <SequenceList sequences={item.sequences} />
+      </DataSection>
+    {/if}
   {/if}
 
-  {#if item.materials}
-    <DataSection title="Ascension Materials">
-      <MaterialList materials={item.materials} map={materialsMap} />
-    </DataSection>
+  {#if activeTab === 'teams'}
+    {#if resolvedTeams.length > 0}
+      <DataSection title="Recommended Teams">
+        <TeamList teams={resolvedTeams} />
+      </DataSection>
+    {/if}
+    {#if item.analysisCharts}
+      <DataSection title="Analysis & Stats">
+        <ChartView charts={item.analysisCharts} />
+      </DataSection>
+    {/if}
   {/if}
 
-  {#if item.recommendedStats || item.build}
-    <DataSection title="Build Guide">
-      <BuildView stats={item.recommendedStats} build={item.build} />
-    </DataSection>
-  {/if}
-
-  {#if resolvedTeams.length > 0}
-    <DataSection title="Recommended Teams">
-      <TeamList teams={resolvedTeams} />
-    </DataSection>
-  {/if}
-
-  {#if item.analysisCharts}
-    <DataSection title="Analysis & Stats">
-      <ChartView charts={item.analysisCharts} />
-    </DataSection>
-  {/if}
-
-  {#if item.favorRole}
-    <DataSection title="Profile & Lore">
-      <ProfileInfo info={item.favorRole} />
-    </DataSection>
-  {/if}
-
-  {#if item.changelog && item.changelog.length > 0}
-    <DataSection title="Changelog">
-      <ul class="changelog-list">
-        {#each item.changelog as log}
-          <li>
-            <span class="log-date">{log.time}</span>
-            <span class="log-type badge small">{log.type}</span>
-            <span class="log-text">{log.text}</span>
-          </li>
-        {/each}
-      </ul>
-    </DataSection>
+  {#if activeTab === 'lore'}
+    {#if item.favorRole}
+      <DataSection title="Profile & Lore">
+        <ProfileInfo info={item.favorRole} />
+      </DataSection>
+    {/if}
+    {#if item.changelog && item.changelog.length > 0}
+      <DataSection title="Changelog">
+        <ul class="changelog-list">
+          {#each item.changelog as log}
+            <li>
+              <span class="log-date">{log.time}</span>
+              <span class="log-type badge small">{log.type}</span>
+              <span class="log-text">{log.text}</span>
+            </li>
+          {/each}
+        </ul>
+      </DataSection>
+    {/if}
   {/if}
 </div>
 
@@ -134,7 +145,6 @@
     gap: var(--sp-5);
   }
 
-  /* Banner */
   .banner-bg {
     position: absolute;
     top: 0; left: 0; right: 0;
@@ -147,7 +157,6 @@
     -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
   }
 
-  /* Header Card */
   .char-header {
     display: flex;
     align-items: center;
@@ -192,7 +201,6 @@
     margin: 0;
   }
 
-  /* Changelog */
   .changelog-list {
     list-style: none;
     padding: 0;
