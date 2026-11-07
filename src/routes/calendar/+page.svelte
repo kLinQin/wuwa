@@ -138,17 +138,17 @@
   <header class="cal-header">
     <h1>Event Calendar</h1>
     <div class="controls">
-      <div class="month-nav">
+      <div class="month-nav raised">
         <button onclick={prevMonth} aria-label="Previous Month">&lsaquo;</button>
         <span class="current-month">{monthNames[selectedMonth]} {selectedYear}</span>
         <button onclick={nextMonth} aria-label="Next Month">&rsaquo;</button>
       </div>
 
       <div class="filters">
-        <button class:active={filterType === 'all'} onclick={() => filterType = 'all'}>All</button>
-        <button class:active={filterType === 'banner'} onclick={() => filterType = 'banner'}>Banners</button>
-        <button class:active={filterType === 'weapon'} onclick={() => filterType = 'weapon'}>Weapons</button>
-        <button class:active={filterType === 'event'} onclick={() => filterType = 'event'}>Events</button>
+        <button class="raised" aria-pressed={filterType === 'all'} onclick={() => filterType = 'all'}>All</button>
+        <button class="raised" aria-pressed={filterType === 'banner'} onclick={() => filterType = 'banner'}>Banners</button>
+        <button class="raised" aria-pressed={filterType === 'weapon'} onclick={() => filterType = 'weapon'}>Weapons</button>
+        <button class="raised" aria-pressed={filterType === 'event'} onclick={() => filterType = 'event'}>Events</button>
       </div>
     </div>
   </header>
@@ -172,7 +172,7 @@
       </div>
 
       <!-- Events Rows -->
-      <div class="events-body">
+      <div class="events-body" class:empty-state={filteredEvents.length === 0}>
         {#if filteredEvents.length === 0}
           <div class="empty">No events in this month</div>
         {:else}
@@ -221,7 +221,24 @@
 </div>
 
 <style>
+  :global(main:has(.calendar-page)) {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  :global(.content:has(.calendar-page)) {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    width: 100%;
+    min-height: 0;
+  }
+
   .calendar-page {
+    flex: 1;
+    min-height: 0;
     display: flex;
     flex-direction: column;
     gap: var(--sp-4);
@@ -251,21 +268,23 @@
     display: flex;
     align-items: center;
     gap: var(--sp-2);
-    background: var(--bg-elev);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 2px 6px;
+  }
+
+  .month-nav.raised {
+    padding: 0;
   }
 
   .month-nav button {
+    height: auto;
     background: none;
     border: none;
     color: var(--text);
-    font-size: var(--fs-lg);
+    font-size: var(--fs-sm);
     cursor: pointer;
-    padding: 0 8px;
-    line-height: 1;
+    padding: var(--sp-2) var(--sp-1);
+    line-height: normal;
   }
+
 
   .current-month {
     font-weight: var(--fw-medium);
@@ -279,46 +298,48 @@
     gap: 4px;
   }
 
-  .filters button {
-    background: var(--bg-elev);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    color: var(--text-muted);
-    padding: 4px 10px;
-    font-size: var(--fs-xs);
-    cursor: pointer;
-  }
 
-  .filters button.active {
-    background: var(--bg-hover);
-    color: var(--text);
-    border-color: var(--accent);
-  }
 
   /* Timeline Grid Layout */
+
+
   .timeline-container {
+    flex: 1;
+    min-height: 0;
     overflow-x: auto;
     overflow-y: auto;
-    height: calc(100vh - 220px);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     background: var(--bg-elev);
   }
 
   .timeline-grid {
+    --title-col-width: 340px;
     min-width: 900px;
+    min-height: 100%;
     display: flex;
     flex-direction: column;
     position: relative;
+  }
+
+  .timeline-grid::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--title-col-width) - 1px);
+    width: 1px;
+    background: var(--border);
+    z-index: 31;
+    pointer-events: none;
   }
 
   .global-today-line {
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 2px;
+    width: 1px;
     background: #e74c3c;
-    box-shadow: 0 0 6px rgba(231, 76, 60, 0.8);
     z-index: 10;
     pointer-events: none;
   }
@@ -339,8 +360,8 @@
   }
 
   .title-col {
-    width: 340px;
-    min-width: 340px;
+    width: var(--title-col-width);
+    min-width: var(--title-col-width);
     padding: 10px 12px;
     font-weight: 600;
     border-right: 1px solid var(--border);
@@ -350,6 +371,10 @@
     z-index: 11;
     display: flex;
     align-items: center;
+  }
+
+  .event-row .title-col {
+    gap: var(--sp-2);
   }
 
   .header-row .title-col {
@@ -378,7 +403,9 @@
   }
 
   .ev-title {
+    font-family: var(--font-ui);
     font-size: var(--fs-xs);
+    font-weight: var(--fw-normal);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -474,6 +501,14 @@
     flex-direction: column;
   }
 
+  .events-body.empty-state {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+  }
+
+
+
   .event-row:last-child {
     border-bottom: none;
   }
@@ -506,11 +541,16 @@
   }
 
   .empty {
+    position: relative;
+    flex: 1;
+    min-height: 0;
     padding: var(--sp-6);
     text-align: center;
     color: var(--text-muted);
     font-size: var(--fs-sm);
   }
+
+
 
   .vertical-event-line {
     position: absolute;
@@ -544,23 +584,14 @@
       flex-wrap: nowrap;
       gap: 4px;
     }
-    .month-nav {
-      padding: 1px 2px;
-    }
     .current-month {
       min-width: 85px;
       font-size: 10px;
     }
-    .filters button {
-      padding: 3px 5px;
-      font-size: 9px;
-    }
-    .timeline-container {
-      height: calc(100vh - 180px);
-    }
-    .title-col {
-      width: 180px;
-      min-width: 180px;
+
+
+    .timeline-grid {
+      --title-col-width: 180px;
     }
   }
 </style>
