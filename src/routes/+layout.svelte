@@ -38,6 +38,7 @@
 <svelte:window onscroll={handle_scroll} />
 
 <nav class:visible class:open>
+  <div class="nav-inner">
   <a class="home-link" href="/" aria-label="WuWa DB">
     <span class="brand-name">WuWa DB</span>
     <span class="brand-page">{page.url.pathname === '/' ? 'homepage' : page.url.pathname.slice(1)}</span>
@@ -57,6 +58,7 @@
     <button class="raised icon mobile-only" aria-label="Menu" aria-pressed={open} onclick={() => (open = !open)}>
       <span class="icon-mask" style:mask-image={open ? 'url(/icons/close.svg)' : 'url(/icons/menu.svg)'} style:-webkit-mask-image={open ? 'url(/icons/close.svg)' : 'url(/icons/menu.svg)'}></span>
     </button>
+  </div>
   </div>
 </nav>
 
@@ -81,11 +83,7 @@
     left: 0;
     right: 0;
     z-index: 100;
-    display: flex;
-    align-items: center;
-    gap: var(--sp-2);
     height: var(--nav-h);
-    padding: 0 var(--sp-4);
     background: var(--bg-elev);
     font-family: var(--font-ui);
     /* mobile: di bawah */
@@ -94,7 +92,18 @@
     border-top: 1px solid var(--border);
   }
 
+  /* isi nav: lebar maks 1024px, di tengah */
+  .nav-inner {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    height: 100%;
+    max-width: var(--max-content);
+    margin: 0 auto;
+    padding: 0 var(--sp-4);
+  }
   .home-link {
+    justify-self: start;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -106,7 +115,7 @@
   .brand-name { font-weight: var(--fw-medium); white-space: nowrap; font-size: var(--fs-sm); }
   .brand-page { font-size: var(--fs-xs); color: var(--text-muted); white-space: nowrap; text-transform: lowercase; }
 
-  .links { display: none; flex: 1; gap: var(--sp-1); height: 100%; align-items: stretch; }
+  .links { display: none; justify-self: center; gap: var(--sp-1); height: 100%; align-items: stretch; }
   .links a {
     display: flex;
     align-items: center;
@@ -120,7 +129,7 @@
   .links a:hover { box-shadow: inset 0 -1px 0 0 var(--border); }
   .links a[aria-current="page"] { color: var(--accent); box-shadow: inset 0 -1px 0 0 currentColor; }
 
-  .menu { display: flex; gap: var(--sp-2); margin-left: auto; }
+  .menu { display: flex; gap: var(--sp-2); justify-self: end; }
 
   /* ===== Main scroll area ===== */
   main {
@@ -128,6 +137,8 @@
     height: 100dvh;
     overflow-y: auto;
     overflow-x: hidden;
+    max-width: var(--max-content);
+    margin: 0 auto;
     padding: var(--content-pad);
     padding-bottom: calc(var(--nav-h) + var(--content-pad)); /* space untuk nav bawah (mobile) */
   }
@@ -181,7 +192,9 @@
     .mobile-only { display: none; }
     .mobile-menu { display: none; }
     main {
-      padding-top: calc(var(--nav-h) + var(--content-pad));
+      height: calc(100dvh - var(--nav-h));
+      margin: var(--nav-h) auto 0;
+      padding-top: var(--content-pad);
       padding-bottom: var(--content-pad);
     }
   }
