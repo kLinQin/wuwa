@@ -41,7 +41,7 @@
   );
 
   const roleLabels = $derived(
-    (item.roles || []).map(id => rolesMap[id]?.name || ('Role ' + id)).join(', ')
+    (item.roles || []).map(id => rolesMap[id]?.name || ('Role ' + id))
   );
 
   const sonataLabels = $derived(
@@ -60,14 +60,15 @@
     title={item.name}
     image={item.icon || item.image}
     badges={[
-      ...(elName ? [{ label: elName, prefix: 'Element:' }] : []),
-      ...(wpName ? [{ label: wpName, prefix: 'Weapon:' }] : []),
+      ...(elName ? [{ label: elName, prefix: 'Element' }] : []),
+      ...(wpName ? [{ label: wpName, prefix: 'Weapon' }] : []),
       { label: '★'.repeat(item.rarity), type: 'star' },
-      ...(item.class ? [{ label: item.class, prefix: 'Class:' }] : []),
-      ...(roleLabels ? [{ label: roleLabels, type: 'muted', prefix: 'Role:' }] : []),
-      ...(sonataLabels ? [{ label: sonataLabels, type: 'muted', prefix: 'Sonata:' }] : [])
+      ...(item.class ? [{ label: item.class, prefix: 'Class' }] : []),
+      ...(item.faction ? [{ label: item.faction, prefix: 'Faction' }] : []),
+      ...(item.version ? [{ label: 'v' + item.version, prefix: 'Version' }] : []),
+      ...(sonataLabels ? [{ label: sonataLabels, type: 'muted', prefix: 'Sonata' }] : []),
+      ...roleLabels.map((role: string) => ({ label: role, type: 'muted', prefix: 'Role' }))
     ]}
-    meta={`v${item.version} • ${item.faction}`}
   />
 
   <Tabs tabs={tabList} activeTab={activeTab} onchange={(id) => activeTab = id} />

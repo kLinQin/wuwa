@@ -15,15 +15,12 @@
     <div class="img-wrapper">
       <h1 class="title-above">{title}</h1>
       <div class="img-container">
-        <img src={image} alt={title} class="header-img" />
+        <img src={image} alt={title} class="header-img" width="140" height="140" />
         {#if badges.some(b => b.type === 'star')}
           {@const star = badges.find(b => b.type === 'star')}
           <span class="stars-below">{star?.label}</span>
         {/if}
       </div>
-      {#if meta}
-        <span class="meta-text">{meta}</span>
-      {/if}
     </div>
   {/if}
 
@@ -31,7 +28,8 @@
 
     {#if badges.length > 0}
       <div class="tags">
-        {#each badges.filter(b => b.type !== 'star') as b}
+        <!-- Tampilkan hanya Element, Weapon, Class di sini -->
+        {#each badges.filter(b => b.type !== 'star' && b.prefix !== 'Role' && b.prefix !== 'Sonata') as b}
           <span class="badge-group">
             {#if b.prefix}
               <span class="badge-prefix">{b.prefix}</span>
@@ -45,6 +43,35 @@
     {/if}
   </div>
   </div>
+
+  <!-- Bagian Bawah: Role & Sonata Full Width -->
+  {#if badges.some(b => b.prefix === 'Role' || b.prefix === 'Sonata')}
+    <div class="bottom-tags">
+      {#if badges.some(b => b.prefix === 'Sonata')}
+        {@const sonatas = badges.filter(b => b.prefix === 'Sonata')}
+        <div class="badge-group">
+          <span class="badge-prefix">Sonata</span>
+          <div class="chips">
+            {#each sonatas as b}
+              <span class="badge muted">{b.label}</span>
+            {/each}
+          </div>
+        </div>
+      {/if}
+
+      {#if badges.some(b => b.prefix === 'Role')}
+        {@const roles = badges.filter(b => b.prefix === 'Role')}
+        <div class="badge-group">
+          <span class="badge-prefix">Role</span>
+          <div class="chips scroll-x">
+            {#each roles as b}
+              <span class="badge muted">{b.label}</span>
+            {/each}
+          </div>
+        </div>
+      {/if}
+    </div>
+  {/if}
 </header>
 
 <style>
@@ -61,11 +88,6 @@
     text-align: center;
   }
 
-  .img-wrapper .meta-text {
-    font-size: var(--fs-sm);
-    color: var(--text-muted);
-    text-align: center;
-  }
 
   .header-bottom {
     display: flex;
@@ -82,22 +104,24 @@
 
   .detail-header {
     display: flex;
-    align-items: center;
-    gap: var(--sp-4);
+    flex-direction: column;
     padding: var(--sp-4);
     background: var(--bg-elev);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     backdrop-filter: blur(4px);
     border-left: 4px solid var(--sonata-color);
+    gap: var(--sp-4);
   }
 
   .img-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
     gap: var(--sp-2);
     flex-shrink: 0;
+    width: 140px; /* Kunci lebar agar tidak berubah-ubah saat gambar loading */
   }
 
 
@@ -135,11 +159,28 @@
   }
 
 
-  .meta-text {
-    color: var(--text-muted);
-    font-size: var(--fs-xs);
-    margin: 0;
+
+
+  .chips {
+    display: flex;
+    gap: 4px;
+    justify-content: flex-end;
+    flex-wrap: wrap; /* Biar turun ke bawah kalau gak pakai scroll */
+  }
+  .chips.scroll-x {
+    overflow-x: auto;
+    scrollbar-width: none;
+    flex: 1;
+    width: 0; /* Trik agar flexbox bisa mengecil & scroll */
     white-space: nowrap;
+    justify-content: flex-end; /* Chip nempel ke kanan */
+    cursor: grab;
+  }
+  .chips.scroll-x:active {
+    cursor: grabbing;
+  }
+  .chips.scroll-x::-webkit-scrollbar {
+    display: none;
   }
 
   .tags {
@@ -157,6 +198,16 @@
     width: 100%;
     border-bottom: 1px solid var(--border);
     padding-bottom: 2px;
+  }
+
+  .bottom-tags {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+    padding-top: var(--sp-2);
+    margin-top: var(--sp-2);
+    border-top: 1px solid var(--border);
   }
   .badge-group:last-child {
     border-bottom: none;
@@ -176,5 +227,19 @@
   .badge.muted {
     background: var(--bg-hover);
     color: var(--text-muted);
+  }
+  @media (max-width: 640px) {
+    .bottom-tags .badge-group {
+      flex-direction: column; /* Tumpuk label di atas, chip di bawah */
+      align-items: flex-start;
+      gap: 4px;
+    }
+    .bottom-tags .badge-prefix {
+      margin-bottom: 2px;
+    }
+    .bottom-tags .chips.scroll-x {
+      width: 100%; /* Chip ambil lebar penuh di mobile */
+      justify-content: flex-start; /* Mulai dari kiri */
+    }
   }
 </style>

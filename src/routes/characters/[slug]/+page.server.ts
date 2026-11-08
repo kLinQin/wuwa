@@ -57,7 +57,7 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
   const [materialsIndex, teamsIndex, rolesIndex, sonatasIndex] = await Promise.all([
     loadJSON('materials/index.json', fetch),
     loadJSON('teams/index.json', fetch),
-    loadJSON('roles/index.json', fetch),
+    loadJSON('constants/combatRoles.json', fetch),
     loadJSON('sonatas/index.json', fetch)
   ]);
 
