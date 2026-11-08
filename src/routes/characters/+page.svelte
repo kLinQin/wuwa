@@ -1,23 +1,12 @@
 <script lang="ts">
   import type { PageProps } from './$types';
+  import PageGrid from '#lib/components/PageGrid.svelte';
   import DataCard from '#lib/components/DataCard.svelte';
   let { data }: PageProps = $props();
-  let q = $state('');
-  const items = $derived(
-    data.items.filter((c: any) => c.name.toLowerCase().includes(q.toLowerCase()))
-  );
 </script>
 
-<svelte:head><title>Characters — WuWa DB</title></svelte:head>
-<h1>Characters</h1>
-
-<div class="toolbar">
-  <input placeholder="Search name..." bind:value={q} />
-</div>
-<p class="count">{items.length} characters</p>
-
-<div class="grid">
-  {#each items as c}
+<PageGrid title="Characters" items={data.items} countLabel="characters">
+  {#snippet children(c)}
     <DataCard item={c} kind="character" href={`/characters/${c.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}`} />
-  {/each}
-</div>
+  {/snippet}
+</PageGrid>

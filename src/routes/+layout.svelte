@@ -94,8 +94,8 @@
 
   /* isi nav: lebar maks 1024px, di tengah */
   .nav-inner {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
     height: 100%;
     max-width: var(--max-content);
@@ -187,6 +187,10 @@
 
   /* ===== Desktop: nav di atas ===== */
   @media (min-width: 832px) {
+    .nav-inner {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+    }
     nav {
       top: 0;
       bottom: unset;
