@@ -90,7 +90,7 @@
                   <!-- BARIS 2: Main Stats (Kiri) & Substats (Kanan) -->
                   <div class="echo-bottom-grid">
                     <div class="stats-box">
-                      <h4>Main Stats</h4>
+                      <h4 class="box-header">Main Stats</h4>
                       <table class="main-stats-table">
                         <thead>
                           <tr>
@@ -111,7 +111,7 @@
 
                     <div class="substats-box">
                       {#if build.echoDetails.substats}
-                        <h4>Substats</h4>
+                        <h4 class="box-header">Substats</h4>
                         <table class="main-stats-table">
                           <thead>
                             <tr>

@@ -290,3 +290,38 @@
 .glossary-row { align-items: flex-start; }
 .glossary-img { width: 64px; height: 64px; object-fit: cover; border-radius: var(--radius); flex-shrink: 0; background: var(--bg-hover); }
 .glossary-body { flex: 1; min-width: 0; }
+
+
+/* ===== Data Table ===== */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+.data-table th, .data-table td {
+  padding: var(--sp-1) var(--sp-2);
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  white-space: nowrap;
+}
+.data-table th {
+  color: var(--text-muted);
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table .key { font-family: var(--font-mono); color: var(--text-muted); width: 50px; }
+.data-table .val { font-weight: var(--fw-medium); }
+
+/* ===== Box Header ===== */
+.box-header {
+  margin: 0 0 var(--sp-2) 0;
+  font-size: var(--fs-sm);
+  color: var(--text);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--sp-1);
+}

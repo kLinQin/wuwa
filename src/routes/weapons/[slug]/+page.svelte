@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { PageProps } from './$types';
   import DataSection from '#lib/components/DataSection.svelte';
+  import DetailHeader from '#lib/components/DetailHeader.svelte';
 
   let { data }: PageProps = $props();
   const item = data.item;
@@ -15,18 +16,16 @@
 <svelte:head><title>{item.name} — WuWa DB</title></svelte:head>
 
 <div class="detail-page">
-  <header class="weapon-header card">
-    <img src={item.image} alt={item.name} class="weapon-img" />
-    <div class="info">
-      <h1>{item.name}</h1>
-      <div class="tags">
-        {#if typeName}<span class="badge">{typeName}</span>{/if}
-        <span class="badge stars">{'★'.repeat(item.rarity)}</span>
-        <span class="badge muted">{item.subStat}</span>
-      </div>
-      <p class="meta-text">v{item.version} • Last Updated: {item.lastUpdated || '-'}</p>
-    </div>
-  </header>
+  <DetailHeader
+    title={item.name}
+    image={item.image}
+    badges={[
+      ...(typeName ? [{ label: typeName, prefix: 'Type' }] : []),
+      { label: '★'.repeat(item.rarity), type: 'star' },
+      { label: item.subStat, prefix: 'SubStat' },
+      { label: 'v' + item.version, prefix: 'Version' }
+    ]}
+  />
 
   <DataSection title="Base Stats">
     <table class="stats-table">
@@ -83,27 +82,7 @@
     gap: var(--sp-5);
   }
 
-  .weapon-header {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-4);
-    padding: var(--sp-4);
-    background: var(--bg-elev);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-  }
-  .weapon-img {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-    background: var(--bg-hover);
-    border-radius: var(--radius);
-  }
-  .info h1 { margin: 0 0 var(--sp-2); font-size: var(--fs-xl); }
-  .tags { display: flex; gap: var(--sp-2); flex-wrap: wrap; margin-bottom: var(--sp-2); }
-  .stars { color: #f5c518; }
-  .muted { background: var(--bg-hover); color: var(--text-muted); }
-  .meta-text { color: var(--text-muted); font-size: var(--fs-sm); margin: 0; }
+  
 
   /* Stats Table */
   .stats-table {
