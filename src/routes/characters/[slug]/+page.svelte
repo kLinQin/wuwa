@@ -92,7 +92,7 @@
   {#if activeTab === 'kit'}
     {#if item.skills}
       <DataSection title="Skills">
-        <SkillList skills={item.skills} />
+        <SkillList skills={item.skills} charSlug={item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')} />
       </DataSection>
     {/if}
     {#if item.sequences}
