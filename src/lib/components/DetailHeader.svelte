@@ -9,10 +9,13 @@
 </script>
 
 <header class="detail-header" style="--sonata-color: {color || 'var(--border)'}">
-  <div class="header-bottom">
+  <div class="title-row">
+    <h1 class="title">{title}</h1>
+  </div>
+
+  <div class="content-row">
     {#if image}
       <div class="img-wrapper">
-        <h1 class="title-above">{title}</h1>
         <div class="img-container">
           <img src={image} alt={title} class="header-img" width="140" height="140" />
           {#if badges.some(b => b.type === 'star')}
@@ -76,29 +79,28 @@
     border-radius: var(--radius);
     backdrop-filter: blur(4px);
     border-left: 4px solid var(--sonata-color);
-    gap: var(--sp-4);
+    gap: var(--sp-2); /* Lebih rapat */
   }
 
-  .header-bottom {
+  .title-row {
+    width: 100%;
+  }
+
+  .title {
+    margin: 0;
+    font-size: var(--fs-xl);
+  }
+
+  .content-row {
     display: flex;
-    align-items: flex-start;
+    align-items: flex-start; /* Gambar dan Info sejajar dari atas */
     gap: var(--sp-4);
     width: 100%;
   }
 
   .img-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--sp-2);
     flex-shrink: 0;
     width: 140px;
-  }
-
-  .title-above {
-    margin: 0;
-    font-size: var(--fs-xl);
-    text-align: center;
   }
 
   .img-container {
@@ -106,11 +108,13 @@
     display: flex;
     border-radius: var(--radius);
     background: var(--bg-hover);
+    width: 140px;
+    height: 140px;
   }
 
   .header-img {
-    width: 140px;
-    height: 140px;
+    width: 100%;
+    height: 100%;
     border-radius: var(--radius);
     object-fit: contain;
   }
@@ -128,11 +132,8 @@
   .header-info {
     display: flex;
     flex-direction: column;
-    gap: var(--sp-1);
     flex: 1;
     min-width: 0;
-    /* Beri jarak agar sejajar dengan gambar (bukan judul) */
-    margin-top: calc(var(--fs-xl) + var(--sp-4));
   }
 
   /* --- BAGIAN ATAS (Element, Weapon, dll) --- */
@@ -148,7 +149,7 @@
     align-items: center;
     width: 100%;
     border-bottom: 1px solid var(--border);
-    padding-bottom: 2px;
+    padding-bottom: 4px;
   }
   .tags-top .row-group:last-child {
     border-bottom: none;
@@ -158,16 +159,15 @@
   .bottom-tags {
     display: flex;
     flex-direction: column;
-    gap: var(--sp-3); /* Jarak antar grup (Role / Sonata) */
+    gap: var(--sp-2);
     width: 100%;
-    padding-top: var(--sp-3);
-    margin-top: var(--sp-2);
+    padding-top: var(--sp-2);
     border-top: 1px solid var(--border);
   }
 
   .bottom-tags .row-group {
     display: flex;
-    flex-direction: column; /* Label di atas, chip di bawah */
+    flex-direction: column;
     align-items: flex-start;
     width: 100%;
     gap: 4px;
@@ -178,14 +178,10 @@
     gap: 4px;
     overflow-x: auto;
     flex-wrap: nowrap;
-    width: 100%; /* Penuhi lebar karena sekarang ada di baris baru */
-    justify-content: flex-start; /* Chip mulai dari kiri */
+    width: 100%;
+    justify-content: flex-start;
     scrollbar-width: none;
-    padding-bottom: 4px;
-    cursor: grab;
-  }
-  .chips-wrapper:active {
-    cursor: grabbing;
+    padding-bottom: 2px;
   }
   .chips-wrapper::-webkit-scrollbar {
     display: none;
