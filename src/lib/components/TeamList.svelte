@@ -1,5 +1,5 @@
 <script lang="ts">
-  let { teams, onnote }: { teams: any[]; onnote?: (note: string) => void } = $props();
+  let { teams, teamNote, onnote }: { teams: any[]; teamNote?: string; onnote?: (note: string) => void } = $props();
 
   let currentIndex = $state(0);
 
@@ -21,9 +21,9 @@
       <div class="team-card raised" class:show={i === currentIndex || i === currentIndex + 1 || i === currentIndex + 2}>
         <div class="team-header">
           <h4>{t.name}</h4>
-          {#if t.note}
-            <button class="raised small-btn" onclick={() => onnote?.(t.note)}>ℹ Note</button>
-          {/if}
+          {#if teamNote}
+          <button class="raised small-btn" onclick={() => onnote?.(teamNote)}>ℹ Note</button>
+        {/if}
         </div>
 
         <div class="slots">

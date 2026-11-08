@@ -116,7 +116,7 @@
   {#if activeTab === 'teams'}
     {#if resolvedTeams.length > 0}
       <DataSection title="Recommended Teams">
-        <TeamList teams={resolvedTeams} onnote={(note) => { currentTeamNote = note; isTeamNoteOpen = true; }} />
+        <TeamList teams={resolvedTeams} teamNote={item.build?.teamNote} onnote={(note) => { currentTeamNote = note; isTeamNoteOpen = true; }} />
       </DataSection>
     {/if}
     {#if item.analysisCharts}
@@ -147,6 +147,10 @@
     {/if}
   {/if}
 </div>
+
+<BottomSheet bind:open={isTeamNoteOpen} title="Team Note">
+  <p style="white-space: pre-line; line-height: 1.6;">{currentTeamNote}</p>
+</BottomSheet>
 
 <style>
   .detail-page {
