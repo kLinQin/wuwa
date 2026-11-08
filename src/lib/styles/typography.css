@@ -76,12 +76,18 @@
   }
 }
 
-/* ===== Text color hierarchy (4 levels, derived from theme) ===== */
-:root {
-  --text-heading:   var(--text);
-  --text-body:      color-mix(in srgb, var(--text) 92%, var(--bg));
-  --text-secondary: var(--text-muted);
-  --text-faded:     color-mix(in srgb, var(--text-muted) 70%, var(--bg));
+/* ===== Text color hierarchy (4 levels, solid per theme) ===== */
+:root, [data-theme="dark"] {
+  --text-heading:   #f4f4fa;
+  --text-body:      #e6e6ee;
+  --text-secondary: #b8b8d0;
+  --text-faded:     #8a8aa3;
+}
+[data-theme="light"] {
+  --text-heading:   #0a0a12;
+  --text-body:      #1a1a24;
+  --text-secondary: #5a5a72;
+  --text-faded:     #9090a8;
 }
 
 /* ===== Utilities ===== */
