@@ -1,11 +1,10 @@
 <script lang="ts">
   import type { PageProps } from './$types';
   import PageGrid from '#lib/components/PageGrid.svelte';
-  import ReaderMode from '#lib/components/ReaderMode.svelte';
+  import { goto } from '$app/navigation';
 
   let { data }: PageProps = $props();
   let tab = $state<'quests'|'glossary'>('quests');
-  let selected = $state<any>(null);
 
   const currentItems = $derived(tab === 'quests' ? data.quests : data.terms);
   const currentLabel = $derived(tab === 'quests' ? 'quests' : 'terms');
@@ -13,39 +12,17 @@
 
 <svelte:head><title>Quests — WuWa DB</title></svelte:head>
 
-<PageGrid
-  title={selected ? (selected.title || selected.name) : "Quests"}
-  items={selected ? [{}] : currentItems}
-  countLabel={currentLabel}
-  searchAsLabel={true}
->
+<PageGrid title="Quests" items={currentItems} countLabel={currentLabel}>
   {#snippet filters()}
-    {#if selected}
-      <div style="height: 100%; display: flex; align-items: center;">
-        <button class="raised" style="height: 100%; display: flex; align-items: center; gap: 4px;" onclick={() => selected = null}>
-          <svg width="16" height="16" fill="currentColor"><use href="#arrow-left" /></svg>
-          Back
-        </button>
-      </div>
-    {:else}
-      <div style="height: 100%; display: flex; align-items: center; gap: 4px;">
-        <button class="raised" style="height: 100%;" aria-pressed={tab==='quests'} onclick={() => tab='quests'}>Quests</button>
-        <button class="raised" style="height: 100%;" aria-pressed={tab==='glossary'} onclick={() => tab='glossary'}>Glossary</button>
-      </div>
-    {/if}
+    <div style="height: 100%; display: flex; align-items: center; gap: 4px;">
+      <button class="raised" style="height: 100%;" aria-pressed={tab==='quests'} onclick={() => tab='quests'}>Quests</button>
+      <button class="raised" style="height: 100%;" aria-pressed={tab==='glossary'} onclick={() => tab='glossary'}>Glossary</button>
+    </div>
   {/snippet}
 
   {#snippet children(item)}
-    {#if selected}
-      <div class="reader-wrapper">
-        <ReaderMode
-          title={selected.title}
-          type={selected.type}
-          blocks={selected.blocks}
-        />
-      </div>
-    {:else if tab === 'quests'}
-      <button class="row quest-row" onclick={() => selected = item}>
+    {#if tab === 'quests'}
+      <button class="row quest-row" onclick={() => goto('/quests/' + item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''))}>
         <span class="badge">{item.type}</span>
         <span class="name">{item.title}</span>
       </button>
@@ -64,13 +41,8 @@
 </PageGrid>
 
 <style>
-  .reader-wrapper {
-    grid-column: 1 / -1;
-    width: 100%;
-  }
-
   .row {
-    grid-column: 1 / -1;
+    grid-column: 1 / -1; /* Agar list memanjang penuh ke bawah */
     display: flex;
     flex-direction: column;
     padding: var(--sp-3);

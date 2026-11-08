@@ -154,12 +154,7 @@
     display: none;
   }
 
-  .count {
-    color: var(--text-muted);
-    font-size: var(--fs-sm);
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
+  
 
   .total-count {
     color: var(--text-muted);
