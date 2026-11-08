@@ -5,7 +5,6 @@
   import MaterialList from '#lib/components/MaterialList.svelte';
   import BuildView from '#lib/components/BuildView.svelte';
   import SequenceList from '#lib/components/SequenceList.svelte';
-  import ProfileInfo from '#lib/components/ProfileInfo.svelte';
   import TeamList from '#lib/components/TeamList.svelte';
   import ChartView from '#lib/components/ChartView.svelte';
   import Tabs from '#lib/components/Tabs.svelte';
@@ -30,7 +29,7 @@
     { id: 'overview', label: 'Overview' },
     { id: 'kit', label: 'Kit & Sequences' },
     { id: 'teams', label: 'Teams & Stats' },
-    { id: 'lore', label: 'Lore & Changelog' }
+    { id: 'lore', label: 'Changelog' }
   ];
 
   const elementNames: Record<number, string> = {
@@ -127,11 +126,6 @@
   {/if}
 
   {#if activeTab === 'lore'}
-    {#if item.favorRole}
-      <DataSection title="Profile & Lore">
-        <ProfileInfo info={item.favorRole} />
-      </DataSection>
-    {/if}
     {#if item.changelog && item.changelog.length > 0}
       <DataSection title="Changelog">
         <ul class="changelog-list">

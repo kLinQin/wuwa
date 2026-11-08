@@ -72,6 +72,12 @@
   --status-upcoming-bg: rgba(245,197,24,0.18);
   --status-ended: #8a8aa3;
   --status-ended-bg: rgba(138,138,163,0.18);
+
+  /* Rank Colors */
+  --rank-1: #f5c518; /* Emas */
+  --rank-2: #c0c0c0; /* Perak */
+  --rank-3: #cd7f32; /* Perunggu */
+  --rank-default: var(--accent);
 }
 
 /* LIGHT */
@@ -100,6 +106,12 @@
   --status-upcoming-bg: rgba(163,125,0,0.14);
   --status-ended: #6b6b85;
   --status-ended-bg: rgba(107,107,133,0.14);
+
+  /* Rank Colors */
+  --rank-1: #d4a300;
+  --rank-2: #808080;
+  --rank-3: #a0522d;
+  --rank-default: var(--accent);
 }
 
 /* mobile: konten full-width edge-to-edge */

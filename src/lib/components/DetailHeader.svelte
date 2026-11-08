@@ -6,11 +6,17 @@
     meta?: string;
     color?: string;
   } = $props();
+
+  let isExpanded = $state(false);
 </script>
 
 <header class="detail-header" style="--sonata-color: {color || 'var(--border)'}">
-  <div class="title-row">
+  <div class="title-row" style="display: flex; justify-content: space-between; align-items: baseline;">
     <h1 class="title">{title}</h1>
+    {#if badges.some(b => b.prefix === 'Version')}
+      {@const ver = badges.find(b => b.prefix === 'Version')}
+      <span class="badge version-badge">{ver?.label}</span>
+    {/if}
   </div>
 
   <div class="content-row">
@@ -29,7 +35,7 @@
     <div class="header-info">
       {#if badges.length > 0}
         <div class="tags-top">
-          {#each badges.filter(b => b.type !== 'star' && b.prefix !== 'Role' && b.prefix !== 'Sonata') as b}
+          {#each badges.filter(b => b.type !== 'star' && b.prefix !== 'Role' && b.prefix !== 'Sonata' && b.prefix !== 'Version') as b}
             <div class="row-group">
               {#if b.prefix}<span class="badge-prefix">{b.prefix}</span>{/if}
               <span class="badge" class:accent={b.type === 'accent'} class:muted={b.type === 'muted'}>{b.label}</span>
@@ -41,28 +47,37 @@
   </div>
 
   {#if badges.some(b => b.prefix === 'Role' || b.prefix === 'Sonata')}
-    <div class="bottom-tags">
-      {#if badges.some(b => b.prefix === 'Sonata')}
-        {@const sonatas = badges.filter(b => b.prefix === 'Sonata')}
-        <div class="row-group">
-          <span class="badge-prefix">Sonata</span>
-          <div class="chips-wrapper">
-            {#each sonatas as b}
-              <span class="badge muted">{b.label}</span>
-            {/each}
-          </div>
-        </div>
-      {/if}
+    <div class="accordion-wrapper">
+      <button class="accordion-toggle" onclick={() => isExpanded = !isExpanded}>
+        <span>Sonata & Role</span>
+        <span class="chevron" class:open={isExpanded}>▼</span>
+      </button>
 
-      {#if badges.some(b => b.prefix === 'Role')}
-        {@const roles = badges.filter(b => b.prefix === 'Role')}
-        <div class="row-group">
-          <span class="badge-prefix">Role</span>
-          <div class="chips-wrapper">
-            {#each roles as b}
-              <span class="badge muted">{b.label}</span>
-            {/each}
-          </div>
+      {#if isExpanded}
+        <div class="bottom-tags">
+          {#if badges.some(b => b.prefix === 'Sonata')}
+            {@const sonatas = badges.filter(b => b.prefix === 'Sonata')}
+            <div class="row-group">
+              <span class="badge-prefix">Sonata</span>
+              <div class="chips-wrapper">
+                {#each sonatas as b}
+                  <span class="badge muted">{b.label}</span>
+                {/each}
+              </div>
+            </div>
+          {/if}
+
+          {#if badges.some(b => b.prefix === 'Role')}
+            {@const roles = badges.filter(b => b.prefix === 'Role')}
+            <div class="row-group">
+              <span class="badge-prefix">Role</span>
+              <div class="chips-wrapper">
+                {#each roles as b}
+                  <span class="badge muted">{b.label}</span>
+                {/each}
+              </div>
+            </div>
+          {/if}
         </div>
       {/if}
     </div>
@@ -155,14 +170,45 @@
     border-bottom: none;
   }
 
+  /* --- ACCORDION --- */
+  .accordion-wrapper {
+    width: 100%;
+    margin-top: var(--sp-2);
+    border-top: 1px solid var(--border);
+  }
+
+  .accordion-toggle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: none;
+    border: none;
+    padding: var(--sp-2) 0;
+    color: var(--text-muted);
+    font-size: var(--fs-sm);
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .accordion-toggle:hover {
+    color: var(--text);
+  }
+
+  .chevron {
+    font-size: 10px;
+    transition: transform 0.2s;
+  }
+  .chevron.open {
+    transform: rotate(180deg);
+  }
+
   /* --- BAGIAN BAWAH (Role & Sonata) --- */
   .bottom-tags {
     display: flex;
     flex-direction: column;
     gap: var(--sp-2);
     width: 100%;
-    padding-top: var(--sp-2);
-    border-top: 1px solid var(--border);
+    padding-bottom: var(--sp-2);
   }
 
   .bottom-tags .row-group {
@@ -185,6 +231,15 @@
   }
   .chips-wrapper::-webkit-scrollbar {
     display: none;
+  }
+
+  .version-badge {
+    background: var(--bg);
+    color: var(--text-muted);
+    font-size: var(--fs-xs);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: var(--radius);
   }
 
   .badge-prefix {
