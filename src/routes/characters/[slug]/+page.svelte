@@ -21,6 +21,7 @@
   const rolesMap = $derived(props.data.rolesMap || {});
   const sonatasMap = $derived(props.data.sonatasMap || {});
   let activeTab = $state('overview');
+  let kitTab = $state('skills');
 
   const tabList = [
     { id: 'overview', label: 'Overview' },
@@ -90,16 +91,23 @@
   {/if}
 
   {#if activeTab === 'kit'}
-    {#if item.skills}
-      <DataSection title="Skills">
-        <SkillList skills={item.skills} charSlug={item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')} />
-      </DataSection>
-    {/if}
-    {#if item.sequences}
-      <DataSection title="Sequences">
-        <SequenceList sequences={item.sequences} />
-      </DataSection>
-    {/if}
+    <DataSection title="Skills & Sequences">
+      <Tabs
+        tabs={[{ id: 'skills', label: 'Skills' }, { id: 'sequences', label: 'Sequences' }]}
+        activeTab={kitTab}
+        onchange={(id) => kitTab = id}
+      />
+
+      <div class="kit-content">
+        {#if kitTab === 'skills' && item.skills}
+          <SkillList skills={item.skills} charSlug={item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')} />
+        {/if}
+
+        {#if kitTab === 'sequences' && item.sequences}
+          <SequenceList sequences={item.sequences} charSlug={item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')} />
+        {/if}
+      </div>
+    </DataSection>
   {/if}
 
   {#if activeTab === 'teams'}
@@ -182,5 +190,8 @@
   }
   .log-text {
     color: var(--text);
+  }
+  .kit-content {
+    min-height: 400px; /* Cukup tinggi agar tab tidak melompat saat ganti konten */
   }
 </style>
