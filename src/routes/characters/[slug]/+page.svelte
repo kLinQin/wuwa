@@ -45,7 +45,7 @@
   );
 
   const sonataLabels = $derived(
-    (item.sonatas || []).map(id => sonatasMap[id]?.name || ('Sonata ' + id)).join(', ')
+    (item.sonatas || []).map(id => sonatasMap[id]?.name || ('Sonata ' + id))
   );
 </script>
 
@@ -66,7 +66,7 @@
       ...(item.class ? [{ label: item.class, prefix: 'Class' }] : []),
       ...(item.faction ? [{ label: item.faction, prefix: 'Faction' }] : []),
       ...(item.version ? [{ label: 'v' + item.version, prefix: 'Version' }] : []),
-      ...(sonataLabels ? [{ label: sonataLabels, type: 'muted', prefix: 'Sonata' }] : []),
+      ...sonataLabels.map((sonata: string) => ({ label: sonata, type: 'muted', prefix: 'Sonata' })),
       ...roleLabels.map((role: string) => ({ label: role, type: 'muted', prefix: 'Role' }))
     ]}
   />
