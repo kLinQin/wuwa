@@ -5,121 +5,129 @@
 <div class="build-view">
   {#if stats || build}
 
-    <!-- KOLOM KIRI -->
-    <div class="col">
-      {#if stats}
-        <div class="section">
-          <h3>Recommended Stats</h3>
-          <ul class="stat-grid">
-            {#each Object.entries(stats) as [k, v]}
-              <li><span class="k">{k}</span><span class="v">{v}</span></li>
-            {/each}
-          </ul>
-        </div>
-      {/if}
+    <!-- BARIS 1 -->
+    <div class="row">
+      <div class="col">
+        {#if stats}
+          <div class="section">
+            <h3>Recommended Stats</h3>
+            <ul class="stat-grid">
+              {#each Object.entries(stats) as [k, v]}
+                <li><span class="k">{k}</span><span class="v">{v}</span></li>
+              {/each}
+            </ul>
+          </div>
+        {/if}
+      </div>
 
-      {#if build?.bestWeapon || build?.weaponOptions || build?.weaponNote}
-        <div class="section">
-          <h3>Weapon</h3>
-          {#if build.bestWeapon}
-            <p class="best-weapon"><strong>Best:</strong> {build.bestWeapon}</p>
-          {/if}
-          {#if build.weaponOptions}
-            <table class="weapon-table">
-              <thead><tr><th>Name</th><th>DPS %</th><th>Rank</th></tr></thead>
-              <tbody>
-                {#each build.weaponOptions as w}
-                  <tr>
-                    <td>{w.id.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase())}</td>
-                    <td>{w.percentage}%</td>
-                    <td>{w.rank || '-'}</td>
-                  </tr>
+      <div class="col">
+        {#if build?.bestEcho || build?.echoDetails}
+          <div class="section">
+            <h3>Echo Setup</h3>
+            {#if build.bestEcho?.length}
+              <p class="best-echo"><strong>Main Echo:</strong> {build.bestEcho.join(', ')}</p>
+            {/if}
+
+            {#if build.echoDetails?.sets}
+              <div class="echo-sets">
+                {#each build.echoDetails.sets as set}
+                  <div class="set-card raised">
+                    <h4>{set.label || 'Set'}</h4>
+                    {#if set.sonataCustom}
+                      <p class="sonata-name">{set.sonataCustom.map((s: any) => s.name + ' (' + s.set + ')').join(', ')}</p>
+                    {/if}
+                    {#if set.stats}
+                      <div class="stats-list">
+                        {#each set.stats as st}
+                          <span class="stat-chip">C{st.cost}: {st.stat}</span>
+                        {/each}
+                      </div>
+                    {/if}
+                  </div>
                 {/each}
-              </tbody>
-            </table>
-          {/if}
-          {#if build.weaponNote}
-            <p class="note-text">{build.weaponNote}</p>
-          {/if}
-        </div>
-      {/if}
+              </div>
+            {/if}
 
-      {#if build?.talentPriority}
-        <div class="section">
-          <h3>Talent Priority</h3>
-          <ol class="priority-list">
-            {#each build.talentPriority.priority as p}
-              <li>{p}</li>
-            {/each}
-          </ol>
-          {#if build.talentPriority.note}
-            <p class="note-text">{build.talentPriority.note}</p>
-          {/if}
-        </div>
-      {/if}
+            {#if build.echoDetails?.substats}
+              <div class="substats">
+                <strong>Substats Priority:</strong>
+                <ol>
+                  {#each build.echoDetails.substats as sub}
+                    <li>{sub}</li>
+                  {/each}
+                </ol>
+              </div>
+            {/if}
+
+            {#if build.echoDetails?.note}
+              <p class="note-text">{build.echoDetails.note}</p>
+            {/if}
+          </div>
+        {/if}
+      </div>
     </div>
 
-    <!-- KOLOM KANAN -->
-    <div class="col">
-      {#if build?.bestEcho || build?.echoDetails}
-        <div class="section">
-          <h3>Echo Setup</h3>
-          {#if build.bestEcho?.length}
-            <p class="best-echo"><strong>Main Echo:</strong> {build.bestEcho.join(', ')}</p>
-          {/if}
+    <!-- BARIS 2 -->
+    <div class="row">
+      <div class="col">
+        {#if build?.bestWeapon || build?.weaponOptions || build?.weaponNote}
+          <div class="section">
+            <h3>Weapon</h3>
+            {#if build.bestWeapon}
+              <p class="best-weapon"><strong>Best:</strong> {build.bestWeapon}</p>
+            {/if}
+            {#if build.weaponOptions}
+              <table class="weapon-table">
+                <thead><tr><th>Name</th><th>DPS %</th><th>Rank</th></tr></thead>
+                <tbody>
+                  {#each build.weaponOptions as w}
+                    <tr>
+                      <td>{w.id.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase())}</td>
+                      <td>{w.percentage}%</td>
+                      <td>{w.rank || '-'}</td>
+                    </tr>
+                  {/each}
+                </tbody>
+              </table>
+            {/if}
+            {#if build.weaponNote}
+              <p class="note-text">{build.weaponNote}</p>
+            {/if}
+          </div>
+        {/if}
 
-          {#if build.echoDetails?.sets}
-            <div class="echo-sets">
-              {#each build.echoDetails.sets as set}
-                <div class="set-card raised">
-                  <h4>{set.label || 'Set'}</h4>
-                  {#if set.sonataCustom}
-                    <p class="sonata-name">{set.sonataCustom.map((s: any) => s.name + ' (' + s.set + ')').join(', ')}</p>
-                  {/if}
-                  {#if set.stats}
-                    <div class="stats-list">
-                      {#each set.stats as st}
-                        <span class="stat-chip">C{st.cost}: {st.stat}</span>
-                      {/each}
-                    </div>
-                  {/if}
-                </div>
+        {#if build?.talentPriority}
+          <div class="section">
+            <h3>Talent Priority</h3>
+            <ol class="priority-list">
+              {#each build.talentPriority.priority as p}
+                <li>{p}</li>
               {/each}
-            </div>
-          {/if}
+            </ol>
+            {#if build.talentPriority.note}
+              <p class="note-text">{build.talentPriority.note}</p>
+            {/if}
+          </div>
+        {/if}
+      </div>
 
-          {#if build.echoDetails?.substats}
-            <div class="substats">
-              <strong>Substats Priority:</strong>
-              <ol>
-                {#each build.echoDetails.substats as sub}
-                  <li>{sub}</li>
-                {/each}
-              </ol>
-            </div>
-          {/if}
-
-          {#if build.echoDetails?.note}
-            <p class="note-text">{build.echoDetails.note}</p>
-          {/if}
-        </div>
-      {/if}
-
-      {#if build?.rotations}
-        <div class="section">
-          <h3>Rotations</h3>
-          {#each build.rotations as rot}
-            <div class="rotation-card raised">
-              <h4>{rot.title}</h4>
-              <ol class="steps">
-                {#each rot.steps as step}
-                  <li>{step}</li>
-                {/each}
-              </ol>
-            </div>
-          {/each}
-        </div>
-      {/if}
+      <div class="col">
+        {#if build?.rotations}
+          <div class="section">
+            <h3>Rotations</h3>
+            {#each build.rotations as rot}
+              <div class="rotation-card raised">
+                <h4>{rot.title}</h4>
+                <ol class="steps">
+                  {#each rot.steps as step}
+                    <li>{step}</li>
+                  {/each}
+                </ol>
+              </div>
+            {/each}
+          </div>
+        {/if}
+      </div>
     </div>
 
   {/if}
@@ -127,22 +135,34 @@
 
 <style>
   .build-view {
-    display: grid;
-    grid-template-columns: 1fr; /* Default mobile: 1 kolom */
+    display: flex;
+    flex-direction: column;
     gap: var(--sp-5);
   }
 
+  .row {
+    display: grid;
+    grid-template-columns: 1fr; /* Default mobile: 1 kolom */
+    gap: var(--sp-5);
+    align-items: start; /* Agar item tidak melar ke bawah mengikuti tinggi pasangannya */
+  }
+
   @media (min-width: 768px) {
-    .build-view {
-      grid-template-columns: 1fr 1fr; /* Desktop/Tablet: 2 kolom */
+    .row {
+      grid-template-columns: 1fr 1fr; /* Desktop/Tablet: 2 kolom sejajar */
     }
   }
 
   .col {
     display: flex;
     flex-direction: column;
-    gap: var(--sp-5);
-    min-width: 0; /* Mencegah luberan teks panjang */
+    gap: var(--sp-4);
+    min-width: 0;
+  }
+
+  .section {
+    display: flex;
+    flex-direction: column;
   }
 
   .section h3 {
