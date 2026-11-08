@@ -1,17 +1,4 @@
 :root {
-  /* font scale */
-  --fs-xs: 0.875rem;
-  --fs-sm: 1rem;
-  --fs-md: 1.125rem;
-  --fs-lg: 1.375rem;
-  --fs-xl: 1.625rem;
-  --fs-2xl: 1.875rem;
-
-  /* font weight */
-  --fw-normal: 400;
-  --fw-medium: 500;
-  --fw-bold: 600;
-
   /* spacing */
   --sp-1: 0.25rem;
   --sp-2: 0.5rem;
@@ -21,27 +8,11 @@
   --sp-6: 2rem;
 
   --radius: 4px;
-  --font-ui: 'Fira Sans', -apple-system, sans-serif;
-  --font-body: Georgia, serif;
-  --font-heading: 'DM Serif Display', Georgia, serif;
-  --font-mono: 'Fira Mono', monospace;
 
   --nav-h: 48px;
   --sidebar-w: 0;
   --content-pad: var(--sp-4);
   --max-content: 1600px;
-}
-
-@media (min-resolution: 1.75x) {
-  :root {
-    --font-body: 'EB Garamond', Georgia, serif;
-    --fs-md: 1.175rem;
-    --fs-sm: 1.025rem;
-  }
-}
-
-.font-boring {
-  --font-body: 'Atkinson Hyperlegible', sans-serif;
 }
 
 /* DARK (default) */
@@ -126,6 +97,6 @@
   :root { --sidebar-w: 200px; --max-content: 1000px; }
 }
 @media (min-width: 1024px) {
-  :root { --sidebar-w: 220px; --content-pad: 4px; --max-content: 1024px; --fs-xl: 1.875rem; --fs-2xl: 2.125rem; }
+  :root { --sidebar-w: 220px; --content-pad: 4px; --max-content: 1024px; }
 }
 

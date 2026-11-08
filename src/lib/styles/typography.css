@@ -1,0 +1,109 @@
+/* Typography tokens + utilities.
+   Prefer `font: var(--font-x)` shorthand over manual font-family/size/weight.
+   Inspired by visual-svelte. */
+
+:root {
+  /* families */
+  --font-family-ui: 'Fira Sans', -apple-system, sans-serif;
+  --font-family-body: Georgia, serif;
+  --font-family-heading: 'DM Serif Display', Georgia, serif;
+  --font-family-mono: 'Fira Mono', monospace;
+
+  /* aliases (backward-compat) */
+  --font-ui: var(--font-family-ui);
+  --font-body: var(--font-family-body);
+  --font-heading: var(--font-family-heading);
+  --font-mono: var(--font-family-mono);
+
+  /* sizes */
+  --fs-xs: 0.875rem;
+  --fs-sm: 1rem;
+  --fs-md: 1.125rem;
+  --fs-lg: 1.375rem;
+  --fs-xl: 1.625rem;
+  --fs-2xl: 1.875rem;
+
+  /* weights */
+  --fw-normal: 400;
+  --fw-medium: 500;
+  --fw-bold: 600;
+
+  /* line heights */
+  --lh-tight: 1.2;
+  --lh-normal: 1.5;
+  --lh-relaxed: 1.7;
+
+  /* shorthands: font: var(--font-x) */
+  --font-h1: var(--fw-bold) var(--fs-xl) / var(--lh-tight) var(--font-family-heading);
+  --font-h2: var(--fw-bold) var(--fs-lg) / var(--lh-tight) var(--font-family-heading);
+  --font-h3: var(--fw-bold) var(--fs-md) / var(--lh-tight) var(--font-family-heading);
+
+  --font-body-lg: var(--fw-normal) var(--fs-md) / var(--lh-normal) var(--font-family-body);
+  --font-body-sm: var(--fw-normal) var(--fs-sm) / var(--lh-normal) var(--font-family-body);
+
+  --font-ui-sm: var(--fw-normal) var(--fs-xs) / var(--lh-normal) var(--font-family-ui);
+  --font-ui-md: var(--fw-normal) var(--fs-sm) / var(--lh-normal) var(--font-family-ui);
+  --font-ui-lg: var(--fw-medium) var(--fs-md) / var(--lh-normal) var(--font-family-ui);
+
+  --font-mono-sm: var(--fw-normal) var(--fs-xs) / var(--lh-relaxed) var(--font-family-mono);
+  --font-mono-md: var(--fw-normal) var(--fs-sm) / var(--lh-relaxed) var(--font-family-mono);
+}
+
+/* High-DPI: swap body to EB Garamond (like visual-svelte) */
+@media (min-resolution: 1.75x) {
+  :root {
+    --font-family-body: 'EB Garamond', Georgia, serif;
+    --fs-md: 1.175rem;
+    --fs-sm: 1.025rem;
+  }
+}
+
+.font-boring {
+  --font-family-body: 'Atkinson Hyperlegible', sans-serif;
+  --fs-md: 1.175rem;
+  --fs-sm: 1.025rem;
+}
+
+/* Large screens: bump h1-xl */
+@media (min-width: 1024px) {
+  :root {
+    --fs-xl: 1.875rem;
+    --fs-2xl: 2.125rem;
+  }
+}
+
+/* ===== Utilities ===== */
+
+/* family */
+.font-ui     { font-family: var(--font-family-ui); }
+.font-body   { font-family: var(--font-family-body); }
+.font-heading{ font-family: var(--font-family-heading); }
+.font-mono   { font-family: var(--font-family-mono); }
+
+/* size */
+.text-xs { font-size: var(--fs-xs); }
+.text-sm { font-size: var(--fs-sm); }
+.text-md { font-size: var(--fs-md); }
+.text-lg { font-size: var(--fs-lg); }
+.text-xl { font-size: var(--fs-xl); }
+.text-2xl{ font-size: var(--fs-2xl); }
+
+/* weight */
+.fw-normal { font-weight: var(--fw-normal); }
+.fw-medium { font-weight: var(--fw-medium); }
+.fw-bold   { font-weight: var(--fw-bold); }
+
+/* color */
+.text-muted   { color: var(--text-muted); }
+.text-accent  { color: var(--accent); }
+.text-default { color: var(--text); }
+
+/* combinators */
+.text-label {
+  font: var(--font-ui-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+}
+.text-body { font: var(--font-body-sm); }
+.text-code { font: var(--font-mono-sm); }
