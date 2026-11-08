@@ -201,7 +201,6 @@
     height: 8px;
     border-radius: 50%;
     background: var(--border);
-    transition: background 0.2s;
   }
   .dot.active {
     background: var(--accent);

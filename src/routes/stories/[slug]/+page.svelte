@@ -187,7 +187,6 @@
     border-radius: var(--radius);
     font-size: var(--fs-md);
     font-weight: var(--fw-medium);
-    transition: background 0.2s;
   }
   .story-block summary:hover { background: var(--bg-hover); }
   .story-content {

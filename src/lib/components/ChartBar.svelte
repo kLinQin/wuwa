@@ -63,7 +63,7 @@
     outline: 1px solid var(--border);
   }
   .label { text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: var(--fw-medium); }
-  .track { background: var(--bg-hover); height: 14px; border-radius: var(--radius); overflow: hidden; width: 100%; transition: outline 0.2s; }
+  .track { background: var(--bg-hover); height: 14px; border-radius: var(--radius); overflow: hidden; width: 100%; }
   .fill { height: 100%; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
   .val-group { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.1; }
   .val { font-family: var(--font-mono); font-weight: bold; }

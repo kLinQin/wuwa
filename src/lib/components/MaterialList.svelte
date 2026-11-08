@@ -122,7 +122,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.2s, border-color 0.2s;
   }
 
   .mat-card:hover .mat-img-box {
@@ -145,7 +144,6 @@
     padding: 0;
     transform: scale(1.15);
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-    transition: transform 0.2s;
   }
 
   .mat-card:hover .mat-img {
