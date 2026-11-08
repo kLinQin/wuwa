@@ -6,11 +6,13 @@
     items,
     countLabel,
     children,
+    filters,
   }: {
     title: string;
     items: any[];
     countLabel: string;
     children: Snippet<[any]>;
+    filters?: Snippet;
   } = $props();
 
   let q = $state('');
@@ -26,7 +28,14 @@
 <div class="page-container">
   <div class="page-header">
     <div class="page-header-row">
-      <input placeholder="Search name..." bind:value={q} />
+      <div class="search-box raised">
+        <input placeholder="Search name..." bind:value={q} />
+      </div>
+      {#if filters}
+        <div class="filters-container">
+          {@render filters()}
+        </div>
+      {/if}
       <span class="count">{filtered.length} {countLabel}</span>
     </div>
   </div>
@@ -63,23 +72,45 @@
     background: var(--bg);
     padding: 4px 0;
     flex-shrink: 0;
+    margin: 0;
   }
 
   .page-header-row {
     display: flex;
+    align-items: stretch;
+    gap: var(--sp-2);
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+  }
+  .page-header-row > * {
+    height: 36px;
+    display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 4px;
   }
 
-  .page-header-row input {
+  .search-box {
+    flex: 1;
+    min-width: 150px;
+    max-width: 300px;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-box input {
     width: 100%;
-    max-width: 400px;
-    padding: var(--sp-2);
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    background: var(--bg);
+    padding: 0 var(--sp-2);
+    background: transparent;
+    border: none;
     color: var(--text);
+    outline: none;
+    height: 100%;
+  }
+
+  .filters-container {
+    display: flex;
+    gap: var(--sp-2);
+    flex-wrap: wrap;
   }
 
   .count {
@@ -94,6 +125,7 @@
     overflow-y: auto;
     min-height: 0;
     padding-bottom: var(--sp-4);
+    margin-top: -12px; /* Tarik naik */
   }
 
   .grid {

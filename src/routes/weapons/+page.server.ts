@@ -23,5 +23,10 @@ async function loadJSON(file: string, fetchFn: typeof fetch) {
 
 export const load: PageServerLoad = async ({ fetch }) => {
   const items = await loadJSON('weapons/index.json', fetch);
-  return { items };
+  const [elements, weaponsConst, sonatasConst] = await Promise.all([
+    loadJSON('constants/elements.json', fetch),
+    loadJSON('constants/weapons.json', fetch),
+    loadJSON('sonatas/sonatas.json', fetch)
+  ]);
+  return { elements, weaponsConst, sonatasConst, items };
 };

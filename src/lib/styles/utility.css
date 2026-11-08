@@ -62,7 +62,7 @@
   border-radius: var(--radius); color: var(--text);
   font-family: var(--font-ui); font-size: var(--fs-sm);
 }
-.toolbar input:focus { outline: 1px solid var(--accent); outline-offset: 0; }
+.toolbar input:focus { outline: none; border-color: transparent; }
 .count { color: var(--text-muted); font-size: var(--fs-xs); margin: 0 0 var(--sp-3); }
 
 /* ===== Card grid ===== */
