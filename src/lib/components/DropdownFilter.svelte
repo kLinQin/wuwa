@@ -52,10 +52,10 @@
   </button>
 
   {#if open}
-    <div class="dropdown-menu raised" onclick={(e) => e.stopPropagation()}>
-      <button class="dropdown-item" class:selected={value === 'all'} onclick={() => select('all')}>All</button>
+    <div class="chips-container" onclick={(e) => e.stopPropagation()}>
+      <button class="chip raised" class:selected={value === 'all'} onclick={() => select('all')}>All</button>
       {#each options as opt}
-        <button class="dropdown-item" class:selected={value === opt.value} onclick={() => select(opt.value)}>
+        <button class="chip raised" class:selected={value === opt.value} onclick={() => select(opt.value)}>
           {opt.label}
         </button>
       {/each}
@@ -69,6 +69,7 @@
     display: inline-block;
   }
 
+
   .filter-btn {
     display: flex;
     align-items: center;
@@ -80,49 +81,58 @@
     white-space: nowrap;
   }
 
+  .filter-btn.active {
+    color: var(--accent);
+  }
+
   .arrow {
     font-size: 10px;
   }
 
-  .dropdown-menu {
+    .chips-container {
     position: absolute;
     top: calc(100% + 4px);
+    /* Default: nempel di kiri tombol */
     left: 0;
+    right: auto;
     z-index: 50;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 4px;
     background: var(--bg-elev);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    min-width: 150px;
-    max-height: 250px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    padding: 4px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    scrollbar-width: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    min-width: 200px;
+    max-width: 80vw;
   }
 
-  .dropdown-menu::-webkit-scrollbar {
+  .chips-container::-webkit-scrollbar {
     display: none;
   }
 
-  .dropdown-item {
-    padding: var(--sp-2);
-    text-align: left;
-    background: none;
-    border: none;
-    color: var(--text);
-    font-size: var(--fs-sm);
+  .chip {
+    padding: 0 12px;
+    font-size: var(--fs-xs);
     cursor: pointer;
-    border-radius: var(--radius);
+    white-space: nowrap;
+    height: 32px;
+    display: flex;
+    align-items: center;
   }
 
-  .dropdown-item:hover {
-    background: var(--bg-hover);
+  .chip.selected {
+    color: var(--accent);
+    border-color: var(--accent);
   }
 
-  .dropdown-item.selected {
-    background: var(--accent);
-    color: var(--text-inverse);
+  @media (min-width: 1025px) {
+    .chips-container {
+      transform: translateX(-10px);
+    }
   }
 </style>

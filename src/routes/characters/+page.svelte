@@ -2,7 +2,7 @@
   import type { PageProps } from './$types';
   import PageGrid from '#lib/components/PageGrid.svelte';
   import DataCard from '#lib/components/DataCard.svelte';
-  import DropdownFilter from '#lib/components/DropdownFilter.svelte';
+  import InlineFilter from '#lib/components/InlineFilter.svelte';
   let { data }: PageProps = $props();
 
   let el = $state('all');
@@ -18,9 +18,9 @@
 
 <PageGrid title="Characters" items={filtered} countLabel="characters">
   {#snippet filters()}
-    <DropdownFilter label="Element" bind:value={el} options={data.elements.map(e => ({ value: e.id, label: e.name }))} />
-    <DropdownFilter label="Weapon" bind:value={wp} options={data.weaponsConst.map(w => ({ value: w.id, label: w.name }))} />
-    <DropdownFilter label="Rarity" bind:value={rr} options={[{value: 5, label: '5 Star'}, {value: 4, label: '4 Star'}]} />
+    <InlineFilter label="Element" bind:value={el} options={data.elements.map(e => ({ value: e.id, label: e.name }))} />
+    <InlineFilter label="Weapon" bind:value={wp} options={data.weaponsConst.map(w => ({ value: w.id, label: w.name }))} />
+    <InlineFilter label="Rarity" bind:value={rr} options={[{value: 5, label: '5 Star'}, {value: 4, label: '4 Star'}]} />
   {/snippet}
   {#snippet children(c)}
     <DataCard item={c} kind="character" href={`/characters/${c.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}`} />

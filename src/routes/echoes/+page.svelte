@@ -2,7 +2,7 @@
   import type { PageProps } from './$types';
   import PageGrid from '#lib/components/PageGrid.svelte';
   import DataCard from '#lib/components/DataCard.svelte';
-  import DropdownFilter from '#lib/components/DropdownFilter.svelte';
+  import InlineFilter from '#lib/components/InlineFilter.svelte';
   let { data }: PageProps = $props();
 
   let sn = $state('all');
@@ -14,7 +14,7 @@
 
 <PageGrid title="Echoes" items={filtered} countLabel="echoes">
   {#snippet filters()}
-    <DropdownFilter label="Sonata" bind:value={sn} options={data.sonatasConst.map(s => ({ value: s.id, label: s.name }))} />
+    <InlineFilter label="Sonata" bind:value={sn} options={data.sonatasConst.map(s => ({ value: s.id, label: s.name }))} />
   {/snippet}
   {#snippet children(e)}
     <DataCard item={e} kind="echo" href={`/echoes/${e.slug}`} />

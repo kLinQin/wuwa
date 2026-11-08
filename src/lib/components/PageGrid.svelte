@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
+  import { onMount } from 'svelte';
 
   let {
     title,
@@ -16,6 +17,16 @@
   } = $props();
 
   let q = $state('');
+  let openedFilter = $state<string | null>(null);
+
+  onMount(() => {
+    function handleOpened(e: any) {
+      openedFilter = e.detail;
+    }
+    window.addEventListener('filter-opened', handleOpened);
+    return () => window.removeEventListener('filter-opened', handleOpened);
+  });
+
   const filtered = $derived(
     items.filter((item: any) =>
       (item.name || item.slug || '').toLowerCase().includes(q.toLowerCase())
@@ -27,17 +38,19 @@
 
 <div class="page-container">
   <div class="page-header">
-    <div class="page-header-row">
+    {#if !openedFilter}
       <div class="search-box raised">
         <input placeholder="Search name..." bind:value={q} />
       </div>
-      {#if filters}
-        <div class="filters-container">
-          {@render filters()}
+    {/if}
+
+    {#if filters}
+      <div class="filters-container">
+        <div class="filters-wrapper" class:hide-others={openedFilter !== null}>
+           {@render filters()}
         </div>
-      {/if}
-      <span class="count">{filtered.length} {countLabel}</span>
-    </div>
+      </div>
+    {/if}
   </div>
 
   <div class="grid-container">
@@ -46,6 +59,10 @@
         {@render children(item)}
       {/each}
     </div>
+  </div>
+
+  <div class="total-count">
+    Total: {filtered.length} {countLabel}
   </div>
 </div>
 
@@ -63,9 +80,7 @@
     height: calc(100dvh - var(--nav-h));
   }
   @media (max-width: 831px) {
-    .page-container {
-      height: 100dvh; /* Mobile pakai nav bawah */
-    }
+    .page-container { height: 100dvh; }
   }
 
   .page-header {
@@ -73,20 +88,10 @@
     padding: 4px 0;
     flex-shrink: 0;
     margin: 0;
-  }
-
-  .page-header-row {
-    display: flex;
-    align-items: stretch;
-    gap: var(--sp-2);
-    flex-wrap: wrap;
-    padding: 0;
-    margin: 0;
-  }
-  .page-header-row > * {
-    height: 36px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-4);
   }
 
   .search-box {
@@ -95,6 +100,7 @@
     max-width: 300px;
     display: flex;
     align-items: center;
+    height: 36px;
   }
 
   .search-box input {
@@ -109,8 +115,27 @@
 
   .filters-container {
     display: flex;
+    align-items: stretch;
     gap: var(--sp-2);
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    height: 36px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    flex: 1;
+    justify-content: flex-end;
+  }
+
+  .filters-wrapper {
+    display: flex;
+    align-items: stretch;
+    gap: var(--sp-2);
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  /* CSS ini digunakan sebagai fallback, tapi utamanya dikendalikan oleh state */
+  .filters-wrapper.hide-others :global(.inline-filter:not(.is-open)) {
+    display: none;
   }
 
   .count {
@@ -120,12 +145,19 @@
     flex-shrink: 0;
   }
 
+  .total-count {
+    color: var(--text-muted);
+    font-size: var(--fs-sm);
+    text-align: right;
+    padding: var(--sp-2) 0;
+    flex-shrink: 0;
+  }
+
   .grid-container {
     flex: 1;
     overflow-y: auto;
     min-height: 0;
     padding-bottom: var(--sp-4);
-    margin-top: -12px; /* Tarik naik */
   }
 
   .grid {
