@@ -17,8 +17,13 @@
 <style>
   .tabs {
     display: flex;
+    justify-content: center; /* Posisi di tengah */
     gap: var(--sp-2);
-    margin-bottom: var(--sp-4);
+    margin-bottom: 4px;
     overflow-x: auto;
+    scrollbar-width: none; /* Sembunyikan scrollbar */
+  }
+  .tabs::-webkit-scrollbar {
+    display: none;
   }
 </style>
