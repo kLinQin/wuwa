@@ -78,7 +78,7 @@
     padding: 2px 8px;
     border-radius: 12px;
     font-size: var(--fs-xs);
-    font-weight: bold;
+    font-weight: var(--fw-bold);
     align-self: flex-start;
   }
   .desc { margin: 0; line-height: 1.5; font-size: var(--fs-sm); }

@@ -415,7 +415,7 @@
   }
 
   .d-name {
-    font-size: 10px;
+    font-size: var(--fs-2xs);
     color: var(--text-muted);
     text-transform: uppercase;
   }
@@ -506,7 +506,7 @@
   }
 
   .bar-chip {
-    font-size: 9px;
+    font-size: var(--fs-3xs);
     padding: 0 4px;
     border-radius: 3px;
     margin-left: var(--sp-1);
@@ -585,7 +585,7 @@
     }
     .current-month {
       min-width: 85px;
-      font-size: 10px;
+      font-size: var(--fs-2xs);
     }
 
 

@@ -156,8 +156,8 @@
     right: 0;
     background: var(--bg-elev); /* Ikut tema */
     color: var(--text);
-    font-size: 14px;
-    font-weight: bold;
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-bold);
     padding: 1px 4px;
     border-top-left-radius: var(--radius);
     border-left: 1px solid var(--border);
@@ -168,7 +168,7 @@
   }
 
   .mat-name {
-    font-size: 10px;
+    font-size: var(--fs-2xs);
     text-align: center;
     color: var(--text-muted);
     line-height: 1.1;

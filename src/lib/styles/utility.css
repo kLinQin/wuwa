@@ -98,7 +98,7 @@
   top: 4px;
   right: 4px;
   color: #f5c518;
-  font-size: 13px;
+  font-size: var(--fs-xs);
   line-height: 1.2;
   text-shadow: 0 0 3px #000, 0 0 3px #000;
 }
@@ -122,7 +122,7 @@
   padding: 2px;
 }
 .card-img .element-wrap span {
-  font-size: 11px;
+  font-size: var(--fs-xs-2);
   color: #fff;
   text-shadow: 0 0 3px #000, 0 0 3px #000;
   line-height: 1;
@@ -132,15 +132,15 @@
 /* responsive: tablet / laptop / PC */
 @media (min-width: 640px) {
   .card-img .element-wrap img { width: 24px; height: 24px; }
-  .card-img .element-wrap span { font-size: 14px; }
+  .card-img .element-wrap span { font-size: var(--fs-sm); }
 }
 @media (min-width: 768px) {
   .card-img .element-wrap img { width: 26px; height: 26px; }
-  .card-img .element-wrap span { font-size: 10px; }
+  .card-img .element-wrap span { font-size: var(--fs-2xs); }
 }
 @media (min-width: 1024px) {
   .card-img .element-wrap img { width: 28px; height: 28px; }
-  .card-img .element-wrap span { font-size: 11px; }
+  .card-img .element-wrap span { font-size: var(--fs-xs-2); }
 }
 
 
@@ -216,7 +216,7 @@
   padding: 2px;
 }
 .card-img .weapon-wrap span {
-  font-size: 9px;
+  font-size: var(--fs-3xs);
   color: #fff;
   text-shadow: 0 0 3px #000, 0 0 3px #000;
   line-height: 1;
@@ -226,15 +226,15 @@
 /* responsive weapon-wrap: same as element-wrap */
 @media (min-width: 640px) {
   .card-img .weapon-wrap img { width: 24px; height: 24px; }
-  .card-img .weapon-wrap span { font-size: 10px; }
+  .card-img .weapon-wrap span { font-size: var(--fs-2xs); }
 }
 @media (min-width: 768px) {
   .card-img .weapon-wrap img { width: 26px; height: 26px; }
-  .card-img .weapon-wrap span { font-size: 10px; }
+  .card-img .weapon-wrap span { font-size: var(--fs-2xs); }
 }
 @media (min-width: 1024px) {
   .card-img .weapon-wrap img { width: 28px; height: 28px; }
-  .card-img .weapon-wrap span { font-size: 11px; }
+  .card-img .weapon-wrap span { font-size: var(--fs-xs-2); }
 }
 
 @media (max-width: 1023px) {

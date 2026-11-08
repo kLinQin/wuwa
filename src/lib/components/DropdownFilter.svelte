@@ -86,7 +86,7 @@
   }
 
   .arrow {
-    font-size: 10px;
+    font-size: var(--fs-2xs);
   }
 
     .chips-container {

@@ -191,7 +191,7 @@
     width: 20px;
     height: 20px;
     padding: 0;
-    font-size: 10px;
+    font-size: var(--fs-2xs);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -202,10 +202,10 @@
   }
 
   .sonata-indicator {
-    font-size: 10px;
+    font-size: var(--fs-2xs);
     color: var(--text-muted);
   }
-  .no-echo { width: 64px; height: 64px; border-radius: var(--radius); background: var(--bg-hover); display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--text-muted); text-align: center; border: 1px solid var(--border); }
+  .no-echo { width: 64px; height: 64px; border-radius: var(--radius); background: var(--bg-hover); display: flex; align-items: center; justify-content: center; font-size: var(--fs-2xs); color: var(--text-muted); text-align: center; border: 1px solid var(--border); }
 
   .echo-bottom-grid {
     display: grid;

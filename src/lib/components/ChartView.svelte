@@ -76,7 +76,7 @@
     padding-top: var(--sp-1);
   }
   .note {
-    font-size: 10px;
+    font-size: var(--fs-2xs);
     color: var(--text-muted);
     line-height: 1.4;
     margin: 0;

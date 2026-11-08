@@ -202,7 +202,7 @@
     align-items: center;
     justify-content: center;
     color: var(--text);
-    font-weight: bold;
+    font-weight: var(--fw-bold);
     font-size: var(--fs-sm);
   }
 

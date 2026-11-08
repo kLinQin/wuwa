@@ -16,6 +16,10 @@
   --font-mono: var(--font-family-mono);
 
   /* sizes */
+  --fs-4xs: 0.5rem;     /* 8px  - chart micro values */
+  --fs-3xs: 0.5625rem;  /* 9px  - micro labels */
+  --fs-2xs: 0.625rem;   /* 10px - tiny badges */
+  --fs-xs-2: 0.6875rem; /* 11px - compact card labels */
   --fs-xs: 0.875rem;
   --fs-sm: 1rem;
   --fs-md: 1.125rem;
@@ -60,8 +64,8 @@
 
 .font-boring {
   --font-family-body: 'Atkinson Hyperlegible', sans-serif;
-  --fs-md: 1.175rem;
-  --fs-sm: 1.025rem;
+  --fs-md: 1.1875rem;
+  --fs-sm: 1.0625rem;
 }
 
 /* Large screens: bump h1-xl */
@@ -70,6 +74,14 @@
     --fs-xl: 1.875rem;
     --fs-2xl: 2.125rem;
   }
+}
+
+/* ===== Text color hierarchy (4 levels, derived from theme) ===== */
+:root {
+  --text-heading:   var(--text);
+  --text-body:      color-mix(in srgb, var(--text) 92%, var(--bg));
+  --text-secondary: var(--text-muted);
+  --text-faded:     color-mix(in srgb, var(--text-muted) 70%, var(--bg));
 }
 
 /* ===== Utilities ===== */
@@ -97,6 +109,10 @@
 .text-muted   { color: var(--text-muted); }
 .text-accent  { color: var(--accent); }
 .text-default { color: var(--text); }
+.text-heading   { color: var(--text-heading); }
+.text-body-color{ color: var(--text-body); }
+.text-secondary { color: var(--text-secondary); }
+.text-faded     { color: var(--text-faded); }
 
 /* combinators */
 .text-label {

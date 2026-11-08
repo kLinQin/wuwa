@@ -195,7 +195,7 @@
   }
 
   .chevron {
-    font-size: 10px;
+    font-size: var(--fs-2xs);
   }
   .chevron.open {
     transform: rotate(180deg);

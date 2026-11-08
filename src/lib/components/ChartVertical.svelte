@@ -141,11 +141,11 @@
     gap: var(--sp-2);
     color: var(--text-muted);
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: var(--fs-2xs);
   }
 
-  .legend-pct { font-weight: bold; color: var(--accent); }
-  .legend-diff { font-size: 9px; font-weight: var(--fw-bold); }
+  .legend-pct { font-weight: var(--fw-bold); color: var(--accent); }
+  .legend-diff { font-size: var(--fs-3xs); font-weight: var(--fw-bold); }
   .legend-diff.positive { color: var(--status-active); }
   .legend-diff.negative { color: var(--status-ended); }
   .legend-diff:not(.positive):not(.negative) { color: var(--text-muted); }
@@ -181,12 +181,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 10px;
+    font-size: var(--fs-2xs);
     line-height: 1.1;
     margin-bottom: 4px;
     font-family: var(--font-mono);
   }
-  .raw { font-size: 8px; color: var(--text-muted); }
+  .raw { font-size: var(--fs-4xs); color: var(--text-muted); }
 
   .v-track {
     width: 100%;
