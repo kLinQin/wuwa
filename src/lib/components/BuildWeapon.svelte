@@ -1,5 +1,5 @@
 <script lang="ts">
-  let { build, weapons = [] }: { build: any; weapons?: any[] } = $props();
+  let { build, weapons = [], onnote }: { build: any; weapons?: any[]; onnote?: () => void } = $props();
 
   function getWeaponImage(slugOrName: string) {
     const found = weapons.find((w: any) => w.slug === slugOrName || w.name.toLowerCase() === slugOrName.toLowerCase());
@@ -8,7 +8,12 @@
 </script>
 
 <div class="section">
-  <h3>Weapon</h3>
+  <div class="header-row">
+    <h3>Weapon</h3>
+    {#if build?.weaponNote}
+      <button class="raised small-btn" onclick={onnote}>ℹ Note</button>
+    {/if}
+  </div>
 
   <div class="weapon-grid">
     <div class="weapon-best">
@@ -43,18 +48,32 @@
     </div>
   </div>
 
-  {#if build.weaponNote}
-    <p class="note-text" style="margin-top: var(--sp-3);">{build.weaponNote}</p>
-  {/if}
+
 </div>
 
 <style>
-  .section h3 {
-    margin: 0 0 var(--sp-3) 0;
-    font-size: var(--fs-md);
-    color: var(--accent);
+  .header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-2);
+    margin-bottom: var(--sp-3);
     border-bottom: 1px solid var(--border);
     padding-bottom: var(--sp-2);
+  }
+  .header-row h3 {
+    margin: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .small-btn {
+    padding: 2px 8px;
+    font-size: var(--fs-xs);
+    cursor: pointer;
+  }
+  .section h3 {
+    font-size: var(--fs-md);
+    color: var(--accent);
   }
 
   .weapon-grid {

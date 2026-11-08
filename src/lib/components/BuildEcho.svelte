@@ -1,9 +1,25 @@
 <script lang="ts">
   import Tabs from '#lib/components/Tabs.svelte';
 
-  let { build, echoes = [], sonatas = [] }: { build: any; echoes?: any[]; sonatas?: any[] } = $props();
+  let { build, echoes = [], sonatas = [], onnote }: { build: any; echoes?: any[]; sonatas?: any[]; onnote?: () => void } = $props();
 
   let activeEchoSet = $state('0');
+  let sonataIndex = $state(0);
+  let echoIndex = $state(0);
+
+  function nextEcho(max: number) {
+    echoIndex = Math.min(echoIndex + 1, max - 1);
+  }
+  function prevEcho() {
+    echoIndex = Math.max(echoIndex - 1, 0);
+  }
+
+  function nextSonata(max: number) {
+    sonataIndex = Math.min(sonataIndex + 1, max - 1);
+  }
+  function prevSonata() {
+    sonataIndex = Math.max(sonataIndex - 1, 0);
+  }
 
   const echoTabs = $derived(
     build?.echoDetails?.sets?.map((set: any, i: number) => ({
@@ -24,7 +40,12 @@
 </script>
 
 <div class="section">
-  <h3>Echo Setup</h3>
+  <div class="header-row">
+    <h3>Echo Setup</h3>
+    {#if build?.echoDetails?.note}
+      <button class="raised small-btn" onclick={onnote}>ℹ Note</button>
+    {/if}
+  </div>
 
   {#if build?.echoDetails?.sets?.length > 0}
     <Tabs tabs={echoTabs} activeTab={activeEchoSet} onchange={(id) => activeEchoSet = id} />
@@ -34,30 +55,46 @@
     {#if activeSet}
       <div class="echo-card">
         <div class="echo-top-grid">
+          <!-- ECHO -->
           <div class="echo-img-box">
-            {#if build.bestEcho?.[0]}
-              {@const mainImg = getEchoImage(build.bestEcho[0])}
+            {#if build.bestEcho && build.bestEcho.length > 0}
+              {@const activeEchoName = build.bestEcho[echoIndex] || build.bestEcho[0]}
+              {@const mainImg = getEchoImage(activeEchoName)}
               {#if mainImg}
-                <img src={mainImg} alt={build.bestEcho[0]} class="main-echo-img" />
+                <img src={mainImg} alt={activeEchoName} class="main-echo-img" />
               {/if}
-              <span class="main-echo-name">{build.bestEcho[0]}</span>
+              <span class="main-echo-name">{activeEchoName}</span>
             {:else}
               <div class="no-echo">No Main Echo</div>
             {/if}
+
+            <div class="sonata-nav">
+              <button class="raised" onclick={() => prevEcho()} disabled={!build.bestEcho || build.bestEcho.length <= 1 || echoIndex === 0}>←</button>
+              <span class="sonata-indicator">{build.bestEcho?.length > 0 ? echoIndex + 1 : 0} / {build.bestEcho?.length || 1}</span>
+              <button class="raised" onclick={() => nextEcho(build.bestEcho?.length || 1)} disabled={!build.bestEcho || build.bestEcho.length <= 1 || echoIndex >= build.bestEcho.length - 1}>→</button>
+            </div>
           </div>
 
+          <!-- SONATA -->
           <div class="sonata-box">
-            {#if activeSet.sonataCustom}
-              {#each activeSet.sonataCustom as sonata}
-                {@const img = getSonataImage(sonata.name)}
-                <div class="echo-img-box">
-                  {#if img}
-                    <img src={img} alt={sonata.name} class="main-echo-img" />
-                  {/if}
-                  <span class="main-echo-name">{sonata.name} ({sonata.set})</span>
-                </div>
-              {/each}
+            {#if activeSet.sonataCustom && activeSet.sonataCustom.length > 0}
+              {@const sonata = activeSet.sonataCustom[sonataIndex] || activeSet.sonataCustom[0]}
+              {@const img = getSonataImage(sonata.name)}
+              <div class="echo-img-box">
+                {#if img}
+                  <img src={img} alt={sonata.name} class="main-echo-img" />
+                {/if}
+                <span class="main-echo-name">{sonata.name} ({sonata.set})</span>
+              </div>
+            {:else}
+              <div class="no-echo">No Sonata</div>
             {/if}
+
+            <div class="sonata-nav">
+              <button class="raised" onclick={() => prevSonata()} disabled={!activeSet.sonataCustom || activeSet.sonataCustom.length <= 1 || sonataIndex === 0}>←</button>
+              <span class="sonata-indicator">{activeSet.sonataCustom?.length > 0 ? sonataIndex + 1 : 0} / {activeSet.sonataCustom?.length || 1}</span>
+              <button class="raised" onclick={() => nextSonata(activeSet.sonataCustom?.length || 1)} disabled={!activeSet.sonataCustom || activeSet.sonataCustom.length <= 1 || sonataIndex >= activeSet.sonataCustom.length - 1}>→</button>
+            </div>
           </div>
         </div>
 
@@ -100,12 +137,28 @@
 </div>
 
 <style>
-  .section h3 {
-    margin: 0 0 var(--sp-3) 0;
-    font-size: var(--fs-md);
-    color: var(--accent);
+  .header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-2);
+    margin-bottom: var(--sp-3);
     border-bottom: 1px solid var(--border);
     padding-bottom: var(--sp-2);
+  }
+  .header-row h3 {
+    margin: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .small-btn {
+    padding: 2px 8px;
+    font-size: var(--fs-xs);
+    cursor: pointer;
+  }
+  .section h3 {
+    font-size: var(--fs-md);
+    color: var(--accent);
   }
 
   .echo-card {
@@ -149,6 +202,32 @@
   }
   .main-echo-name { font-size: var(--fs-xs); text-align: center; line-height: 1.2; }
   .sonata-box .main-echo-name { color: var(--accent); }
+
+  .sonata-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-1);
+    margin-top: var(--sp-1);
+  }
+
+  .sonata-nav button {
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sonata-nav button:disabled {
+    opacity: 0.3;
+  }
+
+  .sonata-indicator {
+    font-size: 10px;
+    color: var(--text-muted);
+  }
   .no-echo { width: 64px; height: 64px; border-radius: var(--radius); background: var(--bg-hover); display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--text-muted); text-align: center; border: 1px solid var(--border); }
 
   .echo-bottom-grid {

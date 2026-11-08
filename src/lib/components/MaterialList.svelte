@@ -156,15 +156,17 @@
     position: absolute;
     bottom: 0;
     right: 0;
-    background: var(--bg);
+    background: var(--bg-elev); /* Ikut tema */
     color: var(--text);
-    font-size: 10px;
-    font-weight: var(--fw-bold);
+    font-size: 14px;
+    font-weight: bold;
     padding: 1px 4px;
     border-top-left-radius: var(--radius);
     border-left: 1px solid var(--border);
     border-top: 1px solid var(--border);
     line-height: 1.2;
+    z-index: 2;
+    white-space: nowrap;
   }
 
   .mat-name {

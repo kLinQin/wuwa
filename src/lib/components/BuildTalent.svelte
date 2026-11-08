@@ -1,10 +1,15 @@
 <script lang="ts">
-  let { build }: { build: any } = $props();
+  let { build, onnote }: { build: any; onnote?: () => void } = $props();
 </script>
 
 {#if build?.talentPriority}
   <div class="section">
-    <h3>Talent Priority</h3>
+    <div class="header-row">
+      <h3>Talent Priority</h3>
+      {#if build?.talentPriority?.note}
+        <button class="raised small-btn" onclick={onnote}>ℹ Note</button>
+      {/if}
+    </div>
 
     <div class="echo-card">
       <div class="stats-box">
@@ -22,19 +27,33 @@
       </div>
     </div>
 
-    {#if build.talentPriority.note}
-      <p class="note-text">{build.talentPriority.note}</p>
-    {/if}
+
   </div>
 {/if}
 
 <style>
-  .section h3 {
-    margin: 0 0 var(--sp-3) 0;
-    font-size: var(--fs-md);
-    color: var(--accent);
+  .header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-2);
+    margin-bottom: var(--sp-3);
     border-bottom: 1px solid var(--border);
     padding-bottom: var(--sp-2);
+  }
+  .header-row h3 {
+    margin: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .small-btn {
+    padding: 2px 8px;
+    font-size: var(--fs-xs);
+    cursor: pointer;
+  }
+  .section h3 {
+    font-size: var(--fs-md);
+    color: var(--accent);
   }
 
   /* Card pembungkus mirip dengan Echo Setup */
