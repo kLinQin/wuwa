@@ -37,7 +37,6 @@
 
   <button class="raised filter-btn" class:active={open} onclick={toggle}>
     {value === 'all' ? label : options.find(o => o.value === value)?.label || label}
-    <span class="arrow">▾</span>
   </button>
 </div>
 
@@ -71,7 +70,6 @@
     color: var(--accent);
   }
 
-  .arrow { font-size: 10px; }
 
   .chips-inline {
     display: flex;
@@ -82,6 +80,16 @@
     scrollbar-width: none;
     height: 100%;
     margin-left: auto;
+
+    /* Lebar maksimal mengikuti layar, tapi dibatasi 1024px */
+    max-width: min(100vw, var(--max-content));
+    cursor: grab;
+  }
+  .chips-inline:active {
+    cursor: grabbing;
+  }
+  .chips-inline:active {
+    cursor: grabbing;
   }
 
   .chips-inline::-webkit-scrollbar { display: none; }
