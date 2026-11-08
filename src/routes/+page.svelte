@@ -78,22 +78,6 @@
 </section>
 {/if}
 
-{#if activeEvents.length}
-<section class="events">
-  <h2>Events</h2>
-  <div class="events-grid">
-    {#each activeEvents as ev}
-      <div class="event-card" style:background-image="url({ev.background})">
-        <div class="event-overlay">
-          <span class="event-type">{ev.type}</span>
-          <strong>{ev.title}</strong>
-        </div>
-      </div>
-    {/each}
-  </div>
-</section>
-{/if}
-
 <section class="stats">
   {#each stats as s}
     <a href={s.href} class="stat-card">
@@ -117,14 +101,14 @@
   .hero h1 { margin: 0 0 var(--sp-1); }
   .tagline { color: var(--text-muted); font-size: var(--fs-sm); margin: 0; }
 
-  .featured h2, .events h2, .links h2 { font-size: var(--fs-md); margin: var(--sp-4) 0 var(--sp-2); }
+  .featured h2, .links h2 { font-size: var(--fs-md); margin: var(--sp-4) 0 var(--sp-2); }
   .featured-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: var(--sp-2); }
 
-  .events-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: var(--sp-2); }
-  .event-card { position: relative; height: var(--event-h); border-radius: var(--radius); background-size: cover; background-position: center; overflow: hidden; }
-  .event-overlay { position: absolute; inset: 0; background: linear-gradient(transparent 40%, var(--overlay-dark)); display: flex; flex-direction: column; justify-content: flex-end; padding: var(--sp-2); color: var(--text-inverse); }
-  .event-type { font-size: var(--fs-xs); text-transform: uppercase; opacity: 0.7; }
-  .event-overlay strong { font-size: var(--fs-sm); }
+  
+  
+  
+  
+  
 
   .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-2); margin: var(--sp-4) 0; }
   .stat-card { text-align: center; padding: var(--sp-3); border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-elev); text-decoration: none; color: inherit; }
@@ -139,7 +123,7 @@
   .menu-grid span { font-size: var(--fs-xs); color: var(--text-muted); }
 
   /* Terapkan scroll horizontal untuk semua ukuran layar */
-  .featured-grid, .events-grid, .stats, .menu-grid {
+  .featured-grid, .stats, .menu-grid {
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -148,18 +132,17 @@
     padding-bottom: var(--sp-2);
     scrollbar-width: none; /* Sembunyikan scrollbar (opsional) */
   }
-  .featured-grid::-webkit-scrollbar,
-  .events-grid::-webkit-scrollbar,
+  .featured-grid::-webkit-scrollbar::-webkit-scrollbar,
   .stats::-webkit-scrollbar,
   .menu-grid::-webkit-scrollbar {
     display: none;
   }
 
-  .scroll-item, .event-card, .stat-card, .menu-grid > li {
+  .scroll-item, .stat-card, .menu-grid > li {
     flex: 0 0 auto;
   }
   .scroll-item { width: 130px; }
-  .event-card { min-width: 260px; }
+  
   .stat-card { min-width: 110px; }
   .menu-grid > li { min-width: 140px; }
 </style>
