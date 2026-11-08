@@ -9,6 +9,7 @@
   import TeamList from '#lib/components/TeamList.svelte';
   import ChartView from '#lib/components/ChartView.svelte';
   import Tabs from '#lib/components/Tabs.svelte';
+  import BottomSheet from '#lib/components/BottomSheet.svelte';
   import DetailHeader from '#lib/components/DetailHeader.svelte';
 
   let props: PageProps = $props();
@@ -22,6 +23,8 @@
   const sonatasMap = $derived(props.data.sonatasMap || {});
   let activeTab = $state('overview');
   let kitTab = $state('skills');
+  let isTeamNoteOpen = $state(false);
+  let currentTeamNote = $state('');
 
   const tabList = [
     { id: 'overview', label: 'Overview' },
@@ -113,7 +116,7 @@
   {#if activeTab === 'teams'}
     {#if resolvedTeams.length > 0}
       <DataSection title="Recommended Teams">
-        <TeamList teams={resolvedTeams} />
+        <TeamList teams={resolvedTeams} onnote={(note) => { currentTeamNote = note; isTeamNoteOpen = true; }} />
       </DataSection>
     {/if}
     {#if item.analysisCharts}
