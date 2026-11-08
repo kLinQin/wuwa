@@ -9,6 +9,7 @@
   import TeamList from '#lib/components/TeamList.svelte';
   import ChartView from '#lib/components/ChartView.svelte';
   import Tabs from '#lib/components/Tabs.svelte';
+  import DetailHeader from '#lib/components/DetailHeader.svelte';
 
   let props: PageProps = $props();
   const item = $derived(props.data.item);
@@ -55,21 +56,19 @@
     <div class="banner-bg" style="background-image: url({item.imageBanner})"></div>
   {/if}
 
-  <header class="char-header card">
-    <img src={item.icon || item.image} alt={item.name} class="char-avatar" />
-    <div class="char-info">
-      <h1>{item.name}</h1>
-      <div class="tags">
-        {#if elName}<span class="badge">{elName}</span>{/if}
-        {#if wpName}<span class="badge">{wpName}</span>{/if}
-        <span class="badge stars">{'★'.repeat(item.rarity)}</span>
-        {#if item.class}<span class="badge">{item.class}</span>{/if}
-        {#if roleLabels}<span class="badge muted">{roleLabels}</span>{/if}
-        {#if sonataLabels}<span class="badge muted">{sonataLabels}</span>{/if}
-      </div>
-      <p class="meta-text">v{item.version} • {item.faction}</p>
-    </div>
-  </header>
+  <DetailHeader
+    title={item.name}
+    image={item.icon || item.image}
+    badges={[
+      ...(elName ? [{ label: elName, prefix: 'Element:' }] : []),
+      ...(wpName ? [{ label: wpName, prefix: 'Weapon:' }] : []),
+      { label: '★'.repeat(item.rarity), type: 'star' },
+      ...(item.class ? [{ label: item.class, prefix: 'Class:' }] : []),
+      ...(roleLabels ? [{ label: roleLabels, type: 'muted', prefix: 'Role:' }] : []),
+      ...(sonataLabels ? [{ label: sonataLabels, type: 'muted', prefix: 'Sonata:' }] : [])
+    ]}
+    meta={`v${item.version} • ${item.faction}`}
+  />
 
   <Tabs tabs={tabList} activeTab={activeTab} onchange={(id) => activeTab = id} />
 
@@ -156,49 +155,7 @@
     -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
   }
 
-  .char-header {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-4);
-    padding: var(--sp-4);
-    background: var(--bg-elev);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    backdrop-filter: blur(4px);
-  }
-  .char-avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: var(--radius);
-    object-fit: cover;
-    background: var(--bg-hover);
-  }
-  .char-info h1 {
-    margin: 0 0 var(--sp-2);
-    font-size: var(--fs-xl);
-  }
-  .tags {
-    display: flex;
-    gap: var(--sp-2);
-    flex-wrap: wrap;
-    margin-bottom: var(--sp-2);
-  }
-  .stars {
-    color: #f5c518;
-  }
-  .muted {
-    background: var(--bg-hover);
-    color: var(--text-muted);
-  }
-  .small {
-    font-size: var(--fs-xs);
-    padding: 1px 4px;
-  }
-  .meta-text {
-    color: var(--text-muted);
-    font-size: var(--fs-sm);
-    margin: 0;
-  }
+  
 
   .changelog-list {
     list-style: none;
