@@ -33,7 +33,7 @@
 </script>
 
 <div class="skill-list">
-  <div class="grid">
+  <div class="grid-2">
     <!-- Standard Skills -->
     {#each orderedKeys as key}
       {#if skills[key]}
@@ -98,18 +98,6 @@
     gap: var(--sp-4);
   }
 
-  .grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--sp-3);
-    align-items: stretch;
-  }
-
-  @media (min-width: 768px) {
-    .grid {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
 
   .skill-card {
     padding: var(--sp-3);

@@ -8,7 +8,7 @@
 </script>
 
 <div class="section">
-  <div class="header-row">
+  <div class="section-head">
     <h3>Weapon</h3>
     {#if build?.weaponNote}
       <button class="raised small-btn" onclick={onnote}>ℹ Note</button>
@@ -28,7 +28,7 @@
 
     <div class="weapon-list">
       {#if build.weaponOptions}
-        <table class="weapon-table">
+        <table class="stat-table weapon-table">
           <thead><tr><th>Name</th><th>DPS %</th></tr></thead>
           <tbody>
             {#each build.weaponOptions as w}
@@ -52,29 +52,6 @@
 </div>
 
 <style>
-  .header-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--sp-2);
-    margin-bottom: var(--sp-3);
-    border-bottom: 1px solid var(--border);
-    padding-bottom: var(--sp-2);
-  }
-  .header-row h3 {
-    margin: 0;
-    border-bottom: none;
-    padding-bottom: 0;
-  }
-  .small-btn {
-    padding: 2px 8px;
-    font-size: var(--fs-xs);
-    cursor: pointer;
-  }
-  .section h3 {
-    font-size: var(--fs-md);
-    color: var(--accent);
-  }
 
   .weapon-grid {
     display: grid;
@@ -116,6 +93,8 @@
   }
   .weapon-name.accent { color: var(--accent); }
 
+  .weapon-table { border-collapse: collapse; }
+
   .weapon-list {
     min-width: 0;
     max-width: 100%;
@@ -124,9 +103,6 @@
     gap: var(--sp-3);
   }
 
-  .weapon-table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
-  .weapon-table th, .weapon-table td { text-align: left; padding: var(--sp-1) var(--sp-2); border-bottom: 1px solid var(--border); }
-  .weapon-table th { color: var(--text-muted); font-weight: var(--fw-medium); font-size: var(--fs-xs); }
 
   .weapon-list .weapon-table th:last-child,
   .weapon-list .weapon-table td:last-child {

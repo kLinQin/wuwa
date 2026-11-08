@@ -9,7 +9,7 @@
 </script>
 
 <div class="seq-list">
-  <div class="grid">
+  <div class="grid-2">
     {#each sequences as s}
       <div class="seq-card raised">
         <div class="seq-header">
@@ -45,18 +45,6 @@
     gap: var(--sp-3);
   }
 
-  .grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--sp-3);
-    align-items: stretch;
-  }
-
-  @media (min-width: 768px) {
-    .grid {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
 
   .seq-card {
     padding: var(--sp-3);
