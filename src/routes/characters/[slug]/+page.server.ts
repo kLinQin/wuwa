@@ -54,8 +54,9 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
   };
 
   // Load indices for mapping IDs to names/icons
-  const [echoesIndex, materialsIndex, teamsIndex, rolesIndex, sonatasIndex] = await Promise.all([
+  const [echoesIndex, weaponsIndex, materialsIndex, teamsIndex, rolesIndex, sonatasIndex] = await Promise.all([
     loadJSON('echoes/echoes.json', fetch),
+    loadJSON('weapons/index.json', fetch),
     loadJSON('materials/index.json', fetch),
     loadJSON('teams/index.json', fetch),
     loadJSON('constants/combatRoles.json', fetch),
@@ -68,6 +69,7 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
     teamsMap: teamsIndex ? Object.fromEntries(teamsIndex.map(t => [t.id, t])) : {},
     rolesMap: rolesIndex ? Object.fromEntries(rolesIndex.map(r => [r.id, r])) : {},
     echoesIndex: echoesIndex || [],
+    weaponsIndex: weaponsIndex || [],
     sonatasList: sonatasIndex || [],
     sonatasMap: sonatasIndex ? Object.fromEntries(sonatasIndex.map(s => [s.id, s])) : {}
   };

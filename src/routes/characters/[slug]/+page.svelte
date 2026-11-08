@@ -16,6 +16,7 @@
   const materialsMap = $derived(props.data.materialsMap || {});
   const echoesIndex = $derived(props.data.echoesIndex || []);
   const sonatasList = $derived(props.data.sonatasList || []);
+  const weaponsList = $derived(props.data.weaponsIndex || []);
   const teamsMap = $derived(props.data.teamsMap || {});
   const rolesMap = $derived(props.data.rolesMap || {});
   const sonatasMap = $derived(props.data.sonatasMap || {});
@@ -78,7 +79,7 @@
   {#if activeTab === 'overview'}
     {#if item.recommendedStats || item.build}
       <DataSection title="Build Guide">
-        <BuildView stats={item.recommendedStats} build={item.build} echoes={echoesIndex} sonatas={sonatasList} />
+        <BuildView stats={item.recommendedStats} build={item.build} echoes={echoesIndex} sonatas={sonatasList} weapons={weaponsList} />
       </DataSection>
     {/if}
     {#if item.materials}

@@ -279,7 +279,6 @@
     border-bottom: 1px solid var(--border);
     padding-bottom: var(--sp-3);
 
-    /* Tarik keluar dari padding .echo-card agar garis full width */
     margin-left: calc(var(--sp-3) * -1);
     margin-right: calc(var(--sp-3) * -1);
     padding-left: var(--sp-3);
@@ -297,10 +296,10 @@
     width: 64px;
     height: 64px;
     object-fit: contain;
-    border-radius: var(--radius); /* Kotak mengikuti variabel global */
+    border-radius: var(--radius);
     background: var(--bg-hover);
     border: 1px solid var(--border);
-    padding: 4px; /* Jarak aman di dalam kotak */
+    padding: 4px;
   }
   .main-echo-name { font-size: var(--fs-xs); text-align: center; line-height: 1.2; }
   .sonata-box .main-echo-name { color: var(--accent); }
@@ -330,19 +329,17 @@
     display: flex;
     flex-direction: column;
     gap: var(--sp-2);
-    padding: 0 var(--sp-3) var(--sp-3) var(--sp-3); /* Padding aman */
-    overflow: hidden; /* Cegah luberan */
+    padding: 0 var(--sp-3) var(--sp-3) var(--sp-3);
+    overflow: hidden;
   }
 
-  .stats-box h4, .substats-box h4 {
+  /* HAPUS STYLE H4 LOKAL, PAKAI BOX-HEADER DARI UTILITY */
+  .stats-box .box-header, .substats-box .box-header {
     margin: 0 calc(var(--sp-3) * -1) var(--sp-3) calc(var(--sp-3) * -1);
     padding: var(--sp-2) var(--sp-3);
-    font-size: var(--fs-sm);
     color: var(--accent);
     background: var(--bg-hover);
     border-bottom: 1px solid var(--border);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
   }
 
   .main-stats-table {
@@ -353,7 +350,7 @@
     font-size: var(--fs-sm);
   }
   .main-stats-table th, .main-stats-table td {
-    padding: 4px var(--sp-2); /* Padding disesuaikan agar tidak mentok */
+    padding: 4px var(--sp-2);
     border-bottom: 1px solid var(--border);
     text-align: left;
     white-space: nowrap;
