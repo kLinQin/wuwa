@@ -137,9 +137,8 @@
 <style>
   .detail-page {
     position: relative;
-    max-width: var(--max-content);
-    margin: 0 auto;
-    padding: var(--sp-4);
+    width: 100%;
+    padding: var(--content-pad);
     display: flex;
     flex-direction: column;
     gap: var(--sp-5);

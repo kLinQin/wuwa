@@ -129,6 +129,13 @@
     height: 100%;
   }
 
+  @media (max-width: 639px) {
+    .search-box {
+      min-width: 100px;
+      max-width: 150px; /* Lebih kecil khusus mobile */
+    }
+  }
+
   .filters-container {
     display: flex;
     align-items: stretch;
@@ -175,5 +182,12 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: var(--sp-3);
+  }
+
+  @media (max-width: 639px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr); /* Paksa 3 kolom di mobile */
+      gap: var(--sp-2);
+    }
   }
 </style>

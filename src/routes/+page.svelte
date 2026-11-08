@@ -138,21 +138,28 @@
   .menu-grid strong { display: block; font-size: var(--fs-sm); }
   .menu-grid span { font-size: var(--fs-xs); color: var(--text-muted); }
 
-  @media (max-width: 1024px) {
-    .featured-grid, .events-grid, .stats, .menu-grid {
-      display: flex;
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      gap: var(--sp-2);
-      padding-bottom: var(--sp-2);
-    }
-    .scroll-item, .event-card, .stat-card, .menu-grid > li {
-      flex: 0 0 auto;
-    }
-    .scroll-item { width: 130px; }
-    .event-card { min-width: 260px; }
-    .stat-card { min-width: 110px; }
-    .menu-grid > li { min-width: 140px; }
+  /* Terapkan scroll horizontal untuk semua ukuran layar */
+  .featured-grid, .events-grid, .stats, .menu-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: var(--sp-2);
+    padding-bottom: var(--sp-2);
+    scrollbar-width: none; /* Sembunyikan scrollbar (opsional) */
   }
+  .featured-grid::-webkit-scrollbar,
+  .events-grid::-webkit-scrollbar,
+  .stats::-webkit-scrollbar,
+  .menu-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scroll-item, .event-card, .stat-card, .menu-grid > li {
+    flex: 0 0 auto;
+  }
+  .scroll-item { width: 130px; }
+  .event-card { min-width: 260px; }
+  .stat-card { min-width: 110px; }
+  .menu-grid > li { min-width: 140px; }
 </style>
