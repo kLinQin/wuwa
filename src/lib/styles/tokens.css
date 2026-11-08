@@ -65,6 +65,13 @@
   --text-inverse: #ffffff;
   --overlay-dark: rgba(0,0,0,0.8);
   --event-h: 120px;
+
+  --status-active: #7ee0a8;
+  --status-active-bg: rgba(126,224,168,0.18);
+  --status-upcoming: #f5c518;
+  --status-upcoming-bg: rgba(245,197,24,0.18);
+  --status-ended: #8a8aa3;
+  --status-ended-bg: rgba(138,138,163,0.18);
 }
 
 /* LIGHT */
@@ -86,6 +93,13 @@
   --text-inverse: #ffffff;
   --overlay-dark: rgba(0,0,0,0.8);
   --event-h: 120px;
+
+  --status-active: #1f8a4c;
+  --status-active-bg: rgba(31,138,76,0.14);
+  --status-upcoming: #a37d00;
+  --status-upcoming-bg: rgba(163,125,0,0.14);
+  --status-ended: #6b6b85;
+  --status-ended-bg: rgba(107,107,133,0.14);
 }
 
 /* mobile: konten full-width edge-to-edge */

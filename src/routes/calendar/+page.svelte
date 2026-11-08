@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { PageProps } from './$types';
+  import BottomSheet from '#lib/components/BottomSheet.svelte';
   let { data }: PageProps = $props();
 
   // 1. Parse events with timestamp
@@ -125,6 +126,14 @@
   );
   const todayNum = $derived(isCurrentMonth ? today.getDate() : null);
 
+  let sheetOpen = $state(false);
+  let selectedEvent = $state<ParsedEvent | null>(null);
+
+  function openEvent(ev: ParsedEvent) {
+    selectedEvent = ev;
+    sheetOpen = true;
+  }
+
   const typeColors: Record<string, string> = {
     banner: '#e06c75',
     weapon: '#e5c07b',
@@ -156,11 +165,10 @@
   <div class="timeline-container">
     <div class="timeline-grid" style="--days: {daysInMonth};">
       {#if todayNum}
-        <div class="global-today-line" style="left: calc(340px + (100% - 340px) * ({todayNum} - 0.5) / {daysInMonth});"></div>
+        <div class="global-today-line" style="left: calc((100% * ({todayNum} - 0.5) / {daysInMonth}));"></div>
       {/if}
       <!-- Days Header -->
       <div class="header-row">
-        <div class="title-col">Event</div>
         <div class="days-cols">
           {#each monthDays as d}
             <div class="day-cell" class:today={d.dayNum === todayNum}>
@@ -181,18 +189,6 @@
             {@const color = typeColors[ev.type] || 'var(--accent)'}
             {@const status = getStatusBadge(ev.start, ev.end)}
             <div class="event-row">
-              <div class="title-col">
-                {#if ev.icon}
-                  <img src={ev.icon} alt="" class="ev-icon" />
-                {/if}
-                <div class="ev-info">
-                  <span class="ev-title" title={ev.title}>{ev.title}</span>
-                  <div class="meta-row">
-                    <span class="ev-date">{formatDateRange(ev.start, ev.end)}</span>
-                    <span class="status-badge {status.state}">{status.label}</span>
-                  </div>
-                </div>
-              </div>
               <div class="days-cols">
                 {#if range.isStartInMonth}
                   <div class="vertical-event-line start-line" style="left: calc((100% / {daysInMonth}) * ({range.start} - 1)); top: calc(-38px - {i} * 44px); bottom: 6px;"></div>
@@ -202,6 +198,11 @@
                 {/if}
                 <div
                   class="event-bar {ev.type}"
+                  data-span={range.span}
+                  role="button"
+                  tabindex="0"
+                  onclick={() => openEvent(ev)}
+                  onkeydown={(e) => e.key === 'Enter' && openEvent(ev)}
                   title="{ev.title} ({formatDateRange(ev.start, ev.end)})"
                   style="
                     grid-column: {range.start} / span {range.span};
@@ -209,7 +210,14 @@
                     {ev.background ? `background-image: linear-gradient(90deg, rgba(0,0,0,0.6), rgba(0,0,0,0.3)), url(${ev.background})` : ''}
                   "
                 >
+                  {#if ev.icon}
+                    <img src={ev.icon} alt="" class="bar-icon" />
+                  {/if}
                   <span class="bar-label">{ev.title}</span>
+                  <span class="bar-meta">
+                    <span class="bar-chip bar-date">{formatDateRange(ev.start, ev.end)}</span>
+                    <span class="bar-chip bar-status {status.state}">{status.label}</span>
+                  </span>
                 </div>
               </div>
             </div>
@@ -218,6 +226,28 @@
       </div>
     </div>
   </div>
+
+  <BottomSheet bind:open={sheetOpen} title={selectedEvent?.title ?? ''}>
+    {#if selectedEvent}
+      <div class="ev-detail">
+        <div class="ev-detail-row">
+          <span class="lbl">Type</span>
+          <span class="val" style="color: {typeColors[selectedEvent.type] || 'var(--accent)'}">{selectedEvent.type}</span>
+        </div>
+        <div class="ev-detail-row">
+          <span class="lbl">Period</span>
+          <span class="val">{formatDateRange(selectedEvent.start, selectedEvent.end)}</span>
+        </div>
+        <div class="ev-detail-row">
+          <span class="lbl">Status</span>
+          <span class="val">{getStatusBadge(selectedEvent.start, selectedEvent.end).label}</span>
+        </div>
+        {#if selectedEvent.background}
+          <img class="ev-detail-img" src={selectedEvent.background} alt={selectedEvent.title} />
+        {/if}
+      </div>
+    {/if}
+  </BottomSheet>
 </div>
 
 <style>
@@ -314,24 +344,11 @@
   }
 
   .timeline-grid {
-    --title-col-width: 340px;
     min-width: 900px;
     min-height: 100%;
     display: flex;
     flex-direction: column;
     position: relative;
-  }
-
-  .timeline-grid::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: calc(var(--title-col-width) - 1px);
-    width: 1px;
-    background: var(--border);
-    z-index: 31;
-    pointer-events: none;
   }
 
   .global-today-line {
@@ -357,95 +374,6 @@
     display: flex;
     height: 44px;
     border-bottom: 1px solid var(--border);
-  }
-
-  .title-col {
-    width: var(--title-col-width);
-    min-width: var(--title-col-width);
-    padding: 10px 12px;
-    font-weight: 600;
-    border-right: 1px solid var(--border);
-    background: var(--bg-elev);
-    position: sticky;
-    left: 0;
-    z-index: 11;
-    display: flex;
-    align-items: center;
-  }
-
-  .event-row .title-col {
-    gap: var(--sp-2);
-  }
-
-  .header-row .title-col {
-    font-weight: var(--fw-bold);
-    font-size: var(--fs-xs);
-    text-transform: uppercase;
-    color: var(--text-muted);
-    z-index: 30;
-    position: sticky;
-    left: 0;
-    top: 0;
-  }
-
-  .ev-icon {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .ev-info {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-  }
-
-  .ev-title {
-    font-family: var(--font-ui);
-    font-size: var(--fs-xs);
-    font-weight: var(--fw-normal);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .meta-row {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-1);
-  }
-
-  .ev-date {
-    font-size: 10px;
-    color: var(--text-muted);
-  }
-
-  .status-badge {
-    font-size: 9px;
-    padding: 0 4px;
-    border-radius: 3px;
-    font-weight: var(--fw-medium);
-    line-height: 1.3;
-    border: 1px solid transparent;
-  }
-
-  .status-badge.active {
-    background: rgba(46,204,113,0.2);
-    color: #2ecc71;
-    border-color: rgba(46,204,113,0.4);
-  }
-
-  .status-badge.upcoming {
-    background: rgba(241,196,15,0.2);
-    color: #f1c40f;
-    border-color: rgba(241,196,15,0.4);
-  }
-
-  .status-badge.ended {
-    background: rgba(149,165,166,0.2);
-    color: #95a5a6;
   }
 
   .days-cols {
@@ -516,14 +444,14 @@
   .event-bar {
     position: relative;
     height: 32px;
-    margin: 4px 2px;
-    border-radius: var(--radius);
+    margin: 4px 0 4px 2px;
+    border-radius: 1px;
     background: var(--bar-color);
     background-size: cover;
     background-position: center;
     display: flex;
     align-items: center;
-    padding: 0 var(--sp-2);
+    padding: 0 2px 0 var(--sp-2);
     color: var(--text-inverse);
     font-size: var(--fs-xs);
     font-weight: var(--fw-medium);
@@ -534,10 +462,81 @@
     z-index: 2;
   }
 
+  .bar-icon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-right: var(--sp-1);
+  }
+
+  .ev-detail { display: flex; flex-direction: column; gap: var(--sp-2); }
+  .ev-detail-row { display: flex; justify-content: space-between; gap: var(--sp-2); font-size: var(--fs-sm); }
+  .ev-detail-row .lbl { color: var(--text-muted); }
+  .ev-detail-row .val { font-weight: var(--fw-medium); text-align: right; }
+  .ev-detail-img { width: 100%; border-radius: var(--radius); margin-top: var(--sp-2); }
+
+  .event-bar { cursor: pointer; }
+
   .bar-label {
     text-shadow: 0 1px 2px #000;
     overflow: hidden;
     text-overflow: ellipsis;
+    flex: 1;
+  }
+
+  .event-bar[data-span="1"] .bar-meta,
+  .event-bar[data-span="2"] .bar-meta,
+  .event-bar[data-span="3"] .bar-meta {
+    display: none;
+  }
+
+  .bar-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1px;
+    margin-left: var(--sp-2);
+    flex-shrink: 0;
+  }
+
+  .bar-meta .bar-chip {
+    margin-left: 0;
+  }
+
+  .bar-chip {
+    font-size: 9px;
+    padding: 0 4px;
+    border-radius: 3px;
+    margin-left: var(--sp-1);
+    flex-shrink: 0;
+    line-height: 1.3;
+    border: 1px solid transparent;
+    background: rgba(0,0,0,0.6);
+    text-shadow: none;
+  }
+
+  .bar-date {
+    color: var(--text-inverse);
+    border-color: rgba(255,255,255,0.35);
+  }
+
+  .bar-status { border: 1px solid transparent; }
+
+  .bar-status.active {
+    color: var(--status-active);
+    border-color: var(--status-active);
+  }
+
+  .bar-status.upcoming {
+    color: var(--status-upcoming);
+    border-color: var(--status-upcoming);
+  }
+
+  .bar-status.ended {
+    color: var(--status-ended);
+    border-color: var(--status-ended);
   }
 
   .empty {
@@ -590,8 +589,5 @@
     }
 
 
-    .timeline-grid {
-      --title-col-width: 180px;
-    }
   }
 </style>

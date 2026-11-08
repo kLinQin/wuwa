@@ -132,6 +132,10 @@
   .menu { display: flex; gap: var(--sp-2); justify-self: end; }
 
   /* ===== Main scroll area ===== */
+  :global(body) {
+    overflow: hidden;
+  }
+
   main {
     height: 100vh;
     height: 100dvh;
@@ -142,6 +146,7 @@
     padding: var(--content-pad);
     padding-bottom: calc(var(--nav-h) + var(--content-pad)); /* space untuk nav bawah (mobile) */
   }
+  main::-webkit-scrollbar { display: none; }
   .content { max-width: var(--max-content); margin: 0 auto; }
 
   /* ===== Mobile menu ===== */
