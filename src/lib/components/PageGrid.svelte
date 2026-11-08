@@ -55,7 +55,7 @@
 
   <div class="grid-container">
     <div class="grid">
-      {#each filtered as item (item.slug || item.name)}
+      {#each filtered as item, i (item.slug || item.name || item.title || i)}
         {@render children(item)}
       {/each}
     </div>

@@ -1,25 +1,42 @@
 <script lang="ts">
   import type { PageProps } from './$types';
+  import PageGrid from '#lib/components/PageGrid.svelte';
   let { data }: PageProps = $props();
-  let q = $state('');
-  const items = $derived(
-    data.items.filter((s: any) => s.name.toLowerCase().includes(q.toLowerCase()))
-  );
 </script>
 
 <svelte:head><title>Stories — WuWa DB</title></svelte:head>
-<h1>Stories</h1>
 
-<div class="toolbar">
-  <input placeholder="Search name..." bind:value={q} />
-</div>
-<p class="count">{items.length} stories</p>
-
-<div class="list">
-  {#each items as s}
+<PageGrid title="Stories" items={data.items} countLabel="stories">
+  {#snippet children(s)}
     <a href={'/stories/' + s.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')} class="row card-link">
       <div class="name">{s.name}</div>
       <div class="desc">{s.description ?? ''}</div>
     </a>
-  {/each}
-</div>
+  {/snippet}
+</PageGrid>
+
+<style>
+  .row {
+    grid-column: 1 / -1; /* Agar list memanjang penuh, bukan kotak-kotak */
+    display: flex;
+    flex-direction: column;
+    padding: var(--sp-3);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--bg-elev);
+    text-decoration: none;
+    color: var(--text);
+  }
+  .row:hover {
+    background: var(--bg-hover);
+  }
+  .row .name {
+    font-weight: var(--fw-medium);
+    font-size: var(--fs-md);
+  }
+  .row .desc {
+    font-size: var(--fs-sm);
+    color: var(--text-muted);
+    margin-top: var(--sp-1);
+  }
+</style>
