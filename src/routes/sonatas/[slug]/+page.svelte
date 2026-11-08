@@ -4,8 +4,8 @@
   import DataCard from '#lib/components/DataCard.svelte';
 
   let { data }: PageProps = $props();
-  const item = data.item;
-  const echoes = data.associatedEchoes || [];
+  const item = $derived(data.item);
+  const echoes = $derived(data.associatedEchoes || []);
 </script>
 
 <svelte:head><title>{item.name} — WuWa DB</title></svelte:head>

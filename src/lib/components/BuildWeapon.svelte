@@ -137,5 +137,4 @@
   .rank-text { font-size: var(--fs-xs); color: var(--text-muted); margin-left: 4px; }
 
 
-  .note-text { font-size: var(--fs-xs); color: var(--text-muted); margin: 0; white-space: pre-line; font-style: italic; }
 </style>

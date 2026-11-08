@@ -89,15 +89,8 @@
     border-collapse: collapse;
     font-size: var(--fs-sm);
   }
-  .main-stats-table th, .main-stats-table td {
-    padding: 4px var(--sp-2);
-    border-bottom: 1px solid var(--border);
-    text-align: left;
-    white-space: nowrap;
-  }
   .main-stats-table tr:last-child td { border-bottom: none; }
   .main-stats-table .cost { font-family: var(--font-mono); width: 1%; white-space: nowrap; color: var(--text-muted); }
   .main-stats-table .stat { font-weight: var(--fw-medium); width: 99%; }
 
-  .note-text { font-size: var(--fs-xs); color: var(--text-muted); margin-top: var(--sp-3); white-space: pre-line; font-style: italic; }
 </style>

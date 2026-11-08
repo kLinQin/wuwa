@@ -3,8 +3,8 @@
   import DataSection from '#lib/components/DataSection.svelte';
 
   let { data }: PageProps = $props();
-  const item = data.item;
-  const sonatasMap = data.sonatasMap || {};
+  const item = $derived(data.item);
+  const sonatasMap = $derived(data.sonatasMap || {});
 
   const elementNames: Record<number, string> = {
     1: 'Glacio', 2: 'Fusion', 3: 'Electro', 4: 'Aero', 5: 'Spectro', 6: 'Havoc'

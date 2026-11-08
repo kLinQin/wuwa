@@ -4,7 +4,7 @@
   import DetailHeader from '#lib/components/DetailHeader.svelte';
 
   let { data }: PageProps = $props();
-  const item = data.item;
+  const item = $derived(data.item);
 
   const weaponTypes: Record<number, string> = {
     1: 'Broadblade', 2: 'Sword', 3: 'Pistol', 4: 'Gauntlet', 5: 'Rectifier'

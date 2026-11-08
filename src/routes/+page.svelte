@@ -132,7 +132,7 @@
     padding-bottom: var(--sp-2);
     scrollbar-width: none; /* Sembunyikan scrollbar (opsional) */
   }
-  .featured-grid::-webkit-scrollbar::-webkit-scrollbar,
+  .featured-grid::-webkit-scrollbar,
   .stats::-webkit-scrollbar,
   .menu-grid::-webkit-scrollbar {
     display: none;

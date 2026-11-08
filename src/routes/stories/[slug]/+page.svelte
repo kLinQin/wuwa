@@ -3,8 +3,8 @@
   import DataSection from '#lib/components/DataSection.svelte';
 
   let { data }: PageProps = $props();
-  const item = data.item;
-  const lore = item.lore || {};
+  const item = $derived(data.item);
+  const lore = $derived(item.lore || {});
 </script>
 
 <svelte:head><title>{item.name} — WuWa DB</title></svelte:head>
