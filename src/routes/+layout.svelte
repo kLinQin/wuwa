@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Icons from '#lib/components/Icons.svelte';
   import '../app.css';
   import favicon from '#lib/assets/favicon.svg';
   import ThemeToggle from '#lib/components/ThemeToggle.svelte';
@@ -35,6 +36,7 @@
 </script>
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
+<Icons />
 <svelte:window onscroll={handle_scroll} />
 
 <nav class:visible class:open>
@@ -56,7 +58,9 @@
     <FontToggle />
     <ThemeToggle />
     <button class="raised icon mobile-only" aria-label="Menu" aria-pressed={open} onclick={() => (open = !open)}>
-      <span class="icon-mask" style:mask-image={open ? 'url(/icons/close.svg)' : 'url(/icons/menu.svg)'} style:-webkit-mask-image={open ? 'url(/icons/close.svg)' : 'url(/icons/menu.svg)'}></span>
+      <svg width="24" height="24" fill="currentColor" style="display: block;">
+        <use href={open ? '#close' : '#menu'} />
+      </svg>
     </button>
   </div>
   </div>

@@ -9,9 +9,10 @@
   aria-pressed={theme.value === 'dark'}
   aria-label="Toggle theme"
 >
-  <span
-    class="icon-mask"
-    style:mask-image={theme.value === 'dark' ? 'url(/icons/theme-dark.svg)' : 'url(/icons/theme-light.svg)'}
-    style:-webkit-mask-image={theme.value === 'dark' ? 'url(/icons/theme-dark.svg)' : 'url(/icons/theme-light.svg)'}
-  ></span>
+  <svg width="24" height="24" fill="currentColor">
+    <use href={theme.value === 'dark' ? '#theme-dark' : '#theme-light'} />
+  </svg>
 </button>
+<style>
+  button { display: flex; align-items: center; justify-content: center; }
+</style>

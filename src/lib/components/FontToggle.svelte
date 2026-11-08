@@ -9,9 +9,10 @@
   aria-pressed={fontMode.value === 'boring'}
   aria-label="Toggle font"
 >
-  <span
-    class="icon-mask"
-    style:mask-image={fontMode.value === 'boring' ? 'url(/icons/font-boring.svg)' : 'url(/icons/font-elegant.svg)'}
-    style:-webkit-mask-image={fontMode.value === 'boring' ? 'url(/icons/font-boring.svg)' : 'url(/icons/font-elegant.svg)'}
-  ></span>
+  <svg width="24" height="24" fill="currentColor">
+    <use href={fontMode.value === 'boring' ? '#font-boring' : '#font-elegant'} />
+  </svg>
 </button>
+<style>
+  button { display: flex; align-items: center; justify-content: center; }
+</style>

@@ -2,7 +2,6 @@
   import type { PageProps } from './$types';
   import PageGrid from '#lib/components/PageGrid.svelte';
   import ReaderMode from '#lib/components/ReaderMode.svelte';
-  import Icons from '#lib/components/Icons.svelte';
 
   let { data }: PageProps = $props();
   let tab = $state<'quests'|'glossary'>('quests');
@@ -12,7 +11,6 @@
   const currentLabel = $derived(tab === 'quests' ? 'quests' : 'terms');
 </script>
 
-<Icons />
 <svelte:head><title>Quests — WuWa DB</title></svelte:head>
 
 <PageGrid

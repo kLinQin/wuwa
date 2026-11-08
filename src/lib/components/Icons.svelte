@@ -1,8 +1,35 @@
 <div style="display: none">
   <svg xmlns="http://www.w3.org/2000/svg">
-    <symbol id="arrow-left" viewBox="0 0 24 24">
-      <line x1="19" y1="12" x2="5" y2="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-      <polyline points="12 19 5 12 12 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <symbol id="arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12" />
+      <polyline points="12 19 5 12 12 5" />
+    </symbol>
+
+    <symbol id="close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="6" y1="6" x2="18" y2="18" />
+      <line x1="6" y1="18" x2="18" y2="6" />
+    </symbol>
+
+    <symbol id="menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="3" y1="6" x2="21" y2="6" />
+      <line x1="3" y1="12" x2="21" y2="12" />
+      <line x1="3" y1="18" x2="21" y2="18" />
+    </symbol>
+
+    <symbol id="font-boring" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M10.6 3h2.8l6.7 18h-2.7L16 17.1H7.9L6.5 21H3.8l6.8-18ZM8.7 14.9h6.6L12 5.6l-3.3 9.3Z" />
+    </symbol>
+
+    <symbol id="font-elegant" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M3.7 21h-.5c-.1 0-.2-.1-.2-.2s0-.2.2-.3c.1 0 .4-.2.6-.3.5-.1.9-.3 1.3-.6s.7-.7 1-1.4c.5-1.1.9-2.2 1.3-3.1.4-1 .8-1.9 1.2-2.9.4-.9.7-1.9 1.1-2.9.4-1 .8-2.1 1.2-3.3 0-.2.2-.5.2-.7 0-.2.1-.5.1-.8.2 0 .3-.1.5-.2.2 0 .3-.1.5-.2s.3-.3.3-.5.1-.3.2-.4v.6c.4 1.3.9 2.7 1.3 4 .5 1.4.9 2.7 1.3 4 .4 1.3.8 2.4 1.2 3.4.4 1 .6 1.8.8 2.5.2.7.5 1.2.8 1.6.3.3.6.6.9.7.3.1.6.2 1 .3.3 0 .5.1.7.2.1.1.2.2.2.4s0 .2-.2.2H13.3c-.1 0-.2-.1-.2-.2s0-.2.3-.3c.2 0 .4-.1.6-.2.6 0 1-.2 1.2-.4.2-.2.4-.5.4-.7s0-.6-.2-1.1c-.1-.5-.2-1-.4-1.6-.2-.6-.3-1.1-.4-1.5 0-.1-.1-.2-.2-.2H8.8c-.1 0-.2.2-.2.4s-.1.4-.3.8c-.1.4-.2.8-.4 1.2s-.2.8-.3 1.1c0 .3-.1.5-.1.6 0 .4.1.7.4 1 .3.3.7.4 1.1.5.6.2.9.3.9.5s0 .2-.2.2H3.6Zm6-7.5h4c.2 0 .4 0 .4-.1v-.2l-2-6.4c-.1-.3-.2-.5-.2-.5s-.1.1-.2.4l-2.4 6.4v.2s0 .1.1.2h.4Z" />
+    </symbol>
+
+    <symbol id="theme-dark" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 21q-3.775 0-6.388-2.613T3 12q0-3.45 2.25-5.988T11 3.05q.625-.075.975.45t-.025 1.1q-.425.65-.638 1.375T11.1 7.5q0 2.25 1.575 3.825T16.5 12.9q.775 0 1.538-.225t1.362-.625q.525-.35 1.075-.037t.475.987q-.35 3.45-2.937 5.725T12 21Zm0-2q2.2 0 3.95-1.213t2.55-3.162q-.5.125-1 .2t-1 .075q-3.075 0-5.238-2.163T9.1 7.5q0-.5.075-1t.2-1q-1.95.8-3.163 2.55T5 12q0 2.9 2.05 4.95T12 19Zm-.25-6.75Z" />
+    </symbol>
+
+    <symbol id="theme-light" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 19a1 1 0 0 1 .993.883L13 20v1a1 1 0 0 1-1.993.117L11 21v-1a1 1 0 0 1 1-1zm6.313-2.09.094.083.7.7a1 1 0 0 1-1.32 1.497l-.094-.083-.7-.7a1 1 0 0 1 1.218-1.567l.102.07zm-11.306.083a1 1 0 0 1 .083 1.32l-.083.094-.7.7a1 1 0 0 1-1.497-1.32l.083-.094.7-.7a1 1 0 0 1 1.414 0zM4 11a1 1 0 0 1 .117 1.993L4 13H3a1 1 0 0 1-.117-1.993L3 11h1zm17 0a1 1 0 0 1 .117 1.993L21 13h-1a1 1 0 0 1-.117-1.993L20 11h1zM6.213 4.81l.094.083.7.7a1 1 0 0 1-1.32 1.497l-.094-.083-.7-.7A1 1 0 0 1 6.11 4.74l.102.07zm12.894.083a1 1 0 0 1 .083 1.32l-.083.094-.7.7a1 1 0 0 1-1.497-1.32l.083-.094.7-.7a1 1 0 0 1 1.414 0zM12 2a1 1 0 0 1 .993.883L13 3v1a1 1 0 0 1-1.993.117L11 4V3a1 1 0 0 1 1-1zm0 5a5 5 0 1 1-4.995 5.217L7 12l.005-.217A5 5 0 0 1 12 7z" />
     </symbol>
   </svg>
 </div>
