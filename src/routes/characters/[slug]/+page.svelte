@@ -1,57 +1,45 @@
 <script lang="ts">
   import type { PageProps } from './$types';
-  import DataSection from '#lib/components/DataSection.svelte';
-  import SkillList from '#lib/components/SkillList.svelte';
-  import MaterialList from '#lib/components/MaterialList.svelte';
-  import BuildView from '#lib/components/BuildView.svelte';
-  import SequenceList from '#lib/components/SequenceList.svelte';
-  import TeamList from '#lib/components/TeamList.svelte';
-  import ChartView from '#lib/components/ChartView.svelte';
-  import Tabs from '#lib/components/Tabs.svelte';
-  import BottomSheet from '#lib/components/BottomSheet.svelte';
-  import DetailHeader from '#lib/components/DetailHeader.svelte';
+  import DataSection from '../../../lib/components/DataSection.svelte';
+  import SkillList from '../../../lib/components/SkillList.svelte';
+  import SequenceList from '../../../lib/components/SequenceList.svelte';
+  import Tabs from '../../../lib/components/Tabs.svelte';
+  import DetailHeader from '../../../lib/components/DetailHeader.svelte';
+  import MaterialList from '../../../lib/components/MaterialList.svelte';
 
   let props: PageProps = $props();
   const item = $derived(props.data.item);
-  const materialsMap = $derived(props.data.materialsMap || {});
-  const echoesIndex = $derived(props.data.echoesIndex || []);
-  const sonatasList = $derived(props.data.sonatasList || []);
-  const weaponsList = $derived(props.data.weaponsIndex || []);
-  const teamsMap = $derived(props.data.teamsMap || {});
-  const rolesMap = $derived(props.data.rolesMap || {});
   const sonatasMap = $derived(props.data.sonatasMap || {});
   let activeTab = $state('overview');
   let kitTab = $state('skills');
-  let isTeamNoteOpen = $state(false);
-  let currentTeamNote = $state('');
+  let loreTab = $state('stories');
+  let charLevel = $state(90);
+  const levelStats = $derived(item.levelStats || {});
+  const statNames = $derived(Object.keys((levelStats[1] as any) || {}));
+  const currentStats = $derived((levelStats as any)[charLevel] || {});
 
   const tabList = [
     { id: 'overview', label: 'Overview' },
     { id: 'kit', label: 'Kit & Sequences' },
-    { id: 'teams', label: 'Teams & Stats' },
-    { id: 'lore', label: 'Changelog' }
+    { id: 'lore', label: 'Lore' }
   ];
 
-  const elementNames: Record<number, string> = {
-    1: 'Glacio', 2: 'Fusion', 3: 'Electro', 4: 'Aero', 5: 'Spectro', 6: 'Havoc'
-  };
-  const weaponNames: Record<number, string> = {
-    1: 'Broadblade', 2: 'Sword', 3: 'Pistol', 4: 'Gauntlet', 5: 'Rectifier'
-  };
-
+  const elementNames: Record<number, string> = { 1: 'Glacio', 2: 'Fusion', 3: 'Electro', 4: 'Aero', 5: 'Spectro', 6: 'Havoc' };
+  const weaponNames: Record<number, string> = { 1: 'Broadblade', 2: 'Sword', 3: 'Pistol', 4: 'Gauntlet', 5: 'Rectifier' };
   const elName = $derived(elementNames[item.element as number] ?? '');
   const wpName = $derived(weaponNames[item.weapon as number] ?? '');
+  const sonataLabels = $derived((item.sonatas || []).map((id: any) => sonatasMap[id]?.name || ('Sonata ' + id)));
 
-  const resolvedTeams = $derived(
-    item.build?.teams?.map((tSlug: string) => teamsMap[tSlug]).filter(Boolean) || []
-  );
+  const loreTabs = [
+    { id: 'stories', label: 'Stories' },
+    { id: 'words', label: 'Voice Lines' },
+    { id: 'goods', label: 'Items' }
+  ];
 
-  const roleLabels = $derived(
-    (item.roles || []).map(id => rolesMap[id]?.name || ('Role ' + id))
-  );
-
-  const sonataLabels = $derived(
-    (item.sonatas || []).map(id => sonatasMap[id]?.name || ('Sonata ' + id))
+  const loreItems = $derived(
+    loreTab === 'stories' ? (item.stories || [])
+    : loreTab === 'words' ? (item.words || [])
+    : (item.goods || [])
   );
 </script>
 
@@ -64,32 +52,80 @@
 
   <DetailHeader
     title={item.name}
+    roleDetails={item.roles || []}
     image={item.icon || item.image}
     badges={[
       ...(elName ? [{ label: elName, prefix: 'Element' }] : []),
       ...(wpName ? [{ label: wpName, prefix: 'Weapon' }] : []),
       { label: '★'.repeat(item.rarity), type: 'star' },
-      ...(item.class ? [{ label: item.class, prefix: 'Class' }] : []),
-      ...(item.faction ? [{ label: item.faction, prefix: 'Faction' }] : []),
-      ...(item.version ? [{ label: 'v' + item.version, prefix: 'Version' }] : []),
-      ...sonataLabels.map((sonata: string) => ({ label: sonata, type: 'muted', prefix: 'Sonata' })),
-      ...roleLabels.map((role: string) => ({ label: role, type: 'muted', prefix: 'Role' }))
+      ...(item.favor?.birthday ? [{ label: item.favor.birthday, prefix: 'Birthday' }] : []),
+      ...(item.favor?.sex ? [{ label: item.favor.sex, prefix: 'Sex' }] : []),
+      ...(item.favor?.country ? [{ label: item.favor.country, prefix: 'Country' }] : []),
+      ...(item.favor?.influence ? [{ label: item.favor.influence, prefix: 'Influence' }] : []),
+      ...(item.favor?.cvEn ? [{ label: item.favor.cvEn, prefix: 'CV EN' }] : []),
+      ...(item.favor?.cvJp ? [{ label: item.favor.cvJp, prefix: 'CV JP' }] : []),
     ]}
   />
 
   <Tabs tabs={tabList} activeTab={activeTab} onchange={(id) => activeTab = id} />
 
   {#if activeTab === 'overview'}
-    {#if item.recommendedStats || item.build}
-      <DataSection title="Build Guide">
-        <BuildView stats={item.recommendedStats} build={item.build} echoes={echoesIndex} sonatas={sonatasList} weapons={weaponsList} />
+    {#if item.intro}
+      <DataSection title="Introduction">
+        <p class="desc">{item.intro}</p>
       </DataSection>
     {/if}
+
+    {#if item.stats && item.stats.length}
+      <DataSection title="Base Stats">
+        <table class="stats-table">
+          <thead><tr><th>Stat</th><th>Lv.1</th><th>Lv.90</th></tr></thead>
+          <tbody>
+            {#each item.stats as s}
+              <tr><td>{s.name}</td><td>{s.base}</td><td>{s.lv90}</td></tr>
+            {/each}
+          </tbody>
+        </table>
+      </DataSection>
+    {/if}
+
+    {#if item.mechanics}
+      <DataSection title="Basic Mechanics">
+        <div class="mech">
+          <div class="mech-left">
+            {#if item.mechanics.icon}
+              <img src={item.mechanics.icon} alt="Forte" class="mech-icon" />
+            {/if}
+          </div>
+          <div class="mech-right">
+            {#if item.mechanics.descriptions.length}
+              <ul class="mech-list">
+                {#each item.mechanics.descriptions as d}
+                  <li>{d}</li>
+                {/each}
+              </ul>
+            {/if}
+            {#if item.mechanics.inputs.length}
+              <div class="mech-inputs">
+                <span class="mech-label">Input Details</span>
+                <ul class="mech-list">
+                  {#each item.mechanics.inputs as i}
+                    <li>{@html i.html}</li>
+                  {/each}
+                </ul>
+              </div>
+            {/if}
+          </div>
+        </div>
+      </DataSection>
+    {/if}
+
     {#if item.materials}
-      <DataSection title="Ascension Materials">
-        <MaterialList materials={item.materials} map={materialsMap} />
+      <DataSection title="Ascension & Skill Materials">
+        <MaterialList materials={item.materials} map={item.itemMap} />
       </DataSection>
     {/if}
+
   {/if}
 
   {#if activeTab === 'kit'}
@@ -99,12 +135,10 @@
         activeTab={kitTab}
         onchange={(id) => kitTab = id}
       />
-
       <div class="kit-content">
         {#if kitTab === 'skills' && item.skills}
           <SkillList skills={item.skills} charSlug={item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')} />
         {/if}
-
         {#if kitTab === 'sequences' && item.sequences}
           <SequenceList sequences={item.sequences} charSlug={item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')} />
         {/if}
@@ -112,87 +146,54 @@
     </DataSection>
   {/if}
 
-  {#if activeTab === 'teams'}
-    {#if resolvedTeams.length > 0}
-      <DataSection title="Recommended Teams">
-        <TeamList teams={resolvedTeams} teamNote={item.build?.teamNote} onnote={(note) => { currentTeamNote = note; isTeamNoteOpen = true; }} />
-      </DataSection>
-    {/if}
-    {#if item.analysisCharts}
-      <DataSection title="Analysis & Stats">
-        <ChartView charts={item.analysisCharts} />
-      </DataSection>
-    {/if}
-  {/if}
-
   {#if activeTab === 'lore'}
-    {#if item.changelog && item.changelog.length > 0}
-      <DataSection title="Changelog">
-        <ul class="changelog-list">
-          {#each item.changelog as log}
-            <li>
-              <span class="log-date">{log.time}</span>
-              <span class="log-type badge small">{log.type}</span>
-              <span class="log-text">{log.text}</span>
-            </li>
+    <DataSection title="Lore">
+      <Tabs tabs={loreTabs} activeTab={loreTab} onchange={(id) => loreTab = id} />
+      <div class="lore-content">
+        {#if loreItems.length === 0}
+          <p class="desc">No entries.</p>
+        {:else}
+          {#each loreItems as entry}
+            <details class="lore-entry">
+              <summary>{entry.title || '(untitled)'}</summary>
+              <div class="lore-body">{entry.content}</div>
+            </details>
           {/each}
-        </ul>
-      </DataSection>
-    {/if}
+        {/if}
+      </div>
+    </DataSection>
   {/if}
 </div>
 
-<BottomSheet bind:open={isTeamNoteOpen} title="Team Note">
-  <p style="white-space: pre-line; line-height: 1.6;">{currentTeamNote}</p>
-</BottomSheet>
-
 <style>
-  .detail-page {
-    position: relative;
-    width: 100%;
-    padding: var(--content-pad);
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-5);
-  }
+  .detail-page { position: relative; width: 100%; padding: var(--content-pad); display: flex; flex-direction: column; gap: var(--sp-5); }
+  .banner-bg { position: absolute; top: 0; left: 0; right: 0; height: 200px; background-size: cover; background-position: center; opacity: 0.3; z-index: -1; mask-image: linear-gradient(to bottom, black 0%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%); }
+  .desc { line-height: 1.6; color: var(--text-body); }
+  .kit-content { min-height: 400px; }
 
-  .banner-bg {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 200px;
-    background-size: cover;
-    background-position: center;
-    opacity: 0.3;
-    z-index: -1;
-    mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
-  }
+  .stats-table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); font-family: var(--font-mono); }
+  .stats-table th, .stats-table td { text-align: left; padding: var(--sp-2); border-bottom: 1px solid var(--border); }
+  .stats-table th { color: var(--text-secondary); font-weight: var(--fw-medium); }
+  .stats-table tr:last-child td { border-bottom: none; }
 
-  
+  .kv { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--sp-1); font-size: var(--fs-sm); color: var(--text-body); }
+  .kv strong { color: var(--text-secondary); font-weight: var(--fw-medium); margin-right: var(--sp-2); }
 
-  .changelog-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-2);
-    font-size: var(--fs-sm);
-  }
-  .changelog-list li {
-    display: flex;
-    align-items: baseline;
-    gap: var(--sp-2);
-  }
-  .log-date {
-    font-family: var(--font-mono);
-    color: var(--text-secondary);
-    white-space: nowrap;
-  }
-  .log-text {
-    color: var(--text-body);
-  }
-  .kit-content {
-    min-height: 400px; /* Cukup tinggi agar tab tidak melompat saat ganti konten */
-  }
+  .slider-row { display: flex; align-items: center; gap: var(--sp-3); margin-bottom: var(--sp-3); }
+  .slider-row input[type=range] { flex: 1; }
+  .lvl-badge { font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--accent); min-width: 60px; text-align: right; }
+
+  .mech { display: grid; grid-template-columns: 240px 1fr; gap: var(--sp-3); align-items: start; }
+  .mech-left { display: flex; justify-content: center; }
+  .mech-right { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; }
+  .mech-icon { width: 240px; height: 240px; object-fit: contain; }
+  .mech-list { margin: 0; padding-left: var(--sp-4); display: flex; flex-direction: column; gap: var(--sp-2); font-size: var(--fs-sm); line-height: 1.5; color: var(--text-body); }
+  .mech-inputs { display: flex; flex-direction: column; gap: var(--sp-2); }
+  .mech-label { font-size: var(--fs-sm); color: var(--text-secondary); font-weight: var(--fw-medium); }
+  .mech-list :global(img) { display: inline-block; vertical-align: middle; height: 20px; }
+
+  .lore-content { display: flex; flex-direction: column; gap: var(--sp-2); margin-top: var(--sp-3); }
+  .lore-entry { background: var(--bg-hover); padding: var(--sp-2) var(--sp-3); border-radius: var(--radius); }
+  .lore-entry summary { cursor: pointer; color: var(--accent); font-size: var(--fs-sm); font-weight: var(--fw-medium); }
+  .lore-body { margin-top: var(--sp-2); white-space: pre-line; line-height: 1.6; font-size: var(--fs-sm); color: var(--text-body); }
 </style>

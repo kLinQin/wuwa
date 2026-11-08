@@ -1,32 +1,12 @@
 import type { PageServerLoad } from './$types';
-import { env } from '$env/dynamic/private';
-
-const LOCAL = env.LOCAL_DATA_DIR || 'C:/Users/eggs/wuwa-data';
-const REMOTE = 'https://raw.githubusercontent.com/kLinQin/wuwa-data/main';
-const isDev = process.env.NODE_ENV !== 'production';
-
-async function loadJSON(file: string, fetchFn: typeof fetch) {
-  if (isDev) {
-    try {
-      const fs = await import('node:fs/promises');
-      const path = await import('node:path');
-      const raw = await fs.readFile(path.join(LOCAL, file), 'utf-8');
-      return JSON.parse(raw);
-    } catch (e: any) {
-      if (e?.code !== 'ENOENT') throw e;
-    }
-  }
-  const res = await fetchFn(`${REMOTE}/${file}`);
-  if (!res.ok) throw new Error('Failed to load ' + file);
-  return await res.json();
-}
+import { loadWuwaJSON } from '../../lib/server/wuwa';
+import { listEchoes, listSonatas } from '../../lib/server/adapters';
 
 export const load: PageServerLoad = async ({ fetch }) => {
-  const items = await loadJSON('echoes/index.json', fetch);
-  const [elements, weaponsConst, sonatasConst] = await Promise.all([
-    loadJSON('constants/elements.json', fetch),
-    loadJSON('constants/weapons.json', fetch),
-    loadJSON('sonatas/sonatas.json', fetch)
+  const [items, sonatasList, elements] = await Promise.all([
+    listEchoes(),
+    listSonatas(),
+    loadWuwaJSON('constants/elements.json', fetch)
   ]);
-  return { elements, weaponsConst, sonatasConst, items };
+  return { items, sonatasList, elements };
 };

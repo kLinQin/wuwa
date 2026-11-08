@@ -37,7 +37,8 @@
         </tr>
       </thead>
       <tbody>
-        {#each Object.entries(item.stats) as [lvl, vals]}
+        {#each Object.entries(item.stats) as [lvl, valsRaw]}
+        {@const vals = valsRaw as [number, number]}
           <tr>
             <td>{lvl}</td>
             <td>{vals[0]}</td>

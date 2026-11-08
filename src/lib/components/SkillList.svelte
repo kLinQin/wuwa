@@ -1,51 +1,34 @@
 <script lang="ts">
+  import SkillCard from './SkillCard.svelte';
+
   let { skills, charSlug }: { skills: any; charSlug: string } = $props();
 
-  const orderedKeys = [
-    'basic', 'skill', 'liberation', 'forte', 'intro', 'outro'
-  ];
-
+  const orderedKeys = ['basic', 'skill', 'liberation', 'forte', 'intro', 'outro'];
   const labels: Record<string, string> = {
-    basic: 'Basic Attack',
-    skill: 'Resonance Skill',
-    liberation: 'Resonance Liberation',
-    forte: 'Forte Circuit',
-    intro: 'Intro Skill',
-    outro: 'Outro Skill'
+    basic: 'Basic Attack', skill: 'Resonance Skill', liberation: 'Resonance Liberation',
+    forte: 'Forte Circuit', intro: 'Intro Skill', outro: 'Outro Skill'
   };
-
   const iconSuffix: Record<string, string> = {
-    basic: 'na',
-    skill: 'rs',
-    liberation: 'rl',
-    forte: 'fc',
-    intro: 'intro',
-    outro: 'outro'
+    basic: 'na', skill: 'rs', liberation: 'rl', forte: 'fc', intro: 'intro', outro: 'outro'
   };
-
   function getIconUrl(key: string) {
     return `/icons/skills/${charSlug}/${charSlug}-${iconSuffix[key]}.webp`;
   }
-
   function getInherentIconUrl(idx: number) {
     return `/icons/skills/${charSlug}/${charSlug}-in${idx + 1}.webp`;
   }
+
+  const levels: Record<string, number> = $state({});
+  function getLevel(key: string) { return levels[key] ?? 10; }
+  function setLevel(key: string, v: number) { levels[key] = v; }
 </script>
 
 <div class="skill-list">
   <div class="grid-2">
-    <!-- Standard Skills -->
     {#each orderedKeys as key}
       {#if skills[key]}
-        <div class="skill-card raised">
-          <div class="skill-header">
-            <img src={getIconUrl(key)} alt={labels[key]} class="skill-icon" onerror={(e) => e.currentTarget.style.display='none'} />
-            <div class="skill-title">
-              <span class="skill-type">{labels[key]}</span>
-              <span class="skill-name">{skills[key].name || ''}</span>
-            </div>
-          </div>
-
+        {@const lv = getLevel(key)}
+        <SkillCard icon={getIconUrl(key)} typeLabel={labels[key]} name={skills[key].name || ''}>
           {#if skills[key].description}
             <p class="desc">{skills[key].description}</p>
           {/if}
@@ -59,22 +42,31 @@
               {/each}
             </ul>
           {/if}
-        </div>
+
+          {#if skills[key].attributes && skills[key].attributes.length}
+            <div class="multiplier">
+              <div class="mult-head">
+                <span class="mult-label">Skill Level</span>
+                <span class="mult-badge">Lv. {lv}</span>
+              </div>
+              <input type="range" min="1" max="10" value={lv} oninput={(e) => setLevel(key, +e.currentTarget.value)} />
+              <table class="mult-table">
+                <thead><tr><th>Attribute</th><th>Value</th></tr></thead>
+                <tbody>
+                  {#each skills[key].attributes as att}
+                    <tr><td>{att.name}</td><td>{att.values[lv - 1] ?? ''}</td></tr>
+                  {/each}
+                </tbody>
+              </table>
+            </div>
+          {/if}
+        </SkillCard>
       {/if}
     {/each}
 
-    <!-- Inherent Skills -->
     {#if skills.inherent && Array.isArray(skills.inherent)}
       {#each skills.inherent as inh, idx}
-        <div class="skill-card raised">
-          <div class="skill-header">
-            <img src={getInherentIconUrl(idx)} alt="Inherent" class="skill-icon" onerror={(e) => e.currentTarget.style.display='none'} />
-            <div class="skill-title">
-              <span class="skill-type">Inherent Skill {idx + 1}</span>
-              <span class="skill-name">{inh.name || ''}</span>
-            </div>
-          </div>
-
+        <SkillCard icon={getInherentIconUrl(idx)} typeLabel={`Inherent ${idx + 1}`} name={inh.name || ''}>
           {#if inh.effects}
             <ul class="effects">
               {#each inh.effects as eff}
@@ -85,93 +77,25 @@
               {/each}
             </ul>
           {/if}
-        </div>
+        </SkillCard>
       {/each}
     {/if}
   </div>
 </div>
 
 <style>
-  .skill-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-4);
-  }
-
-
-  .skill-card {
-    padding: var(--sp-3);
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-2);
-    justify-content: flex-start;
-    height: 100%;
-  }
-
-  .skill-header {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-2);
-    border-bottom: 1px solid var(--border);
-    padding-bottom: var(--sp-2);
-    flex-shrink: 0;
-  }
-
-  .skill-icon {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
-    background: var(--bg-elev);
-    border-radius: var(--radius);
-    padding: 2px;
-    border: 1px solid var(--border);
-  }
-
-  .skill-title {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .skill-type {
-    font-size: var(--fs-xs);
-    color: var(--text-secondary);
-    text-transform: uppercase;
-  }
-
-  .skill-name {
-    font-size: var(--fs-md);
-    font-weight: var(--fw-medium);
-    color: var(--accent);
-  }
-
-  .desc {
-    margin: 0;
-    font-style: italic;
-    color: var(--text-secondary);
-    font-size: var(--fs-sm);
-  }
-
-  .effects {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-2);
-  }
-
-  .effects li {
-    background: var(--bg-hover);
-    padding: var(--sp-2);
-    border-radius: var(--radius);
-    font-size: var(--fs-sm);
-    line-height: 1.5;
-  }
-
-  .effects strong {
-    display: block;
-    margin-bottom: 2px;
-    color: var(--text-body);
-    font-weight: var(--fw-bold);
-  }
+  .skill-list { display: flex; flex-direction: column; gap: var(--sp-4); }
+  .desc { margin: 0; font-style: italic; color: var(--text-secondary); font-size: var(--fs-sm); }
+  .effects { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--sp-2); }
+  .effects li { background: var(--bg-hover); padding: var(--sp-2); border-radius: var(--radius); font-size: var(--fs-sm); line-height: 1.5; }
+  .effects strong { display: block; margin-bottom: 2px; color: var(--text-body); font-weight: var(--fw-bold); }
+  .multiplier { display: flex; flex-direction: column; gap: var(--sp-2); margin-top: var(--sp-2); }
+  .mult-head { display: flex; justify-content: space-between; align-items: center; }
+  .mult-label { font-size: var(--fs-xs); color: var(--text-secondary); text-transform: uppercase; }
+  .mult-badge { font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--accent); }
+  .multiplier input[type=range] { width: 100%; }
+  .mult-table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); font-family: var(--font-mono); }
+  .mult-table th, .mult-table td { text-align: left; padding: 4px var(--sp-2); border-bottom: 1px solid var(--border); }
+  .mult-table th { color: var(--text-secondary); font-weight: var(--fw-medium); }
+  .mult-table tr:last-child td { border-bottom: none; }
 </style>

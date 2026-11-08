@@ -1,18 +1,22 @@
 <script lang="ts">
-  let { title, image, badges = [], color }: {
+  import BottomSheet from './BottomSheet.svelte';
+  let { title, image, badges = [], roleDetails = [], color }: {
     title: string;
     image: string;
     badges?: { label: string; type?: 'accent' | 'star' | 'muted'; prefix?: string }[];
+    roleDetails?: { name: string; desc: string; icon: string; color: string }[];
     meta?: string;
     color?: string;
   } = $props();
 
   let isExpanded = $state(false);
+  let sheetOpen = $state(false);
 </script>
 
 <header class="detail-header" style="--sonata-color: {color || 'var(--border)'}">
   <div class="title-row" style="display: flex; justify-content: space-between; align-items: baseline;">
     <h1 class="title">{title}</h1>
+    <button class="raised" type="button" onclick={() => sheetOpen = true} aria-label="Details">Details</button>
     {#if badges.some(b => b.prefix === 'Version')}
       {@const ver = badges.find(b => b.prefix === 'Version')}
       <span class="badge version-badge">{ver?.label}</span>
@@ -35,7 +39,7 @@
     <div class="header-info">
       {#if badges.length > 0}
         <div class="tags-top">
-          {#each badges.filter(b => b.type !== 'star' && b.prefix !== 'Role' && b.prefix !== 'Sonata' && b.prefix !== 'Version') as b}
+          {#each badges.filter(b => b.type !== 'star' && !['Role','Sonata','Version','Sex','Influence','CV EN','CV JP','CV CN','CV KO'].includes(b.prefix || '')) as b}
             <div class="row-group">
               {#if b.prefix}<span class="badge-prefix">{b.prefix}</span>{/if}
               <span class="badge" class:accent={b.type === 'accent'} class:muted={b.type === 'muted'}>{b.label}</span>
@@ -46,43 +50,42 @@
     </div>
   </div>
 
-  {#if badges.some(b => b.prefix === 'Role' || b.prefix === 'Sonata')}
-    <div class="accordion-wrapper">
-      <button class="accordion-toggle" onclick={() => isExpanded = !isExpanded}>
-        <span>Sonata & Role</span>
-        <span class="chevron" class:open={isExpanded}>▼</span>
-      </button>
+</header>
 
-      {#if isExpanded}
-        <div class="bottom-tags">
-          {#if badges.some(b => b.prefix === 'Sonata')}
-            {@const sonatas = badges.filter(b => b.prefix === 'Sonata')}
-            <div class="row-group">
-              <span class="badge-prefix">Sonata</span>
-              <div class="chips-wrapper">
-                {#each sonatas as b}
-                  <span class="badge muted">{b.label}</span>
-                {/each}
-              </div>
+{#if badges.some(b => ['Sex','Influence','CV EN','CV JP','CV CN','CV KO'].includes(b.prefix || '')) || roleDetails.length}
+  <BottomSheet bind:open={sheetOpen} title="Details">
+    <div class="bottom-tags">
+      {#each ['Sex','Influence','CV EN','CV JP','CV CN','CV KO'] as prefix}
+        {#if badges.some(b => b.prefix === prefix)}
+          <div class="row-group">
+            <span class="badge-prefix">{prefix}</span>
+            <div class="chips-wrapper">
+              {#each badges.filter(b => b.prefix === prefix) as b}
+                <span class="badge muted">{b.label}</span>
+              {/each}
             </div>
-          {/if}
+          </div>
+        {/if}
+      {/each}
 
-          {#if badges.some(b => b.prefix === 'Role')}
-            {@const roles = badges.filter(b => b.prefix === 'Role')}
-            <div class="row-group">
-              <span class="badge-prefix">Role</span>
-              <div class="chips-wrapper">
-                {#each roles as b}
-                  <span class="badge muted">{b.label}</span>
-                {/each}
+      {#if roleDetails.length}
+        <div class="row-group">
+          <span class="badge-prefix">Role</span>
+          <div class="role-list">
+            {#each roleDetails as r}
+              <div class="role-chip" title={r.desc}>
+                {#if r.icon}
+                  <img src={r.icon} alt={r.name} class="role-icon" />
+                {/if}
+                <span class="role-name" style:color={r.color || undefined}>{r.name}</span>
               </div>
-            </div>
-          {/if}
+            {/each}
+          </div>
         </div>
       {/if}
     </div>
-  {/if}
-</header>
+  </BottomSheet>
+{/if}
 
 <style>
   .detail-header {
@@ -230,6 +233,30 @@
   }
   .chips-wrapper::-webkit-scrollbar {
     display: none;
+  }
+
+  .role-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+  }
+  .role-chip {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-1);
+    background: var(--bg-hover);
+    padding: 4px 8px;
+    border-radius: var(--radius);
+    cursor: help;
+  }
+  .role-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+  }
+  .role-name {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
   }
 
   .version-badge {

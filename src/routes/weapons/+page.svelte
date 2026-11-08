@@ -16,7 +16,7 @@
 
 <PageGrid title="Weapons" items={filtered} countLabel="weapons">
   {#snippet filters()}
-    <InlineFilter label="Type" bind:value={wp} options={data.weaponsConst.map(w => ({ value: w.id, label: w.name }))} />
+    <InlineFilter label="Type" bind:value={wp} options={data.weaponsConst.map((w: any) => ({ value: w.id, label: w.name }))} />
     <InlineFilter label="Rarity" bind:value={rr} options={[{value: 5, label: '5 Star'}, {value: 4, label: '4 Star'}, {value: 3, label: '3 Star'}, {value: 2, label: '2 Star'}, {value: 1, label: '1 Star'}]} />
   {/snippet}
   {#snippet children(w)}

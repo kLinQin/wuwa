@@ -12,6 +12,7 @@
   const nav = [
     { href: '/', label: 'Home' },
     { href: '/characters', label: 'Characters' },
+    { href: '/builds', label: 'Builds' },
     { href: '/weapons', label: 'Weapons' },
     { href: '/echoes', label: 'Echoes' },
     { href: '/sonatas', label: 'Sonatas' },

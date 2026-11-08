@@ -33,6 +33,11 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
   let item = await loadJSON(`lores/${params.slug}.json`, fetch);
 
   if (!item) {
+    // Fallback: beberapa nama file lore tanpa hyphen (mis. aerorover.json)
+    item = await loadJSON(`lores/${params.slug.replace(/-/g, '')}.json`, fetch);
+  }
+
+  if (!item) {
     // Fallback: Check index to see if there's a mismatch between URL slug and filename
     const index = await loadJSON('lores/index.json', fetch);
     if (index && Array.isArray(index)) {

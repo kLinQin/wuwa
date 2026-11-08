@@ -18,8 +18,8 @@
 
 <PageGrid title="Characters" items={filtered} countLabel="characters">
   {#snippet filters()}
-    <InlineFilter label="Element" bind:value={el} options={data.elements.map(e => ({ value: e.id, label: e.name }))} />
-    <InlineFilter label="Weapon" bind:value={wp} options={data.weaponsConst.map(w => ({ value: w.id, label: w.name }))} />
+    <InlineFilter label="Element" bind:value={el} options={data.elements.map((e: any) => ({ value: e.id, label: e.name }))} />
+    <InlineFilter label="Weapon" bind:value={wp} options={data.weaponsConst.map((w: any) => ({ value: w.id, label: w.name }))} />
     <InlineFilter label="Rarity" bind:value={rr} options={[{value: 5, label: '5 Star'}, {value: 4, label: '4 Star'}]} />
   {/snippet}
   {#snippet children(c)}
