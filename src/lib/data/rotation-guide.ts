@@ -1,0 +1,22 @@
+export const rotationGuide: Record<string, string> = {
+  "BA": "Basic Attack",
+  "HA": "Heavy Attack",
+  "MA": "Mid Air Attack",
+  "DC": "Dodge Counter",
+  "FUA": "Follow Up Attack",
+  "Skill": "Skill",
+  "Ult": "Liberation",
+  "Forte": "Forte",
+  "Echo": "Echo",
+  "Dash": "Dash",
+  "Jump": "Jump",
+  "Intro": "Intro",
+  "Outro": "Outro",
+  "[E]": "Enhanced",
+  "[S]": "Enhanced Through Skill",
+  "[F]": "Enhanced Through Forte",
+  "[U]": "Enhanced Through Ult",
+  "(Hold)": "Hold",
+  "(Cancel)": "Cancel",
+  "(Swap)": "Swap"
+};

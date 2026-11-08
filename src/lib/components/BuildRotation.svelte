@@ -1,34 +1,75 @@
 <script lang="ts">
-  let { build }: { build: any } = $props();
-</script>
+  import { rotationGuide } from '#lib/data/rotation-guide.js';
 
-{#if build?.talentPriority}
-  <div class="section">
-    <h3>Talent Priority</h3>
-    <ol class="priority-list">
-      {#each build.talentPriority.priority as p}
-        <li>{p}</li>
-      {/each}
-    </ol>
-    {#if build.talentPriority.note}
-      <p class="note-text">{build.talentPriority.note}</p>
-    {/if}
-  </div>
-{/if}
+  let { build }: { build: any } = $props();
+
+  let currentSteps = $state<Record<number, number>>({});
+
+  function nextStep(rotIndex: number, max: number) {
+    currentSteps[rotIndex] = Math.min((currentSteps[rotIndex] ?? 0) + 1, max - 1);
+  }
+
+  function prevStep(rotIndex: number) {
+    currentSteps[rotIndex] = Math.max((currentSteps[rotIndex] ?? 0) - 1, 0);
+  }
+
+  function formatStep(text: string) {
+    let formatted = text;
+    const keys = Object.keys(rotationGuide).sort((a, b) => b.length - a.length);
+    for (const key of keys) {
+      const regex = new RegExp(key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+      formatted = formatted.replace(regex, `<span class="highlight">${rotationGuide[key]}</span>`);
+    }
+    return formatted;
+  }
+</script>
 
 {#if build?.rotations}
   <div class="section">
     <h3>Rotations</h3>
-    {#each build.rotations as rot}
-      <div class="rotation-card raised">
-        <h4>{rot.title}</h4>
-        <ol class="steps">
-          {#each rot.steps as step}
-            <li>{step}</li>
-          {/each}
-        </ol>
-      </div>
-    {/each}
+
+    <div class="rotation-list">
+      {#each build.rotations as rot, rotIdx}
+        {@const stepIdx = currentSteps[rotIdx] ?? 0}
+        {@const maxSteps = rot.steps.length}
+
+        <div class="rotation-card raised">
+          <h4 class="rot-title">{rot.title}</h4>
+
+          <!-- View Step -->
+          <div class="step-viewer">
+            <button
+              class="raised nav-btn prev"
+              onclick={() => prevStep(rotIdx)}
+              disabled={stepIdx === 0}
+            >←</button>
+
+            <div class="step-content">
+              <div class="step-body">
+                <p class="step-text">{@html formatStep(rot.steps[stepIdx])}</p>
+                <p class="step-raw">Original: {rot.steps[stepIdx]}</p>
+              </div>
+            </div>
+
+            <button
+              class="raised nav-btn next"
+              onclick={() => nextStep(rotIdx, maxSteps)}
+              disabled={stepIdx >= maxSteps - 1}
+            >→</button>
+          </div>
+
+          <!-- Indicator Bawah -->
+          <div class="step-footer">
+            <div class="step-indicator">Step {stepIdx + 1} / {maxSteps}</div>
+            <div class="step-dots">
+              {#each rot.steps as _, i}
+                <span class="dot" class:active={i === stepIdx}></span>
+              {/each}
+            </div>
+          </div>
+        </div>
+      {/each}
+    </div>
   </div>
 {/if}
 
@@ -40,8 +81,129 @@
     border-bottom: 1px solid var(--border);
     padding-bottom: var(--sp-2);
   }
-  .rotation-card { padding: var(--sp-3); margin-bottom: var(--sp-3); }
-  .rotation-card h4 { margin: 0 0 var(--sp-2) 0; font-size: var(--fs-sm); }
-  .steps, .priority-list { margin: 0; padding-left: var(--sp-4); font-size: var(--fs-sm); line-height: 1.6; }
-  .note-text { font-size: var(--fs-xs); color: var(--text-muted); margin-top: var(--sp-2); white-space: pre-line; font-style: italic; }
+
+  .rotation-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+  }
+
+  .rotation-card {
+    padding: var(--sp-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+  }
+
+  .rot-title {
+    margin: 0;
+    font-size: var(--fs-sm);
+    color: var(--text);
+    white-space: nowrap; /* Cegah judul turun/berubah lebar */
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Area Langkah */
+  .step-viewer {
+    position: relative; /* Untuk anchor tombol */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80px;
+    padding: 0 40px; /* Beri ruang agar teks tidak tabrakan tombol */
+  }
+
+  .nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    font-size: var(--fs-md);
+    /* Biarkan class .raised yang atur border/background */
+  }
+
+  .nav-btn.prev {
+    left: 0;
+  }
+
+  .nav-btn.next {
+    right: 0;
+  }
+
+  .nav-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .step-content {
+    flex: 1;
+    min-width: 400px; /* Lebar minimum teks */
+    display: flex;
+    flex-direction: column;
+  }
+
+  .step-body {
+    flex: 1;
+    min-height: 80px; /* Kunci tinggi minimal agar tidak layout shift */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    gap: 4px;
+  }
+
+  .step-text {
+    margin: 0;
+    font-size: var(--fs-sm);
+    line-height: 1.4;
+    color: var(--text);
+  }
+
+  .step-raw {
+    margin: 0;
+    font-size: var(--fs-xs);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    opacity: 0.7;
+  }
+
+  .step-text :global(.highlight) {
+    color: var(--accent);
+    font-weight: var(--fw-bold);
+  }
+
+  /* Footer (Indicator & Dots) */
+  .step-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--sp-1);
+    border-top: 1px solid var(--border);
+    padding-top: var(--sp-2);
+  }
+
+  .step-indicator {
+    font-size: var(--fs-xs);
+    color: var(--text-muted);
+  }
+
+  .step-dots {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: background 0.2s;
+  }
+  .dot.active {
+    background: var(--accent);
+  }
 </style>

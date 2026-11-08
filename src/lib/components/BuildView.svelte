@@ -2,13 +2,15 @@
   import BuildStats from '#lib/components/BuildStats.svelte';
   import BuildEcho from '#lib/components/BuildEcho.svelte';
   import BuildWeapon from '#lib/components/BuildWeapon.svelte';
+  import BuildTalent from '#lib/components/BuildTalent.svelte';
   import BuildRotation from '#lib/components/BuildRotation.svelte';
 
-  let { stats, build, echoes = [], sonatas = [] }: { stats?: any; build?: any; echoes?: any[]; sonatas?: any[] } = $props();
+  let { stats, build, echoes = [], sonatas = [], weapons = [] }: { stats?: any; build?: any; echoes?: any[]; sonatas?: any[]; weapons?: any[] } = $props();
 </script>
 
 <div class="build-view">
   {#if stats || build}
+    <!-- BARIS 1: Stats & Echo -->
     <div class="row">
       <div class="col">
         {#if stats}
@@ -23,21 +25,31 @@
       </div>
     </div>
 
+    <!-- ECHO NOTE (FULL WIDTH) -->
     {#if build?.echoDetails?.note}
       <div class="echo-note-row">
         <p class="note-text">{build.echoDetails.note}</p>
       </div>
     {/if}
 
+    <!-- BARIS 2: Weapon & Talent -->
     <div class="row">
       <div class="col">
         {#if build?.bestWeapon || build?.weaponOptions || build?.weaponNote}
-          <BuildWeapon {build} />
+          <BuildWeapon {build} {weapons} />
         {/if}
+      </div>
 
+      <div class="col">
+        <BuildTalent {build} />
+      </div>
+    </div>
+
+    <!-- BARIS 3: Rotations Full Width -->
+    <div class="row">
+      <div class="col" style="grid-column: 1 / -1;">
         <BuildRotation {build} />
       </div>
-      <div class="col"></div>
     </div>
   {/if}
 </div>
