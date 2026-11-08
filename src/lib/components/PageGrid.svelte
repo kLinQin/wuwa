@@ -8,12 +8,14 @@
     countLabel,
     children,
     filters,
+    searchAsLabel = false,
   }: {
     title: string;
     items: any[];
     countLabel: string;
     children: Snippet<[any]>;
     filters?: Snippet;
+    searchAsLabel?: boolean;
   } = $props();
 
   let q = $state('');
@@ -39,8 +41,12 @@
 <div class="page-container">
   <div class="page-header">
     {#if !openedFilter}
-      <div class="search-box raised">
-        <input placeholder="Search name..." bind:value={q} />
+      <div class="search-box raised" class:read-only={searchAsLabel}>
+        {#if searchAsLabel}
+          <span class="label-text">{title}</span>
+        {:else}
+          <input placeholder="Search name..." bind:value={q} />
+        {/if}
       </div>
     {/if}
 
@@ -101,6 +107,16 @@
     display: flex;
     align-items: center;
     height: 36px;
+  }
+
+  .search-box .label-text {
+    width: 100%;
+    padding: 0 var(--sp-2);
+    color: var(--text);
+    font-weight: var(--fw-medium);
+    display: flex;
+    align-items: center;
+    height: 100%;
   }
 
   .search-box input {

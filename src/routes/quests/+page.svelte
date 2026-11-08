@@ -2,6 +2,7 @@
   import type { PageProps } from './$types';
   import PageGrid from '#lib/components/PageGrid.svelte';
   import ReaderMode from '#lib/components/ReaderMode.svelte';
+  import Icons from '#lib/components/Icons.svelte';
 
   let { data }: PageProps = $props();
   let tab = $state<'quests'|'glossary'>('quests');
@@ -9,61 +10,69 @@
 
   const currentItems = $derived(tab === 'quests' ? data.quests : data.terms);
   const currentLabel = $derived(tab === 'quests' ? 'quests' : 'terms');
-
-
 </script>
 
+<Icons />
 <svelte:head><title>Quests — WuWa DB</title></svelte:head>
 
-{#if selected}
-  <ReaderMode
-    title={selected.title}
-    type={selected.type}
-    blocks={selected.blocks}
-    onback={() => selected = null}
-  />
-{:else}
-  <PageGrid title="Quests" items={currentItems} countLabel={currentLabel}>
-
-    {#snippet filters()}
+<PageGrid
+  title={selected ? (selected.title || selected.name) : "Quests"}
+  items={selected ? [{}] : currentItems}
+  countLabel={currentLabel}
+  searchAsLabel={true}
+>
+  {#snippet filters()}
+    {#if selected}
+      <div style="height: 100%; display: flex; align-items: center;">
+        <button class="raised" style="height: 100%; display: flex; align-items: center; gap: 4px;" onclick={() => selected = null}>
+          <svg width="16" height="16" fill="currentColor"><use href="#arrow-left" /></svg>
+          Back
+        </button>
+      </div>
+    {:else}
       <div style="height: 100%; display: flex; align-items: center; gap: 4px;">
         <button class="raised" style="height: 100%;" aria-pressed={tab==='quests'} onclick={() => tab='quests'}>Quests</button>
         <button class="raised" style="height: 100%;" aria-pressed={tab==='glossary'} onclick={() => tab='glossary'}>Glossary</button>
       </div>
-    {/snippet}
+    {/if}
+  {/snippet}
 
-    {#snippet children(item)}
-      {#if tab === 'quests'}
-        <button class="row quest-row" onclick={() => selected = item}>
-          <span class="badge">{item.type}</span>
-          <span class="name">{item.title}</span>
-        </button>
-      {:else}
-        <div class="row glossary-row">
-          {#if item.image}
-            <img class="glossary-img" src={item.image} alt={item.name} loading="lazy" />
-          {/if}
-          <div class="glossary-body">
-            <div class="name">{item.name}</div>
-            <div class="desc">{item.description}</div>
-          </div>
+  {#snippet children(item)}
+    {#if selected}
+      <div class="reader-wrapper">
+        <ReaderMode
+          title={selected.title}
+          type={selected.type}
+          blocks={selected.blocks}
+        />
+      </div>
+    {:else if tab === 'quests'}
+      <button class="row quest-row" onclick={() => selected = item}>
+        <span class="badge">{item.type}</span>
+        <span class="name">{item.title}</span>
+      </button>
+    {:else}
+      <div class="row glossary-row">
+        {#if item.image}
+          <img class="glossary-img" src={item.image} alt={item.name} loading="lazy" />
+        {/if}
+        <div class="glossary-body">
+          <div class="name">{item.name}</div>
+          <div class="desc">{item.description}</div>
         </div>
-      {/if}
-    {/snippet}
-  </PageGrid>
-{/if}
+      </div>
+    {/if}
+  {/snippet}
+</PageGrid>
 
 <style>
-  .reader-page {
-    padding: var(--sp-4);
+  .reader-wrapper {
+    grid-column: 1 / -1;
     width: 100%;
-    /* Tarik keluar dari padding main */
-    margin: 0 calc(var(--content-pad) * -1);
-    max-width: calc(100% + var(--content-pad) * 2);
   }
 
   .row {
-    grid-column: 1 / -1; /* Agar list memanjang penuh ke bawah */
+    grid-column: 1 / -1;
     display: flex;
     flex-direction: column;
     padding: var(--sp-3);
@@ -113,6 +122,4 @@
     align-self: flex-start;
     margin-bottom: var(--sp-1);
   }
-
-
 </style>
