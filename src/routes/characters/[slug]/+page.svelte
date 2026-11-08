@@ -14,6 +14,8 @@
   let props: PageProps = $props();
   const item = $derived(props.data.item);
   const materialsMap = $derived(props.data.materialsMap || {});
+  const echoesIndex = $derived(props.data.echoesIndex || []);
+  const sonatasList = $derived(props.data.sonatasList || []);
   const teamsMap = $derived(props.data.teamsMap || {});
   const rolesMap = $derived(props.data.rolesMap || {});
   const sonatasMap = $derived(props.data.sonatasMap || {});
@@ -76,7 +78,7 @@
   {#if activeTab === 'overview'}
     {#if item.recommendedStats || item.build}
       <DataSection title="Build Guide">
-        <BuildView stats={item.recommendedStats} build={item.build} />
+        <BuildView stats={item.recommendedStats} build={item.build} echoes={echoesIndex} sonatas={sonatasList} />
       </DataSection>
     {/if}
     {#if item.materials}
