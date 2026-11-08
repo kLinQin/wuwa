@@ -67,8 +67,8 @@
     background: var(--bg-hover);
     border-radius: var(--radius);
   }
-  .info h1 { margin: 0 0 var(--sp-1); font-size: var(--fs-xl); color: var(--sonata-color, var(--text)); }
-  .meta-text { color: var(--text-muted); font-size: var(--fs-sm); margin: 0; }
+  .info h1 { margin: 0 0 var(--sp-1); font-size: var(--fs-xl); color: var(--sonata-color, var(--text-body)); }
+  .meta-text { color: var(--text-secondary); font-size: var(--fs-sm); margin: 0; }
 
   .fetters-list { display: flex; flex-direction: column; gap: var(--sp-3); }
   .fetter-item { padding: var(--sp-3); display: flex; flex-direction: column; gap: var(--sp-2); }

@@ -308,7 +308,7 @@
     height: auto;
     background: none;
     border: none;
-    color: var(--text);
+    color: var(--text-body);
     font-size: var(--fs-sm);
     cursor: pointer;
     padding: var(--sp-2) var(--sp-1);
@@ -416,7 +416,7 @@
 
   .d-name {
     font-size: var(--fs-2xs);
-    color: var(--text-muted);
+    color: var(--text-secondary);
     text-transform: uppercase;
   }
 
@@ -473,7 +473,7 @@
 
   .ev-detail { display: flex; flex-direction: column; gap: var(--sp-2); }
   .ev-detail-row { display: flex; justify-content: space-between; gap: var(--sp-2); font-size: var(--fs-sm); }
-  .ev-detail-row .lbl { color: var(--text-muted); }
+  .ev-detail-row .lbl { color: var(--text-secondary); }
   .ev-detail-row .val { font-weight: var(--fw-medium); text-align: right; }
   .ev-detail-img { width: 100%; border-radius: var(--radius); margin-top: var(--sp-2); }
 
@@ -545,7 +545,7 @@
     min-height: 0;
     padding: var(--sp-6);
     text-align: center;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     font-size: var(--fs-sm);
   }
 

@@ -186,11 +186,11 @@
   }
   .log-date {
     font-family: var(--font-mono);
-    color: var(--text-muted);
+    color: var(--text-secondary);
     white-space: nowrap;
   }
   .log-text {
-    color: var(--text);
+    color: var(--text-body);
   }
   .kit-content {
     min-height: 400px; /* Cukup tinggi agar tab tidak melompat saat ganti konten */

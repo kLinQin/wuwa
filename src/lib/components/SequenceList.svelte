@@ -81,7 +81,7 @@
 
   .seq-stage {
     font-size: var(--fs-xs);
-    color: var(--text-muted);
+    color: var(--text-secondary);
     text-transform: uppercase;
   }
 
@@ -111,6 +111,6 @@
   .effects strong {
     display: block;
     margin-bottom: 2px;
-    color: var(--text);
+    color: var(--text-body);
   }
 </style>

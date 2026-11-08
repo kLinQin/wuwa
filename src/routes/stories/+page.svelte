@@ -25,7 +25,7 @@
     border: 1px solid var(--border);
     background: var(--bg-elev);
     text-decoration: none;
-    color: var(--text);
+    color: var(--text-body);
   }
   .row:hover {
     background: var(--bg-hover);
@@ -36,7 +36,7 @@
   }
   .row .desc {
     font-size: var(--fs-sm);
-    color: var(--text-muted);
+    color: var(--text-secondary);
     margin-top: var(--sp-1);
   }
 </style>

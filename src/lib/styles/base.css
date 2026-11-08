@@ -2,11 +2,12 @@
 html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
 body {
   background: var(--bg);
-  color: var(--text);
+  color: var(--text-body);
   font: var(--font-body-lg);
 }
 a { color: var(--accent); }
 a:hover { color: var(--accent-hover); }
+h1, h2, h3 { color: var(--text-heading); }
 h1 { font: var(--font-h1); margin: 0 0 var(--sp-4); }
 h2 { font: var(--font-h2); margin: 0 0 var(--sp-3); }
 h3 { font: var(--font-h3); margin: 0 0 var(--sp-2); }

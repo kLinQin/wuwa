@@ -112,7 +112,7 @@
   .search-box .label-text {
     width: 100%;
     padding: 0 var(--sp-2);
-    color: var(--text);
+    color: var(--text-body);
     font-weight: var(--fw-medium);
     display: flex;
     align-items: center;
@@ -124,7 +124,7 @@
     padding: 0 var(--sp-2);
     background: transparent;
     border: none;
-    color: var(--text);
+    color: var(--text-body);
     outline: none;
     height: 100%;
   }
@@ -164,7 +164,7 @@
   
 
   .total-count {
-    color: var(--text-muted);
+    color: var(--text-secondary);
     font-size: var(--fs-sm);
     text-align: right;
     padding: var(--sp-2) 0;

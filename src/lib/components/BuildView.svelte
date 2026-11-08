@@ -101,7 +101,7 @@
 
   .note-text {
     font-size: var(--fs-xs);
-    color: var(--text-muted);
+    color: var(--text-secondary);
     margin: 0;
     white-space: pre-line;
     font-style: italic;

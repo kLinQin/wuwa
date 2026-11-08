@@ -75,7 +75,7 @@
         text-anchor={midAngle > 90 && midAngle < 270 ? 'end' : 'start'}
         dominant-baseline="middle"
         font-size="9"
-        fill="var(--text-muted)"
+        fill="var(--text-secondary)"
       >
         {d.type}
       </text>

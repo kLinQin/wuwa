@@ -185,13 +185,13 @@
     background: none;
     border: none;
     padding: var(--sp-2) 0;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     font-size: var(--fs-sm);
     cursor: pointer;
     font-family: inherit;
   }
   .accordion-toggle:hover {
-    color: var(--text);
+    color: var(--text-body);
   }
 
   .chevron {
@@ -234,7 +234,7 @@
 
   .version-badge {
     background: var(--bg);
-    color: var(--text-muted);
+    color: var(--text-secondary);
     font-size: var(--fs-xs);
     border: 1px solid var(--border);
     padding: 2px 8px;
@@ -243,7 +243,7 @@
 
   .badge-prefix {
     font-size: var(--fs-sm);
-    color: var(--text-muted);
+    color: var(--text-secondary);
     flex-shrink: 0;
   }
 
@@ -255,6 +255,6 @@
 
   .badge.muted {
     background: var(--bg-hover);
-    color: var(--text-muted);
+    color: var(--text-secondary);
   }
 </style>

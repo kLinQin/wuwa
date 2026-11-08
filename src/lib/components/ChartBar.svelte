@@ -67,5 +67,5 @@
   .fill { height: 100%; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
   .val-group { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.1; }
   .val { font-family: var(--font-mono); font-weight: var(--fw-bold); }
-  .raw-val { font-size: var(--fs-3xs); color: var(--text-muted); font-family: var(--font-mono); }
+  .raw-val { font-size: var(--fs-3xs); color: var(--text-secondary); font-family: var(--font-mono); }
 </style>

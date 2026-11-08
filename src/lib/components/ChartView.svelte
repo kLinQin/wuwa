@@ -77,7 +77,7 @@
   }
   .note {
     font-size: var(--fs-2xs);
-    color: var(--text-muted);
+    color: var(--text-secondary);
     line-height: 1.4;
     margin: 0;
     text-align: right;
@@ -96,7 +96,7 @@
     border-bottom: none;
   }
   .detail-label {
-    color: var(--text-muted);
+    color: var(--text-secondary);
   }
   .detail-val {
     font-weight: var(--fw-medium);

@@ -69,7 +69,7 @@
       {@const angle = (i * (Math.PI * 2) / data.length) - Math.PI / 2}
       {@const lx = cx + (radius + 15) * Math.cos(angle)}
       {@const ly = cy + (radius + 15) * Math.sin(angle)}
-      <text x={lx} y={ly} text-anchor="middle" dominant-baseline="middle" font-size="10" fill="var(--text-muted)">
+      <text x={lx} y={ly} text-anchor="middle" dominant-baseline="middle" font-size="10" fill="var(--text-secondary)">
         {d.type}
       </text>
     {/each}

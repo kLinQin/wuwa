@@ -158,7 +158,7 @@
 
   .slot-label {
     width: 50px;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     font-size: var(--fs-xs);
     font-weight: var(--fw-medium);
     flex-shrink: 0;
@@ -189,7 +189,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     font-size: var(--fs-sm);
   }
 
@@ -201,7 +201,7 @@
     border: 1px solid var(--border);
     align-items: center;
     justify-content: center;
-    color: var(--text);
+    color: var(--text-body);
     font-weight: var(--fw-bold);
     font-size: var(--fs-sm);
   }
@@ -225,6 +225,6 @@
 
   .indicator {
     font-size: var(--fs-sm);
-    color: var(--text-muted);
+    color: var(--text-secondary);
   }
 </style>

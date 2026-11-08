@@ -129,7 +129,7 @@
 
   .legend-name {
     font-weight: var(--fw-medium);
-    color: var(--text);
+    color: var(--text-body);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -139,7 +139,7 @@
     display: flex;
     justify-content: space-between;
     gap: var(--sp-2);
-    color: var(--text-muted);
+    color: var(--text-secondary);
     font-family: var(--font-mono);
     font-size: var(--fs-2xs);
   }
@@ -148,7 +148,7 @@
   .legend-diff { font-size: var(--fs-3xs); font-weight: var(--fw-bold); }
   .legend-diff.positive { color: var(--status-active); }
   .legend-diff.negative { color: var(--status-ended); }
-  .legend-diff:not(.positive):not(.negative) { color: var(--text-muted); }
+  .legend-diff:not(.positive):not(.negative) { color: var(--text-secondary); }
   .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
   /* --- CHART KANAN --- */
@@ -186,7 +186,7 @@
     margin-bottom: 4px;
     font-family: var(--font-mono);
   }
-  .raw { font-size: var(--fs-4xs); color: var(--text-muted); }
+  .raw { font-size: var(--fs-4xs); color: var(--text-secondary); }
 
   .v-track {
     width: 100%;

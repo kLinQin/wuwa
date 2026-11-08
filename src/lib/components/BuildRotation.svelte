@@ -98,7 +98,7 @@
   .rot-title {
     margin: 0;
     font-size: var(--fs-sm);
-    color: var(--text);
+    color: var(--text-body);
     white-space: nowrap; /* Cegah judul turun/berubah lebar */
     overflow: hidden;
     text-overflow: ellipsis;
@@ -158,13 +158,13 @@
     margin: 0;
     font-size: var(--fs-sm);
     line-height: 1.4;
-    color: var(--text);
+    color: var(--text-body);
   }
 
   .step-raw {
     margin: 0;
     font-size: var(--fs-xs);
-    color: var(--text-muted);
+    color: var(--text-secondary);
     font-family: var(--font-mono);
     opacity: 0.7;
   }
@@ -186,7 +186,7 @@
 
   .step-indicator {
     font-size: var(--fs-xs);
-    color: var(--text-muted);
+    color: var(--text-secondary);
   }
 
   .step-dots {

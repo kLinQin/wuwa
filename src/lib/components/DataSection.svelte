@@ -20,13 +20,13 @@
   .data-section h2 {
     font-size: var(--fs-lg);
     margin: 0 0 var(--sp-3) 0;
-    color: var(--text);
+    color: var(--text-body);
     border-left: 4px solid var(--accent);
     padding-left: var(--sp-2);
   }
   .section-content {
     font-size: var(--fs-sm);
     line-height: 1.6;
-    color: var(--text-muted);
+    color: var(--text-secondary);
   }
 </style>

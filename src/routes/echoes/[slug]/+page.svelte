@@ -73,9 +73,9 @@
   .info h1 { margin: 0 0 var(--sp-2); font-size: var(--fs-xl); }
   .tags { display: flex; gap: var(--sp-2); flex-wrap: wrap; margin-bottom: var(--sp-2); }
   .stars { color: #f5c518; }
-  .muted { background: var(--bg-hover); color: var(--text-muted); }
-  .meta-text { color: var(--text-muted); font-size: var(--fs-sm); margin: 0; }
+  .muted { background: var(--bg-hover); color: var(--text-secondary); }
+  .meta-text { color: var(--text-secondary); font-size: var(--fs-sm); margin: 0; }
 
-  .skill-desc { line-height: 1.6; color: var(--text); font-size: var(--fs-sm); }
+  .skill-desc { line-height: 1.6; color: var(--text-body); font-size: var(--fs-sm); }
   .sonata-list { font-size: var(--fs-sm); color: var(--accent); margin: 0; }
 </style>

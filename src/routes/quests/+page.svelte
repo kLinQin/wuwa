@@ -50,7 +50,7 @@
     border: 1px solid var(--border);
     background: var(--bg-elev);
     text-decoration: none;
-    color: var(--text);
+    color: var(--text-body);
     text-align: left;
     cursor: pointer;
   }
@@ -63,7 +63,7 @@
   }
   .row .desc {
     font-size: var(--fs-sm);
-    color: var(--text-muted);
+    color: var(--text-secondary);
     margin-top: var(--sp-1);
   }
 

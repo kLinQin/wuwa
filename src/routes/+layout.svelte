@@ -113,11 +113,11 @@
     justify-content: center;
     line-height: 1.1;
     text-decoration: none;
-    color: var(--text);
+    color: var(--text-body);
     min-width: 0;
   }
   .brand-name { font-weight: var(--fw-medium); white-space: nowrap; font-size: var(--fs-sm); }
-  .brand-page { font-size: var(--fs-xs); color: var(--text-muted); white-space: nowrap; text-transform: lowercase; }
+  .brand-page { font-size: var(--fs-xs); color: var(--text-secondary); white-space: nowrap; text-transform: lowercase; }
 
   .links { display: none; justify-self: center; gap: var(--sp-1); height: 100%; align-items: stretch; }
   .links a {

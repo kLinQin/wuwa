@@ -126,9 +126,9 @@
     border-radius: var(--radius);
   }
   .info h1 { margin: 0 0 var(--sp-1); font-size: var(--fs-xl); }
-  .meta-text { color: var(--text-muted); font-size: var(--fs-sm); margin: 0; }
+  .meta-text { color: var(--text-secondary); font-size: var(--fs-sm); margin: 0; }
 
-  .desc { line-height: 1.6; color: var(--text); font-size: var(--fs-md); margin: 0; }
+  .desc { line-height: 1.6; color: var(--text-body); font-size: var(--fs-md); margin: 0; }
 
   /* Manual Entries */
   .entries-grid {
@@ -142,8 +142,8 @@
     flex-direction: column;
     gap: var(--sp-1);
   }
-  .label { font-size: var(--fs-xs); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-  .value { font-size: var(--fs-sm); color: var(--text); font-weight: var(--fw-medium); }
+  .label { font-size: var(--fs-xs); color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+  .value { font-size: var(--fs-sm); color: var(--text-body); font-weight: var(--fw-medium); }
 
   /* Report */
   .report-item { margin-bottom: var(--sp-3); }
@@ -175,7 +175,7 @@
   }
   .item-img, .food-img { width: 60px; height: 60px; object-fit: contain; background: var(--bg-hover); border-radius: var(--radius); }
   .item-info h4, .food-info h4 { margin: 0 0 var(--sp-1) 0; font-size: var(--fs-md); color: var(--accent); }
-  .item-info p, .food-info p { margin: 0; font-size: var(--fs-sm); color: var(--text-muted); line-height: 1.5; }
+  .item-info p, .food-info p { margin: 0; font-size: var(--fs-sm); color: var(--text-secondary); line-height: 1.5; }
 
   /* Stories */
   .story-block { margin-bottom: var(--sp-2); }
@@ -193,7 +193,7 @@
     padding: var(--sp-3);
     font-size: var(--fs-sm);
     line-height: 1.8;
-    color: var(--text);
+    color: var(--text-body);
     border-left: 2px solid var(--accent);
     margin-left: var(--sp-2);
     margin-top: var(--sp-2);

@@ -42,11 +42,11 @@
   .profile-info { display: flex; flex-direction: column; gap: var(--sp-4); }
   .grid-stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--sp-2); }
   .stat-box { background: var(--bg-elev); border: 1px solid var(--border); padding: var(--sp-2); border-radius: var(--radius); }
-  .label { display: block; font-size: var(--fs-xs); color: var(--text-muted); margin-bottom: 2px; }
+  .label { display: block; font-size: var(--fs-xs); color: var(--text-secondary); margin-bottom: 2px; }
   .value { font-size: var(--fs-sm); font-weight: var(--fw-medium); }
 
   .bio-section h3 { margin: 0 0 var(--sp-2) 0; font-size: var(--fs-md); }
-  .bio-text { font-size: var(--sm); line-height: 1.6; color: var(--text-muted); }
+  .bio-text { font-size: var(--sm); line-height: 1.6; color: var(--text-secondary); }
 
   .doc-section { margin-top: var(--sp-2); }
   .doc-section summary { cursor: pointer; padding: var(--sp-2) var(--sp-3); margin-bottom: var(--sp-2); }

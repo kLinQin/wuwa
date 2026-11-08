@@ -99,7 +99,7 @@
 <style>
   .hero { text-align: center; padding: var(--sp-6) 0 var(--sp-4); }
   .hero h1 { margin: 0 0 var(--sp-1); }
-  .tagline { color: var(--text-muted); font-size: var(--fs-sm); margin: 0; }
+  .tagline { color: var(--text-secondary); font-size: var(--fs-sm); margin: 0; }
 
   .featured h2, .links h2 { font-size: var(--fs-md); margin: var(--sp-4) 0 var(--sp-2); }
   .featured-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: var(--sp-2); }
@@ -114,13 +114,13 @@
   .stat-card { text-align: center; padding: var(--sp-3); border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-elev); text-decoration: none; color: inherit; }
   .stat-card:hover { background: var(--bg-hover); }
   .stat-count { display: block; font-size: var(--fs-xl); font-weight: var(--fw-bold); }
-  .stat-label { font-size: var(--fs-xs); color: var(--text-muted); }
+  .stat-label { font-size: var(--fs-xs); color: var(--text-secondary); }
 
   .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: var(--sp-2); list-style: none; padding: 0; }
   .menu-grid a { display: block; padding: var(--sp-3); border: 1px solid var(--border); border-radius: var(--radius); text-decoration: none; color: inherit; background: var(--bg-elev); }
   .menu-grid a:hover { background: var(--bg-hover); }
   .menu-grid strong { display: block; font-size: var(--fs-sm); }
-  .menu-grid span { font-size: var(--fs-xs); color: var(--text-muted); }
+  .menu-grid span { font-size: var(--fs-xs); color: var(--text-secondary); }
 
   /* Terapkan scroll horizontal untuk semua ukuran layar */
   .featured-grid, .stats, .menu-grid {

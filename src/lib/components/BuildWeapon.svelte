@@ -110,7 +110,7 @@
     white-space: nowrap;
   }
 
-  .rank-text { font-size: var(--fs-xs); color: var(--text-muted); margin-left: 4px; }
+  .rank-text { font-size: var(--fs-xs); color: var(--text-secondary); margin-left: 4px; }
 
 
 </style>

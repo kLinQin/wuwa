@@ -203,9 +203,9 @@
 
   .sonata-indicator {
     font-size: var(--fs-2xs);
-    color: var(--text-muted);
+    color: var(--text-secondary);
   }
-  .no-echo { width: 64px; height: 64px; border-radius: var(--radius); background: var(--bg-hover); display: flex; align-items: center; justify-content: center; font-size: var(--fs-2xs); color: var(--text-muted); text-align: center; border: 1px solid var(--border); }
+  .no-echo { width: 64px; height: 64px; border-radius: var(--radius); background: var(--bg-hover); display: flex; align-items: center; justify-content: center; font-size: var(--fs-2xs); color: var(--text-secondary); text-align: center; border: 1px solid var(--border); }
 
   .echo-bottom-grid {
     display: grid;

@@ -22,13 +22,13 @@
     align-items: center;
     gap: var(--sp-1);
     font-size: var(--fs-sm);
-    color: var(--text-muted);
+    color: var(--text-secondary);
   }
   select {
     padding: 2px 6px;
     background: var(--bg-elev);
     border: 1px solid var(--border);
-    color: var(--text);
+    color: var(--text-body);
     border-radius: var(--radius);
     outline: none;
   }

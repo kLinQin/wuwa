@@ -94,14 +94,14 @@
   .sheet-close {
     background: none;
     border: none;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     font-size: var(--fs-lg);
     cursor: pointer;
     line-height: 1;
     padding: 0 var(--sp-1);
   }
 
-  .sheet-close:hover { color: var(--text); }
+  .sheet-close:hover { color: var(--text-body); }
 
   .sheet-body {
     padding: var(--sp-4);

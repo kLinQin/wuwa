@@ -134,7 +134,7 @@
 
   .skill-type {
     font-size: var(--fs-xs);
-    color: var(--text-muted);
+    color: var(--text-secondary);
     text-transform: uppercase;
   }
 
@@ -147,7 +147,7 @@
   .desc {
     margin: 0;
     font-style: italic;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     font-size: var(--fs-sm);
   }
 
@@ -171,7 +171,7 @@
   .effects strong {
     display: block;
     margin-bottom: 2px;
-    color: var(--text);
+    color: var(--text-body);
     font-weight: var(--fw-bold);
   }
 </style>

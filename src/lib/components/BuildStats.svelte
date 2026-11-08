@@ -19,6 +19,6 @@
 <style>
   .stats-table { margin-top: var(--sp-2); }
   .stats-table td { padding: var(--sp-2); }
-  .stats-table .k { color: var(--text-muted); }
+  .stats-table .k { color: var(--text-secondary); }
   .stats-table .v { text-align: right; font-weight: var(--fw-medium); }
 </style>
