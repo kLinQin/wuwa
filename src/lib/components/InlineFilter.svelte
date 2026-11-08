@@ -48,6 +48,7 @@
     gap: 4px;
     height: 100%;
     justify-content: flex-end;
+    min-width: 0;
   }
 
   .inline-filter.is-open {
@@ -77,12 +78,17 @@
     align-items: stretch;
     gap: 4px;
     overflow-x: auto;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
     scrollbar-width: none;
     height: 100%;
     margin-left: auto;
 
-    /* Lebar maksimal mengikuti layar, tapi dibatasi 1024px */
-    max-width: min(100vw, var(--max-content));
+    /* Menempel penuh di container; scroll horizontal terjadi di sini */
+    min-width: 0;
+    flex: 1;
+    width: 100%;
+    max-width: none;
     cursor: grab;
   }
   .chips-inline:active {

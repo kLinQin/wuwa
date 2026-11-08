@@ -146,6 +146,7 @@
     scrollbar-width: none;
     flex: 1;
     justify-content: flex-end;
+    min-width: 0;
   }
 
   .filters-wrapper {
@@ -154,6 +155,7 @@
     gap: var(--sp-2);
     justify-content: flex-end;
     width: 100%;
+    min-width: 0;
   }
 
   /* CSS ini digunakan sebagai fallback, tapi utamanya dikendalikan oleh state */
