@@ -1,11 +1,13 @@
 import { browser } from '$app/env';
 
-type Theme = 'dark' | 'light';
+type Theme = 'dark' | 'light' | 'claude';
+const ORDER: Theme[] = ['dark', 'light', 'claude'];
 
 function read(): Theme {
   if (!browser) return 'dark';
   const saved = localStorage.getItem('theme');
-  return saved === 'light' ? 'light' : 'dark';
+  if (saved === 'light' || saved === 'dark' || saved === 'claude') return saved;
+  return 'dark';
 }
 
 function apply(t: Theme) {
@@ -22,5 +24,10 @@ let current = $state<Theme>(initial);
 export const theme = {
   get value() { return current; },
   set(t: Theme) { current = t; apply(t); },
-  toggle() { current = current === 'dark' ? 'light' : 'dark'; apply(current); }
+  next() {
+    const i = ORDER.indexOf(current);
+    current = ORDER[(i + 1) % ORDER.length];
+    apply(current);
+  },
+  toggle() { this.next(); }
 };

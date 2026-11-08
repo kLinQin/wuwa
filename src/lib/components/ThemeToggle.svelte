@@ -1,16 +1,21 @@
 <script lang="ts">
   import { theme } from '#lib/theme.svelte';
+
+  const iconId = $derived(
+    theme.value === 'dark' ? '#theme-dark'
+    : theme.value === 'light' ? '#theme-light'
+    : '#theme-claude'
+  );
 </script>
 
 <button
-  onclick={() => theme.toggle()}
+  onclick={() => theme.next()}
   class="raised icon"
   type="button"
-  aria-pressed={theme.value === 'dark'}
-  aria-label="Toggle theme"
+  aria-label={`Toggle theme (current: ${theme.value})`}
 >
   <svg width="24" height="24" fill="currentColor">
-    <use href={theme.value === 'dark' ? '#theme-dark' : '#theme-light'} />
+    <use href={iconId} />
   </svg>
 </button>
 <style>

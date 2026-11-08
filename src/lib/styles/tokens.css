@@ -100,3 +100,37 @@
   :root { --sidebar-w: 220px; --content-pad: 4px; --max-content: 1024px; }
 }
 
+/* CLAUDE DARK (dari Zed theme) */
+[data-theme="claude"] {
+  --raised-highlight: #2a2826;
+  --raised-shadow: #0a0908;
+  --raised-color: var(--border) var(--raised-shadow) var(--raised-shadow) var(--border);
+  --raised-hover-color: var(--raised-highlight) var(--raised-shadow) var(--raised-shadow) var(--raised-highlight);
+  --raised-active-color: var(--raised-shadow) var(--raised-highlight) var(--raised-highlight) var(--raised-shadow);
+  --raised-width: 1px 1px 1px 1px;
+  --raised-active-width: 1px 1px 1px 1px;
+
+  --bg: #141413;
+  --bg-elev: #1c1b1a;
+  --bg-hover: #2a2826;
+  --border: #2e2b28;
+  --text: #e8e6dc;
+  --text-muted: #c9c4b8;
+  --accent: #d97757;
+  --accent-hover: #ffb38a;
+  --text-inverse: #141413;
+  --overlay-dark: rgba(0,0,0,0.8);
+  --event-h: 120px;
+
+  --status-active: #8ba173;
+  --status-active-bg: rgba(139,161,115,0.18);
+  --status-upcoming: #d9a05b;
+  --status-upcoming-bg: rgba(217,160,91,0.18);
+  --status-ended: #8a8780;
+  --status-ended-bg: rgba(138,135,128,0.18);
+
+  --rank-1: #e0a86a;
+  --rank-2: #c9c4b8;
+  --rank-3: #b08a70;
+  --rank-default: var(--accent);
+}
