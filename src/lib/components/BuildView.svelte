@@ -91,28 +91,47 @@
                   <div class="echo-bottom-grid">
                     <div class="stats-box">
                       <h4>Main Stats</h4>
-                      <div class="stats-list">
-                        {#each activeSet.stats as st}
-                          <span class="stat-chip">C{st.cost}: {st.stat}</span>
-                        {/each}
-                      </div>
+                      <table class="main-stats-table">
+                        <thead>
+                          <tr>
+                            <th>Cost</th>
+                            <th>Stat</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {#each activeSet.stats as st}
+                            <tr>
+                              <td class="cost">C{st.cost}</td>
+                              <td class="stat">{st.stat}</td>
+                            </tr>
+                          {/each}
+                        </tbody>
+                      </table>
                     </div>
 
                     <div class="substats-box">
                       {#if build.echoDetails.substats}
                         <h4>Substats</h4>
-                        <ol class="substats-list">
-                          {#each build.echoDetails.substats as sub}
-                            <li>{sub}</li>
-                          {/each}
-                        </ol>
+                        <table class="main-stats-table">
+                          <thead>
+                            <tr>
+                              <th>No</th>
+                              <th>Stat</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {#each build.echoDetails.substats as sub, i}
+                              <tr>
+                                <td class="cost">{i + 1}.</td>
+                                <td class="stat">{sub}</td>
+                              </tr>
+                            {/each}
+                          </tbody>
+                        </table>
                       {/if}
                     </div>
                   </div>
 
-                  {#if build.echoDetails.note}
-                    <p class="note-text">{build.echoDetails.note}</p>
-                  {/if}
                 </div>
               {/if}
             {/if}
@@ -120,6 +139,13 @@
         {/if}
       </div>
     </div>
+
+    <!-- Note Echo Setup Full Width -->
+    {#if build?.echoDetails?.note}
+      <div class="echo-note-row">
+        <p class="note-text">{build.echoDetails.note}</p>
+      </div>
+    {/if}
 
     <div class="row">
       <div class="col">
@@ -280,12 +306,22 @@
   .sonata-box .main-echo-name { color: var(--accent); }
   .no-echo { width: 64px; height: 64px; border-radius: var(--radius); background: var(--bg-hover); display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--text-muted); text-align: center; border: 1px solid var(--border); }
 
+  /* Note Echo Setup */
+  .echo-note-row {
+    width: 100%;
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--sp-3);
+    margin-top: var(--sp-2);
+  }
+
   /* BARIS 2: Stats & Substats */
   .echo-bottom-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: var(--sp-4);
-    padding-top: var(--sp-3);
+    gap: var(--sp-3);
+    padding-top: 4px;
     font-size: var(--fs-sm);
     align-items: start;
   }
@@ -294,17 +330,43 @@
     display: flex;
     flex-direction: column;
     gap: var(--sp-2);
+    padding: 0 var(--sp-3) var(--sp-3) var(--sp-3); /* Padding aman */
+    overflow: hidden; /* Cegah luberan */
   }
 
   .stats-box h4, .substats-box h4 {
-    margin: 0;
+    margin: 0 calc(var(--sp-3) * -1) var(--sp-3) calc(var(--sp-3) * -1);
+    padding: var(--sp-2) var(--sp-3);
     font-size: var(--fs-sm);
-    color: var(--text);
+    color: var(--accent);
+    background: var(--bg-hover);
+    border-bottom: 1px solid var(--border);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
-  .stats-list { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
-  .stat-chip { background: var(--bg-hover); padding: 2px 6px; border-radius: var(--radius); font-family: var(--font-mono); font-size: var(--fs-xs); }
-  .substats-list { margin: 0; padding-left: var(--sp-4); font-size: var(--fs-xs); }
+  .main-stats-table {
+    width: calc(100% + var(--sp-3) * 2);
+    margin-left: calc(var(--sp-3) * -1);
+    margin-right: calc(var(--sp-3) * -1);
+    border-collapse: collapse;
+    font-size: var(--fs-sm);
+  }
+  .main-stats-table th, .main-stats-table td {
+    padding: 4px var(--sp-2); /* Padding disesuaikan agar tidak mentok */
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    white-space: nowrap;
+  }
+  .main-stats-table th {
+    color: var(--text-muted);
+    font-weight: var(--fw-medium);
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+  }
+  .main-stats-table tr:last-child td { border-bottom: none; }
+  .main-stats-table .cost { font-family: var(--font-mono); width: 1%; white-space: nowrap; color: var(--text-muted); }
+  .main-stats-table .stat { font-weight: var(--fw-medium); width: 99%; }
 
   .note-text { font-size: var(--fs-xs); color: var(--text-muted); margin-top: var(--sp-3); white-space: pre-line; font-style: italic; }
 
