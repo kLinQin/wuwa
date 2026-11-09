@@ -30,7 +30,10 @@
   --bg-hover: #1f1f2c;
   --border: #26263a;
   --text: #e6e6ee;
+  --text-body: var(--text);
+  --text-heading: var(--text);
   --text-muted: #b8b8d0;
+  --text-secondary: var(--text-muted);
   --accent: #6ea8fe;
   --accent-hover: #8ebdff;
   --text-inverse: #ffffff;
@@ -64,7 +67,10 @@
   --bg-hover: #eef0f6;
   --border: #dfe2ec;
   --text: #1a1a24;
+  --text-body: var(--text);
+  --text-heading: var(--text);
   --text-muted: #5a5a72;
+  --text-secondary: var(--text-muted);
   --accent: #2563eb;
   --accent-hover: #1d4ed8;
   --text-inverse: #ffffff;
@@ -115,7 +121,10 @@
   --bg-hover: #2a2826;
   --border: #2e2b28;
   --text: #e8e6dc;
+  --text-body: var(--text);
+  --text-heading: var(--text);
   --text-muted: #c9c4b8;
+  --text-secondary: var(--text-muted);
   --accent: #d97757;
   --accent-hover: #ffb38a;
   --text-inverse: #141413;

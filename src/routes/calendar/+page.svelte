@@ -290,9 +290,10 @@
   }
 
   .month-nav {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-2);
+    display: inline-flex;
+    align-items: stretch;
+    gap: 0;
+    padding: 0;
   }
 
   .month-nav.raised {
@@ -300,22 +301,28 @@
   }
 
   .month-nav button {
-    height: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background: none;
     border: none;
     color: var(--text-body);
     font-size: var(--fs-sm);
     cursor: pointer;
-    padding: var(--sp-2) var(--sp-1);
+    padding: calc(var(--sp-2) - 3px) var(--sp-2);
     line-height: normal;
   }
 
 
   .current-month {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     font-weight: var(--fw-medium);
     min-width: 140px;
     text-align: center;
     font-size: var(--fs-sm);
+    padding: calc(var(--sp-2) - 3px) var(--sp-2);
   }
 
   .filters {
@@ -475,6 +482,7 @@
   .event-bar { cursor: pointer; }
 
   .bar-label {
+    color: #c9c4b8;
     text-shadow: 0 1px 2px #000;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -513,11 +521,11 @@
   }
 
   .bar-date {
-    color: var(--text-inverse);
+    color: #c9c4b8;
     border-color: rgba(255,255,255,0.35);
   }
 
-  .bar-status { border: 1px solid transparent; }
+  .bar-status { border: 1px solid transparent; background: rgba(0,0,0,0.6); }
 
   .bar-status.active {
     color: var(--status-active);
