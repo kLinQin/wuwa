@@ -379,7 +379,28 @@ export async function getWeaponDetail(encoreId: number): Promise<any | null> {
   let d: any;
   try { d = await encoreGet<any>(`en/weapon/${encoreId}`); } catch { return null; }
   if (!d || !d.ItemId) return null;
-  const subName = d.SecondPropId?.Id ? propName(d.SecondPropId.Id) : '';
+  const props = d.Properties || [];
+  const atkPropObj = props.find((x: any) => x.Name === 'ATK');
+  const subPropObj = props.find((x: any) => x.Name !== 'ATK');
+  const subName = subPropObj ? subPropObj.Name : (d.SecondPropId?.Id ? propName(d.SecondPropId.Id) : '');
+
+  const atkProp = atkPropObj;
+  const subProp = subPropObj;
+
+  const stats: Record<number, [number, number]> = {};
+  if (atkProp && atkProp.GrowthValues) {
+    for (const g of atkProp.GrowthValues) {
+      const lvl = g.Level;
+      const atk = parseFloat(g.Value);
+      let subVal = 0;
+      if (subProp && subProp.GrowthValues) {
+        const sg = subProp.GrowthValues.find((x: any) => x.Level === lvl);
+        if (sg) subVal = parseFloat(sg.Value);
+      }
+      stats[lvl] = [atk, subVal];
+    }
+  }
+
   return {
     id: d.ItemId,
     slug: slugify(d.WeaponName),
@@ -388,13 +409,23 @@ export async function getWeaponDetail(encoreId: number): Promise<any | null> {
     rarity: d.QualityId,
     image: proxyImg(d.Icon),
     subStat: subName,
-    stats: {}, // will be filled from raw Props if available; skip for now
+    stats,
     version: '',
-    passive: {
-      name: d.ResonName || 'Weapon Skill',
-      description: stripHtml(d.Desc || ''),
-      refinements: []
-    },
+    passive: (() => {
+      const raw = stripHtml(d.Desc || '');
+      const ranks: string[] = [];
+      for (let i = 0; i < 5; i++) {
+        ranks.push(raw.replace(/([\d.]+%?\/){1,}[\d.]+%?/g, (m) => {
+          const parts = m.split('/');
+          return parts[i] !== undefined ? parts[i] : parts[0];
+        }));
+      }
+      return {
+        name: d.ResonName || 'Weapon Skill',
+        description: raw,
+        refinements: ranks
+      };
+    })(),
     lore: stripHtml(d.BgDescription || '')
   };
 }

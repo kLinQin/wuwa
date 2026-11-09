@@ -2,6 +2,7 @@
   import type { PageProps } from './$types';
   import DataSection from '#lib/components/DataSection.svelte';
   import DetailHeader from '#lib/components/DetailHeader.svelte';
+  import Slider from '#lib/components/Slider.svelte';
 
   let { data }: PageProps = $props();
   const item = $derived(data.item);
@@ -11,6 +12,9 @@
   };
 
   const typeName = $derived(weaponTypes[item.weaponType as number] ?? '');
+  let wLevel = $state(90);
+  let wRefine = $state(1);
+  const currentStats = $derived((item.stats || {})[wLevel] || [0, 0]);
 </script>
 
 <svelte:head><title>{item.name} — WuWa DB</title></svelte:head>
@@ -28,23 +32,19 @@
   />
 
   <DataSection title="Base Stats">
+    <div style="margin-bottom: var(--sp-3);">
+      <Slider label="Weapon Level" value={wLevel} min={1} max={90} onchange={(v) => wLevel = v} />
+    </div>
     <table class="stats-table">
       <thead>
         <tr>
-          <th>Level</th>
-          <th>ATK</th>
-          <th>{item.subStat}</th>
+          <th>Stat</th>
+          <th>Lv. {wLevel}</th>
         </tr>
       </thead>
       <tbody>
-        {#each Object.entries(item.stats) as [lvl, valsRaw]}
-        {@const vals = valsRaw as [number, number]}
-          <tr>
-            <td>{lvl}</td>
-            <td>{vals[0]}</td>
-            <td>{vals[1]}{item.subStat.includes('%') ? '%' : ''}</td>
-          </tr>
-        {/each}
+        <tr><td>ATK</td><td>{currentStats[0]}</td></tr>
+        <tr><td>{item.subStat}</td><td>{currentStats[1]}{item.subStat.includes('%') ? '%' : ''}</td></tr>
       </tbody>
     </table>
   </DataSection>
@@ -52,16 +52,15 @@
   {#if item.passive}
     <DataSection title="Passive Skill">
       <h3>{item.passive.name}</h3>
-      <p class="desc">{item.passive.description}</p>
+      <p class="desc">
+        {item.passive.refinements && item.passive.refinements.length > 0
+          ? item.passive.refinements[wRefine - 1]
+          : item.passive.description}
+      </p>
 
       {#if item.passive.refinements && item.passive.refinements.length > 0}
-        <div class="refinements">
-          <h4>Refinement Levels</h4>
-          <ol>
-            {#each item.passive.refinements as ref, idx}
-              <li><strong>R{idx + 1}:</strong> {ref}</li>
-            {/each}
-          </ol>
+        <div class="refinements" style="margin-top: var(--sp-4);">
+          <Slider label="Refinement Rank" value={wRefine} min={1} max={5} suffix="" onchange={(v) => wRefine = v} />
         </div>
       {/if}
     </DataSection>
@@ -91,11 +90,17 @@
     border-collapse: collapse;
     font-size: var(--fs-sm);
     font-family: var(--font-mono);
+    table-layout: fixed;
   }
   .stats-table th, .stats-table td {
     text-align: left;
     padding: var(--sp-2);
     border-bottom: 1px solid var(--border);
+    font-variant-numeric: tabular-nums;
+  }
+  .stats-table th:nth-child(2), .stats-table td:nth-child(2) {
+    width: 30%;
+    text-align: right;
   }
   .stats-table th { color: var(--text-secondary); font-weight: var(--fw-medium); }
   .stats-table tr:last-child td { border-bottom: none; }
