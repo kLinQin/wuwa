@@ -79,9 +79,9 @@
 
             {#if !activeSet.echoSlug && build.bestEcho && build.bestEcho.length > 0}
             <div class="sonata-nav">
-              <button class="raised" onclick={() => prevEcho()} disabled={!build.bestEcho || build.bestEcho.length <= 1 || echoIndex === 0}><svg width="16" height="16" style="display:inline-block;vertical-align:middle"><use href="#arrow-left" /></svg></button>
+              <button class="raised" onclick={() => prevEcho()} disabled={!build.bestEcho || build.bestEcho.length <= 1 || echoIndex === 0} aria-label="Previous echo"><svg width="16" height="16" style="display:inline-block;vertical-align:middle"><use href="#arrow-left" /></svg></button>
               <span class="sonata-indicator">{build.bestEcho?.length > 0 ? echoIndex + 1 : 0} / {build.bestEcho?.length || 1}</span>
-              <button class="raised" onclick={() => nextEcho(build.bestEcho?.length || 1)} disabled={!build.bestEcho || build.bestEcho.length <= 1 || echoIndex >= build.bestEcho.length - 1}><svg width="16" height="16" style="display:inline-block;vertical-align:middle"><use href="#arrow-right" /></svg></button>
+              <button class="raised" onclick={() => nextEcho(build.bestEcho?.length || 1)} disabled={!build.bestEcho || build.bestEcho.length <= 1 || echoIndex >= build.bestEcho.length - 1} aria-label="Next echo"><svg width="16" height="16" style="display:inline-block;vertical-align:middle"><use href="#arrow-right" /></svg></button>
             </div>
             {/if}
           </div>
@@ -102,9 +102,9 @@
             {/if}
 
             <div class="sonata-nav">
-              <button class="raised" onclick={() => prevSonata()} disabled={!activeSet.sonataCustom || activeSet.sonataCustom.length <= 1 || sonataIndex === 0}><svg width="16" height="16" style="display:inline-block;vertical-align:middle"><use href="#arrow-left" /></svg></button>
+              <button class="raised" onclick={() => prevSonata()} disabled={!activeSet.sonataCustom || activeSet.sonataCustom.length <= 1 || sonataIndex === 0} aria-label="Previous sonata"><svg width="16" height="16" style="display:inline-block;vertical-align:middle"><use href="#arrow-left" /></svg></button>
               <span class="sonata-indicator">{activeSet.sonataCustom?.length > 0 ? sonataIndex + 1 : 0} / {activeSet.sonataCustom?.length || 1}</span>
-              <button class="raised" onclick={() => nextSonata(activeSet.sonataCustom?.length || 1)} disabled={!activeSet.sonataCustom || activeSet.sonataCustom.length <= 1 || sonataIndex >= activeSet.sonataCustom.length - 1}><svg width="16" height="16" style="display:inline-block;vertical-align:middle"><use href="#arrow-right" /></svg></button>
+              <button class="raised" onclick={() => nextSonata(activeSet.sonataCustom?.length || 1)} disabled={!activeSet.sonataCustom || activeSet.sonataCustom.length <= 1 || sonataIndex >= activeSet.sonataCustom.length - 1} aria-label="Next sonata"><svg width="16" height="16" style="display:inline-block;vertical-align:middle"><use href="#arrow-right" /></svg></button>
             </div>
           </div>
         </div>

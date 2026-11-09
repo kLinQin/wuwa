@@ -40,6 +40,7 @@
           <div class="step-viewer">
             <button
               class="raised nav-btn prev"
+              aria-label="Previous step"
               onclick={() => prevStep(rotIdx)}
               disabled={stepIdx === 0}
             ><svg width="16" height="16" style="display:inline-block;vertical-align:middle"><use href="#arrow-left" /></svg></button>
@@ -53,6 +54,7 @@
 
             <button
               class="raised nav-btn next"
+              aria-label="Next step"
               onclick={() => nextStep(rotIdx, maxSteps)}
               disabled={stepIdx >= maxSteps - 1}
             ><svg width="16" height="16" style="display:inline-block;vertical-align:middle"><use href="#arrow-right" /></svg></button>
