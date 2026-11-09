@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Markdown from '#lib/components/Markdown.svelte';
   import SkillCard from './SkillCard.svelte';
   import Slider from './Slider.svelte';
 
@@ -31,14 +32,14 @@
         {@const lv = getLevel(key)}
         <SkillCard icon={getIconUrl(key)} typeLabel={labels[key]} name={skills[key].name || ''}>
           {#if skills[key].description}
-            <p class="desc">{skills[key].description}</p>
+            <div class="desc"><Markdown text={skills[key].description} /></div>
           {/if}
           {#if skills[key].effects}
             <ul class="effects">
               {#each skills[key].effects as eff}
                 <li>
                   {#if eff.isTitleVisible && eff.title}<strong>{eff.title}</strong>{/if}
-                  <span>{eff.description}</span>
+                  <Markdown text={eff.description} />
                 </li>
               {/each}
             </ul>
@@ -69,7 +70,7 @@
               {#each inh.effects as eff}
                 <li>
                   {#if eff.isTitleVisible && eff.title}<strong>{eff.title}</strong>{/if}
-                  <span>{eff.description}</span>
+                  <Markdown text={eff.description} />
                 </li>
               {/each}
             </ul>

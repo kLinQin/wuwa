@@ -1,4 +1,5 @@
 <script lang="ts">
+  import DataTable from '#lib/components/DataTable.svelte';
   import type { PageProps } from './$types';
   import DataSection from '#lib/components/DataSection.svelte';
   import DetailHeader from '#lib/components/DetailHeader.svelte';
@@ -44,18 +45,10 @@
     <div style="margin-bottom: var(--sp-3);">
       <Slider label="Weapon Level" value={wLevel} min={1} max={90} onchange={(v) => wLevel = v} />
     </div>
-    <table class="stats-table">
-      <thead>
-        <tr>
-          <th>Stat</th>
-          <th>Lv. {wLevel}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>ATK</td><td>{currentStats[0]}</td></tr>
-        <tr><td>{item.subStat}</td><td>{currentStats[1]}{item.subStat.includes('%') ? '%' : ''}</td></tr>
-      </tbody>
-    </table>
+    <DataTable title="Weapon Stats" headers={['Stat', { label: `Lv. ${wLevel}`, align: 'right' }]}>
+        <tr><td>ATK</td><td class="num">{currentStats[0]}</td></tr>
+        <tr><td>{item.subStat}</td><td class="num">{currentStats[1]}{item.subStat.includes('%') ? '%' : ''}</td></tr>
+      </DataTable>
   </DataSection>
 
   {#if item.passive}
@@ -92,27 +85,6 @@
   }
 
   
-
-  
-  .stats-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: var(--fs-sm);
-    font-family: var(--font-mono);
-    table-layout: fixed;
-  }
-  .stats-table th, .stats-table td {
-    text-align: left;
-    padding: var(--sp-2);
-    border-bottom: 1px solid var(--border);
-    font-variant-numeric: tabular-nums;
-  }
-  .stats-table th:nth-child(2), .stats-table td:nth-child(2) {
-    width: 30%;
-    text-align: right;
-  }
-  .stats-table th { color: var(--text-secondary); font-weight: var(--fw-medium); }
-  .stats-table tr:last-child td { border-bottom: none; }
 
   
   .desc { line-height: 1.6; color: var(--text-body); margin-bottom: var(--sp-3); }

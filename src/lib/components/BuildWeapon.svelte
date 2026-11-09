@@ -1,4 +1,5 @@
 <script lang="ts">
+  import DataTable from '#lib/components/DataTable.svelte';
   let { build, weapons = [], onnote }: { build: any; weapons?: any[]; onnote?: () => void } = $props();
 
   function getWeaponImage(slugOrName: string) {
@@ -28,20 +29,17 @@
 
     <div class="weapon-list">
       {#if build.weaponOptions}
-        <table class="stat-table weapon-table">
-          <thead><tr><th>Name</th><th>DPS %</th></tr></thead>
-          <tbody>
-            {#each build.weaponOptions as w}
-              <tr>
-                <td>
-                  {w.id.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase())}
-                  {#if w.rank}<span class="rank-text">(R{w.rank})</span>{/if}
-                </td>
-                <td>{w.percentage}%</td>
-              </tr>
-            {/each}
-          </tbody>
-        </table>
+        <DataTable title="Weapon Options" headers={['Name', { label: 'DPS %', align: 'right' }]} class="weapon-table">
+          {#each build.weaponOptions as w}
+            <tr>
+              <td>
+                {w.id.replace(/-/g, ' ').replace(/w/g, (c: string) => c.toUpperCase())}
+                {#if w.rank}<span class="rank-text">(R{w.rank})</span>{/if}
+              </td>
+              <td class="num">{w.percentage}%</td>
+            </tr>
+          {/each}
+        </DataTable>
       {/if}
 
 
@@ -93,8 +91,6 @@
   }
   .weapon-name.accent { color: var(--accent); }
 
-  .weapon-table { border-collapse: collapse; }
-
   .weapon-list {
     min-width: 0;
     max-width: 100%;
@@ -104,13 +100,7 @@
   }
 
 
-  .weapon-list .weapon-table th:last-child,
-  .weapon-list .weapon-table td:last-child {
-    width: 1%;
-    white-space: nowrap;
-  }
-
-  .rank-text { font-size: var(--fs-xs); color: var(--text-secondary); margin-left: 4px; }
+  .weapon-list .rank-text { font-size: var(--fs-xs); color: var(--text-secondary); margin-left: 4px; }
 
 
 </style>

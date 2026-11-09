@@ -52,7 +52,7 @@
                         src={`/icons/characters/${slug}.webp`}
                         alt={c}
                         class="char-avatar"
-                        onerror={(e) => { e.currentTarget.style.display='none'; e.currentTarget.nextElementSibling.style.display='flex'; }}
+                        onerror={(e) => { const el = e.currentTarget as HTMLImageElement; el.style.display='none'; const sib = el.nextElementSibling as HTMLElement | null; if (sib) sib.style.display='flex'; }}
                       />
                       <span class="char-fallback" style="display: none;">{c.charAt(0)}</span>
                     </a>

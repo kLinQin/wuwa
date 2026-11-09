@@ -56,6 +56,7 @@
   <DetailHeader
     hideDetails={true}
     title={item.Name}
+    image={item.AreaIcon || ''}
     badges={[
       ...(item.Description ? [{ label: item.Description, prefix: 'Type' }] : [])
     ]}

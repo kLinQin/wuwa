@@ -39,9 +39,7 @@
 <svelte:head><title>{item.name} Build — WWI</title></svelte:head>
 
 <div class="detail-page">
-  {#if item.imageBanner}
-    <div class="banner-bg" style="background-image: url({item.imageBanner})"></div>
-  {/if}
+  
 
   <DetailHeader
     title={item.name + ' Build'}
@@ -101,7 +99,6 @@
 
 <style>
   .detail-page { position: relative; width: 100%; padding: var(--content-pad); display: flex; flex-direction: column; gap: var(--sp-5); }
-  .banner-bg { position: absolute; top: 0; left: 0; right: 0; height: 200px; background-size: cover; background-position: center; opacity: 0.3; z-index: -1; mask-image: linear-gradient(to bottom, black 0%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%); }
   .changelog-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--sp-2); font-size: var(--fs-sm); }
   .changelog-list li { display: flex; align-items: baseline; gap: var(--sp-2); }
   .log-date { font-family: var(--font-mono); color: var(--text-secondary); white-space: nowrap; }

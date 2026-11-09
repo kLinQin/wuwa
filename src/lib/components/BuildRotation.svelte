@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { rotationGuide } from '#lib/data/rotation-guide.js';
+  import { rotationGuide } from '#lib/data/rotation-guide';
 
   let { build }: { build: any } = $props();
 

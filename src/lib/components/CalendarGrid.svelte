@@ -1,7 +1,8 @@
 <script lang="ts">
+  import { untrack } from 'svelte';
   let { events = [], initialDate = new Date() }: { events: any[]; initialDate?: Date } = $props();
 
-  let currentDate = $state(new Date(initialDate));
+  let currentDate = $state(untrack(() => initialDate ? new Date(initialDate) : new Date()));
   let selectedEvent = $state<any>(null);
 
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -43,9 +44,9 @@
 
 <div class="calendar-wrap">
   <div class="cal-header">
-    <button class="raised small-btn" onclick={prevMonth}><svg width="16" height="16" style="display:inline-block;vertical-align:middle"><use href="#arrow-left" /></svg></button>
+    <button class="raised small-btn" onclick={prevMonth} aria-label="Previous month"><svg width="16" height="16" style="display:inline-block;vertical-align:middle"><use href="#arrow-left" /></svg></button>
     <h2>{monthNames[currentMonth]} {currentYear}</h2>
-    <button class="raised small-btn" onclick={nextMonth}><svg width="16" height="16" style="display:inline-block;vertical-align:middle"><use href="#arrow-right" /></svg></button>
+    <button class="raised small-btn" onclick={nextMonth} aria-label="Next month"><svg width="16" height="16" style="display:inline-block;vertical-align:middle"><use href="#arrow-right" /></svg></button>
   </div>
 
   <div class="cal-grid">

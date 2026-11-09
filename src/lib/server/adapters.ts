@@ -304,7 +304,6 @@ export async function getCharacterDetail(encoreId: number): Promise<any | null> 
     sonatas: [],
     skills,
     sequences,
-    materials: null,
     changelog: [],
     intro: pickText(d.Introduction),
     mechanics: (() => {

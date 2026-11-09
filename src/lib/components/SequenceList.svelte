@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Markdown from '#lib/components/Markdown.svelte';
   import SkillCard from './SkillCard.svelte';
 
   let { sequences, charSlug }: { sequences: any[]; charSlug: string } = $props();
@@ -17,7 +18,7 @@
           {#each s.effects || [] as eff}
             <li>
               {#if eff.isTitleVisible && eff.title}<strong>{eff.title}</strong>{/if}
-              <span>{eff.description}</span>
+              <Markdown text={eff.description} />
             </li>
           {/each}
         </ul>

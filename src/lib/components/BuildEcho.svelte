@@ -1,4 +1,5 @@
 <script lang="ts">
+  import DataTable from '#lib/components/DataTable.svelte';
   import Tabs from '#lib/components/Tabs.svelte';
 
   let { build, echoes = [], sonatas = [], onnote }: { build: any; echoes?: any[]; sonatas?: any[]; onnote?: () => void } = $props();
@@ -111,34 +112,26 @@
 
         <div class="echo-bottom-grid">
           <div class="stats-box">
-            <h4 class="box-header box-header-inset">Main Stats</h4>
-            <table class="stat-table">
-              <thead><tr><th>Cost</th><th>Stat</th></tr></thead>
-              <tbody>
+            <DataTable title="Main Stats" headers={['Cost', { label: 'Stat', align: 'right' }]}>
                 {#each activeSet.stats as st}
                   <tr>
-                    <td class="cost">C{st.cost}</td>
-                    <td class="stat">{st.stat}</td>
+                    <td class="k">C{st.cost}</td>
+                    <td class="num">{st.stat}</td>
                   </tr>
                 {/each}
-              </tbody>
-            </table>
+              </DataTable>
           </div>
 
           <div class="substats-box">
             {#if build.echoDetails.substats}
-              <h4 class="box-header box-header-inset">Substats</h4>
-              <table class="stat-table">
-                <thead><tr><th>No</th><th>Stat</th></tr></thead>
-                <tbody>
+              <DataTable title="Substats" headers={['No', { label: 'Stat', align: 'right' }]}>
                   {#each build.echoDetails.substats as sub, i}
                     <tr>
-                      <td class="cost">{i + 1}.</td>
-                      <td class="stat">{sub}</td>
+                      <td class="k">{i + 1}.</td>
+                      <td class="num">{sub}</td>
                     </tr>
                   {/each}
-                </tbody>
-              </table>
+                </DataTable>
             {/if}
           </div>
         </div>
@@ -231,8 +224,6 @@
     display: flex;
     flex-direction: column;
     gap: var(--sp-2);
-    padding: 0 var(--sp-3) var(--sp-3) var(--sp-3);
-    overflow: hidden;
   }
 
 

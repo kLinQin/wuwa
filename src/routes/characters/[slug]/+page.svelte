@@ -1,4 +1,5 @@
 <script lang="ts">
+  import DataTable from '#lib/components/DataTable.svelte';
   import type { PageProps } from './$types';
   import DataSection from '../../../lib/components/DataSection.svelte';
   import SkillList from '../../../lib/components/SkillList.svelte';
@@ -48,9 +49,7 @@
 <svelte:head><title>{item.name} — WWI</title></svelte:head>
 
 <div class="detail-page">
-  {#if item.imageBanner}
-    <div class="banner-bg" style="background-image: url({item.imageBanner})"></div>
-  {/if}
+  
 
   <DetailHeader
     title={item.name}
@@ -85,14 +84,11 @@
         <div style="margin-bottom: var(--sp-3);">
           <Slider label="Character Level" value={charLevel} min={1} max={90} onchange={(v) => charLevel = v} />
         </div>
-        <table class="stats-table">
-          <thead><tr><th>Stat</th><th>Lv.{charLevel}</th></tr></thead>
-          <tbody>
-            {#each statNames as name}
-              <tr><td>{name}</td><td>{lvStats[name] ?? '-'}</td></tr>
-            {/each}
-          </tbody>
-        </table>
+        <DataTable headers={['Stat', { label: `Lv.${charLevel}`, align: 'right' }]}>
+          {#each statNames as name}
+            <tr><td>{name}</td><td class="num">{lvStats[name] ?? '-'}</td></tr>
+          {/each}
+        </DataTable>
       </DataSection>
     {/if}
 
@@ -173,15 +169,8 @@
 
 <style>
   .detail-page { position: relative; width: 100%; padding: var(--content-pad); display: flex; flex-direction: column; gap: var(--sp-5); }
-  .banner-bg { position: absolute; top: 0; left: 0; right: 0; height: 200px; background-size: cover; background-position: center; opacity: 0.3; z-index: -1; mask-image: linear-gradient(to bottom, black 0%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%); }
   .desc { line-height: 1.6; color: var(--text-body); }
   .kit-content { min-height: 400px; }
-
-  .stats-table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); font-family: var(--font-mono); table-layout: fixed; }
-  .stats-table th, .stats-table td { text-align: left; padding: var(--sp-2); border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; }
-  .stats-table th:nth-child(2), .stats-table td:nth-child(2) { width: 30%; text-align: right; }
-  .stats-table th { color: var(--text-secondary); font-weight: var(--fw-medium); }
-  .stats-table tr:last-child td { border-bottom: none; }
 
   .mech { display: grid; grid-template-columns: 1fr; gap: var(--sp-3); align-items: start; }
   .mech-left { display: flex; justify-content: center; }

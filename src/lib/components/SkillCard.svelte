@@ -17,7 +17,7 @@
 <div class="skill-card surface">
   <div class="header">
     {#if icon}
-      <img src={icon} alt={name} class="icon" onerror={(e) => e.currentTarget.style.display = 'none'} />
+      <img src={icon} alt={name} class="icon" onerror={(e) => ((e.currentTarget as HTMLImageElement).style.display = 'none')} />
     {/if}
     <div class="title">
       <span class="type">{typeLabel}</span>

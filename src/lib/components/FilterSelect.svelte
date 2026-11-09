@@ -1,5 +1,5 @@
 <script lang="ts">
-  let { label, options, bind:value }: {
+  let { label, options, value = $bindable() }: {
     label: string;
     options: { value: any; label: string }[];
     value: any;

@@ -1,11 +1,10 @@
 import { error, json } from '@sveltejs/kit';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
-import { env } from '$env/dynamic/private';
 import type { RequestHandler } from './$types';
 
 const REMOTE_BASE = 'https://raw.githubusercontent.com/kLinQin/wuwa-data/main';
-const LOCAL_DATA_DIR = env.LOCAL_DATA_DIR || 'C:/Users/eggs/wuwa-data';
+const LOCAL_DATA_DIR = process.env.LOCAL_DATA_DIR || 'C:/Users/eggs/wuwa-data';
 const isDev = process.env.NODE_ENV !== 'production';
 
 async function fetchRemote(filePath: string, fetchFn: typeof fetch) {

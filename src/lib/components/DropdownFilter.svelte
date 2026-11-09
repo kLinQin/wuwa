@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
 
-  let { label, options, bind:value }: {
+  let { label, options, value = $bindable() }: {
     label: string;
     options: { value: any; label: string }[];
     value: any;
@@ -52,7 +52,7 @@
   </button>
 
   {#if open}
-    <div class="chips-container" onclick={(e) => e.stopPropagation()}>
+    <div class="chips-container" role="listbox" tabindex="-1" onkeydown={(e) => e.stopPropagation()} onclick={(e) => e.stopPropagation()}>
       <button class="chip raised" class:selected={value === 'all'} onclick={() => select('all')}>All</button>
       {#each options as opt}
         <button class="chip raised" class:selected={value === opt.value} onclick={() => select(opt.value)}>

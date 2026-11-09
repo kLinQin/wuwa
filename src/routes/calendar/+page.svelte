@@ -9,6 +9,7 @@
     type: 'banner' | 'weapon' | 'event' | string;
     icon?: string;
     background?: string;
+    description?: string;
     start: Date;
     end: Date;
   }
