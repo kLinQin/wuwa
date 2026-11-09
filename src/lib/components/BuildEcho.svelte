@@ -28,6 +28,11 @@
     })) || []
   );
 
+  function getEchoBySlug(slug: string) {
+    if (!slug) return null;
+    return echoes.find((e: any) => e.slug === slug) || null;
+  }
+
   function getEchoImage(name: string) {
     const found = echoes.find((e: any) => e.name.toLowerCase() === name.toLowerCase());
     return found ? found.image : '';
@@ -57,7 +62,11 @@
         <div class="echo-top-grid">
           <!-- ECHO -->
           <div class="echo-img-box">
-            {#if build.bestEcho && build.bestEcho.length > 0}
+            {#if getEchoBySlug(activeSet.echoSlug)}
+              {@const primaryEcho = getEchoBySlug(activeSet.echoSlug)}
+              <img src={primaryEcho.image} alt={primaryEcho.name} class="main-echo-img" />
+              <span class="main-echo-name">{primaryEcho.name}</span>
+            {:else if build.bestEcho && build.bestEcho.length > 0}
               {@const activeEchoName = build.bestEcho[echoIndex] || build.bestEcho[0]}
               {@const mainImg = getEchoImage(activeEchoName)}
               {#if mainImg}
@@ -68,11 +77,13 @@
               <div class="no-echo">No Main Echo</div>
             {/if}
 
+            {#if !activeSet.echoSlug && build.bestEcho && build.bestEcho.length > 0}
             <div class="sonata-nav">
               <button class="raised" onclick={() => prevEcho()} disabled={!build.bestEcho || build.bestEcho.length <= 1 || echoIndex === 0}>←</button>
               <span class="sonata-indicator">{build.bestEcho?.length > 0 ? echoIndex + 1 : 0} / {build.bestEcho?.length || 1}</span>
               <button class="raised" onclick={() => nextEcho(build.bestEcho?.length || 1)} disabled={!build.bestEcho || build.bestEcho.length <= 1 || echoIndex >= build.bestEcho.length - 1}>→</button>
             </div>
+            {/if}
           </div>
 
           <!-- SONATA -->

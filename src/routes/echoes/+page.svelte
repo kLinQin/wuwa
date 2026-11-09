@@ -10,9 +10,11 @@
   const filtered = $derived(data.items.filter((e: any) =>
     sn === 'all' || (e.sonatas && e.sonatas.includes(sn))
   ));
+  function resetAll() { sn = 'all'; }
+
 </script>
 
-<PageGrid title="Echoes" items={filtered} countLabel="echoes">
+<PageGrid title="Echoes" items={filtered} countLabel="echoes" onReset={resetAll}>
   {#snippet filters()}
     <InlineFilter label="Sonata" bind:value={sn} options={data.sonatasConst.map((s: any) => ({ value: s.id, label: s.name }))} />
   {/snippet}

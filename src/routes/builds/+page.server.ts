@@ -3,10 +3,12 @@ import { listCharacters } from '../../lib/server/adapters';
 import { loadWuwaJSON } from '../../lib/server/wuwa';
 
 export const load: PageServerLoad = async ({ fetch }) => {
-  const [chars, buildsIndex, resonators] = await Promise.all([
+  const [chars, buildsIndex, resonators, elements, weaponsConst] = await Promise.all([
     listCharacters(),
     loadWuwaJSON('builds/index.json', fetch),
-    loadWuwaJSON('resonators/index.json', fetch)
+    loadWuwaJSON('resonators/index.json', fetch),
+    loadWuwaJSON('constants/elements.json', fetch),
+    loadWuwaJSON('constants/weapons.json', fetch)
   ]);
   const slugify = (s: string) => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
   const buildSlugs = new Set<string>((buildsIndex || []).map((b: any) => b.slug || slugify(b.name)));
@@ -20,5 +22,5 @@ export const load: PageServerLoad = async ({ fetch }) => {
       if (!r) return c;
       return { ...c, image: r.image || c.image, icon: r.icon || c.icon };
     });
-  return { items: withBuilds };
+  return { items: withBuilds, elements: elements || [], weaponsConst: weaponsConst || [] };
 };

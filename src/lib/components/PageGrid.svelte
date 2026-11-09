@@ -9,6 +9,7 @@
     children,
     filters,
     searchAsLabel = false,
+    onReset,
   }: {
     title: string;
     items: any[];
@@ -16,6 +17,7 @@
     children: Snippet<[any]>;
     filters?: Snippet;
     searchAsLabel?: boolean;
+    onReset?: () => void;
   } = $props();
 
   let q = $state('');
@@ -55,6 +57,9 @@
         <div class="filters-wrapper" class:hide-others={openedFilter !== null}>
            {@render filters()}
         </div>
+        {#if onReset}
+          <button class="raised reset-btn" onclick={() => { q = ''; onReset?.(); }} title="Reset filters" aria-label="Reset filters"><svg width="16" height="16"><use href="#reset" /></svg></button>
+        {/if}
       </div>
     {/if}
   </div>
@@ -98,6 +103,15 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--sp-4);
+  }
+
+  .reset-btn {
+    padding: 0 var(--sp-3);
+    font-size: var(--fs-sm);
+    cursor: pointer;
+    height: 100%;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .search-box {

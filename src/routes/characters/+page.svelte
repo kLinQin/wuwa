@@ -14,9 +14,11 @@
     (wp === 'all' || c.weapon === wp) &&
     (rr === 'all' || c.rarity === rr)
   ));
+  function resetAll() { el = 'all'; wp = 'all'; rr = 'all'; }
+
 </script>
 
-<PageGrid title="Characters" items={filtered} countLabel="characters">
+<PageGrid title="Characters" items={filtered} countLabel="characters" onReset={resetAll}>
   {#snippet filters()}
     <InlineFilter label="Element" bind:value={el} options={data.elements.map((e: any) => ({ value: e.id, label: e.name }))} />
     <InlineFilter label="Weapon" bind:value={wp} options={data.weaponsConst.map((w: any) => ({ value: w.id, label: w.name }))} />
