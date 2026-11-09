@@ -183,10 +183,17 @@
   .slider-row input[type=range] { flex: 1; }
   .lvl-badge { font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--accent); min-width: 60px; text-align: right; }
 
-  .mech { display: grid; grid-template-columns: 240px 1fr; gap: var(--sp-3); align-items: start; }
+  .mech { display: grid; grid-template-columns: 1fr; gap: var(--sp-3); align-items: start; }
   .mech-left { display: flex; justify-content: center; }
   .mech-right { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; }
-  .mech-icon { width: 240px; height: 240px; object-fit: contain; }
+
+  @media (min-width: 768px) {
+    .mech { grid-template-columns: 240px 1fr; }
+  }
+  .mech-icon { width: 160px; height: 160px; object-fit: contain; }
+  @media (min-width: 768px) {
+    .mech-icon { width: 240px; height: 240px; }
+  }
   .mech-list { margin: 0; padding-left: var(--sp-4); display: flex; flex-direction: column; gap: var(--sp-2); font-size: var(--fs-sm); line-height: 1.5; color: var(--text-body); }
   .mech-inputs { display: flex; flex-direction: column; gap: var(--sp-2); }
   .mech-label { font-size: var(--fs-sm); color: var(--text-secondary); font-weight: var(--fw-medium); }

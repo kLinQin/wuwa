@@ -127,12 +127,99 @@ function buildMaterials(d: any, itemIdx: Map<number, any>): { materials: any; it
       asc[c.Key] = (asc[c.Key] || 0) + c.Value;
     }
   }
-  const sk: Record<number, number> = {};
+
+  // Kumpulkan material unik dari SkillTree (untuk tahu ID material)
+  const uniqueSkillMats = new Set<number>();
   for (const t of (d.SkillTree || [])) {
     for (const c of (t.Consume || [])) {
-      sk[c.Key] = (sk[c.Key] || 0) + c.Value;
+      uniqueSkillMats.add(c.Key);
     }
   }
+
+  // Mapping statis skill amount (universal WuWa)
+  const staticSkillAmounts: Record<string, number> = {
+    // Shell Credit selalu 2030000
+    'shellCredit': 2030000,
+    // LF/MF/HF/FF (Common Drops) - total dari 5 skill + inherent + stat nodes
+    'commonT1': 25,
+    'commonT2': 28,
+    'commonT3': 40,
+    'commonT4': 57,
+    // Skill Material (Forgery) T1-T4
+    'skillT1': 25,
+    'skillT2': 28,
+    'skillT3': 55,
+    'skillT4': 67,
+    // Weekly Boss
+    'weeklyBoss': 26
+  };
+
+  // Resolve ID material skill dengan cara deteksi via itemIdx
+  // Kita perlu tahu mana yang common (Whisperin/Ring/Howler) vs skill material (Drip/Helix) vs weekly boss
+  // Shell credit = ID 2
+  const sk: Record<number, number> = {};
+
+  // Cari ID shell credit (2)
+  sk[2] = staticSkillAmounts['shellCredit'];
+
+  // Klasifikasi uniqueSkillMats berdasarkan item type / name
+  const sortedMats = Array.from(uniqueSkillMats).sort((a, b) => a - b);
+
+  // Strategi: ambil dari itemIdx, cek TypeName atau Name pattern
+  // Common drops biasanya namanya mengandung "Whisperin Core" / "Ring" / "Howler Core"
+  // Skill material: "Metallic Drip" / "Helix" / "Phlogiston"
+  // Weekly boss: biasanya satu-satunya yang bukan common/skill
+
+  const commonMats: number[] = [];
+  const skillMats: number[] = [];
+
+  for (const id of sortedMats) {
+    if (id === 2) continue; // skip shell credit
+    const item = itemIdx.get(id);
+    if (!item) continue;
+
+    const name = (item.name || '').toLowerCase();
+    // Deteksi common drop (Whisperin, Ring, Howler)
+    if (name.includes('whisperin') || name.includes('ring') || name.includes('howler')) {
+      commonMats.push(id);
+    } else {
+      // Sisanya: skill material atau weekly boss
+      skillMats.push(id);
+    }
+  }
+
+  function completeSeries(baseNamePart: string, amounts: number[]) {
+    const series = Array.from(itemIdx.values())
+      .filter(x => (x.name || '').toLowerCase().includes(baseNamePart))
+      .sort((a, b) => a.tier - b.tier);
+    for (let i = 0; i < Math.min(4, series.length); i++) {
+      sk[series[i].id] = amounts[i];
+    }
+  }
+
+  if (commonMats.length > 0) {
+    const name = (itemIdx.get(commonMats[0])?.name || '').toLowerCase();
+    let base = '';
+    if (name.includes('whisperin')) base = 'whisperin core';
+    else if (name.includes('ring')) base = 'ring';
+    else if (name.includes('howler')) base = 'howler core';
+    if (base) completeSeries(base, [staticSkillAmounts['commonT1'], staticSkillAmounts['commonT2'], staticSkillAmounts['commonT3'], staticSkillAmounts['commonT4']]);
+  }
+
+  let skillBase = '';
+  let weeklyBossId = 0;
+  for (const id of skillMats) {
+    const item = itemIdx.get(id);
+    const name = (item?.name || '').toLowerCase();
+    if (name.includes('drip')) skillBase = 'metallic drip';
+    else if (name.includes('helix')) skillBase = 'helix';
+    else if (name.includes('phlogiston')) skillBase = 'phlogiston';
+    else if (name.includes('polarizer')) skillBase = 'polarizer';
+    else weeklyBossId = id;
+  }
+  if (skillBase) completeSeries(skillBase, [staticSkillAmounts['skillT1'], staticSkillAmounts['skillT2'], staticSkillAmounts['skillT3'], staticSkillAmounts['skillT4']]);
+  if (weeklyBossId) sk[weeklyBossId] = staticSkillAmounts['weeklyBoss'];
+
   const toList = (obj: Record<number, number>) =>
     Object.entries(obj).map(([k, v]) => ({ item: Number(k), amount: v }));
   const itemMap: Record<number, any> = {};
