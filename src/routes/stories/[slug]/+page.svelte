@@ -3,10 +3,47 @@
   import DataSection from '#lib/components/DataSection.svelte';
   import DetailHeader from '#lib/components/DetailHeader.svelte';
   import ExpandableImage from '#lib/components/ExpandableImage.svelte';
+  import StoryDialogue from '#lib/components/StoryDialogue.svelte';
+  import StoryDetailNav from '#lib/components/StoryDetailNav.svelte';
 
   let { data }: PageProps = $props();
   const item = $derived(data.item);
   const chapters = $derived((item.Chapters || []).filter((c: any) => c.Dialogues && c.Dialogues.length));
+
+  // Kumpulkan speaker unik untuk navigasi
+  const speakers = $derived.by(() => {
+    const set = new Set<string>();
+    for (const c of chapters) {
+      for (const d of c.Dialogues) {
+        if (d.Speaker) set.add(d.Speaker);
+      }
+    }
+    return Array.from(set).map(s => ({
+      name: s,
+      id: 'speaker-' + s.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+    }));
+  });
+
+  let activeId = $state('');
+
+  // Scrollspy
+  $effect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) activeId = entry.target.id;
+        }
+      },
+      { rootMargin: '-100px 0px -80% 0px' }
+    );
+    const els = document.querySelectorAll('.speaker-anchor');
+    els.forEach((s) => observer.observe(s));
+    return () => els.forEach((s) => observer.unobserve(s));
+  });
+
+  function scrollTo(id: string) {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  }
 </script>
 
 <svelte:head><title>{item.Name} — WuWa DB</title></svelte:head>
@@ -19,11 +56,12 @@
   <DetailHeader
     hideDetails={true}
     title={item.Name}
-
     badges={[
       ...(item.Description ? [{ label: item.Description, prefix: 'Type' }] : [])
     ]}
   />
+
+  <StoryDetailNav {speakers} {activeId} />
 
   {#if item.QuestDesc}
     <DataSection title="Overview">
@@ -34,14 +72,15 @@
   {#if chapters.length}
     <DataSection title="Story">
       <div class="chapters">
-        {#each chapters as chap, ci}
-          {#each chap.Dialogues as d}
-            <div class="dialogue">
-              {#if d.Speaker}
-                <span class="speaker">{d.Speaker}</span>
+        {#each chapters as chap}
+          {#each chap.Dialogues as d, i}
+            {#if d.Speaker}
+              {@const sid = 'speaker-' + d.Speaker.toLowerCase().replace(/[^a-z0-9]+/g, '-')}
+              {#if i === 0 || chap.Dialogues[i - 1].Speaker !== d.Speaker}
+                <div id={sid} class="speaker-anchor"></div>
               {/if}
-              <p class="line">{d.PlotLineKey}</p>
-            </div>
+            {/if}
+            <StoryDialogue speaker={d.Speaker} text={d.PlotLineKey} />
           {/each}
         {/each}
       </div>
@@ -52,11 +91,9 @@
 <style>
   .detail-page { padding: var(--content-pad); display: flex; flex-direction: column; gap: var(--sp-5); max-width: var(--max-content); margin: 0 auto; }
 
+  .small-btn { padding: 4px 8px; font-size: var(--fs-xs); cursor: pointer; flex-shrink: 0; }
 
-
+  .speaker-anchor { scroll-margin-top: calc(var(--nav-h) + 60px); }
   .desc { line-height: 1.6; color: var(--text-body); font-size: var(--fs-sm); }
   .chapters { display: flex; flex-direction: column; gap: var(--sp-3); }
-  .dialogue { display: flex; flex-direction: column; gap: 2px; padding: var(--sp-2) var(--sp-3); background: var(--bg-hover); border-radius: var(--radius); }
-  .speaker { font-size: var(--fs-xs); color: var(--accent); font-weight: var(--fw-medium); }
-  .line { margin: 0; font-size: var(--fs-sm); line-height: 1.6; color: var(--text-body); }
 </style>
