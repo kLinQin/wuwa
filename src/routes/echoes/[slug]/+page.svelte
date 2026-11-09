@@ -77,37 +77,11 @@
     gap: var(--sp-5);
   }
 
-  .echo-header {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-4);
-    padding: var(--sp-4);
-    background: var(--bg-elev);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-  }
-  .echo-img {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-    background: var(--bg-hover);
-    border-radius: var(--radius);
-  }
-  .info h1 { margin: 0 0 var(--sp-2); font-size: var(--fs-xl); }
-  .tags { display: flex; gap: var(--sp-2); flex-wrap: wrap; margin-bottom: var(--sp-2); }
-  .stars { color: #f5c518; }
-  .muted { background: var(--bg-hover); color: var(--text-secondary); }
-  .meta-text { color: var(--text-secondary); font-size: var(--fs-sm); margin: 0; }
-
   .skill-desc { line-height: 1.6; color: var(--text-body); font-size: var(--fs-sm); }
   .sonata-list { display: flex; flex-direction: column; gap: var(--sp-3); }
   .sonata-acc-body { display: flex; flex-direction: column; align-items: center; gap: var(--sp-3); }
   .sonata-acc-img { width: 96px; height: 96px; object-fit: contain; border-radius: var(--radius); background: var(--bg-elev); }
   .sonata-acc-content { max-width: 800px; margin: 0 auto; text-align: left; width: 100%; }
-  .sonata-item { display: flex; flex-direction: column; gap: var(--sp-2); padding: var(--sp-3); background: var(--bg-hover); border-radius: var(--radius); }
-  .sonata-head { display: flex; align-items: center; gap: var(--sp-2); }
-  .sonata-icon { width: 32px; height: 32px; object-fit: contain; }
-  .sonata-name { font-size: var(--fs-md); font-weight: var(--fw-medium); }
   .sonata-desc { font-size: var(--fs-xs); font-style: italic; color: var(--text-secondary); margin: 0; line-height: 1.5; }
   .sonata-effects { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--sp-1); font-size: var(--fs-sm); color: var(--text-body); }
   .sonata-effects strong { color: var(--accent); }

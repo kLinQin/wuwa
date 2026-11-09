@@ -13,7 +13,8 @@
     children?: Snippet;
   } = $props();
 
-  let open = $state(defaultOpen);
+  let open = $state(false);
+  $effect(() => { open = defaultOpen; });
 </script>
 
 <div class="surface accordion">

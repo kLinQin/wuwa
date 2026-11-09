@@ -116,8 +116,5 @@
 
   /* Passive & Lore */
   .desc { line-height: 1.6; color: var(--text-body); margin-bottom: var(--sp-3); }
-  .refinements h4 { margin: var(--sp-3) 0 var(--sp-2) 0; font-size: var(--fs-md); }
-  .refinements ol { margin: 0; padding-left: var(--sp-4); font-size: var(--fs-sm); line-height: 1.5; }
-  .refinements li { margin-bottom: var(--sp-1); }
   .lore-text { white-space: pre-line; line-height: 1.6; color: var(--text-secondary); font-style: italic; }
 </style>

@@ -75,8 +75,6 @@
       {#if item.color}
         <span class="badge" style:color={item.color}>{item.color}</span>
       {/if}
-    {:else if kind === 'echo'}
-      
     {/if}
   </div>
   {/if}

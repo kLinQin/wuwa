@@ -177,37 +177,6 @@
     border-bottom: none;
   }
 
-  /* --- ACCORDION --- */
-  .accordion-wrapper {
-    width: 100%;
-    margin-top: var(--sp-2);
-    border-top: 1px solid var(--border);
-  }
-
-  .accordion-toggle {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: none;
-    border: none;
-    padding: var(--sp-2) 0;
-    color: var(--text-secondary);
-    font-size: var(--fs-sm);
-    cursor: pointer;
-    font-family: inherit;
-  }
-  .accordion-toggle:hover {
-    color: var(--text-body);
-  }
-
-  .chevron {
-    font-size: var(--fs-2xs);
-  }
-  .chevron.open {
-    transform: rotate(180deg);
-  }
-
   /* --- BAGIAN BAWAH (Role & Sonata) --- */
   .bottom-tags {
     display: flex;

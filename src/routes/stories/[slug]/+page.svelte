@@ -91,8 +91,6 @@
 <style>
   .detail-page { padding: var(--content-pad); display: flex; flex-direction: column; gap: var(--sp-5); max-width: var(--max-content); margin: 0 auto; }
 
-  .small-btn { padding: 4px 8px; font-size: var(--fs-xs); cursor: pointer; flex-shrink: 0; }
-
   .speaker-anchor { scroll-margin-top: calc(var(--nav-h) + 60px); }
   .desc { line-height: 1.6; color: var(--text-body); font-size: var(--fs-sm); }
   .chapters { display: flex; flex-direction: column; gap: var(--sp-3); }

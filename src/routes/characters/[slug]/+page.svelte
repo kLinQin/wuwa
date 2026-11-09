@@ -183,13 +183,6 @@
   .stats-table th { color: var(--text-secondary); font-weight: var(--fw-medium); }
   .stats-table tr:last-child td { border-bottom: none; }
 
-  .kv { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--sp-1); font-size: var(--fs-sm); color: var(--text-body); }
-  .kv strong { color: var(--text-secondary); font-weight: var(--fw-medium); margin-right: var(--sp-2); }
-
-  .slider-row { display: flex; align-items: center; gap: var(--sp-3); margin-bottom: var(--sp-3); }
-  .slider-row input[type=range] { flex: 1; }
-  .lvl-badge { font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--accent); min-width: 60px; text-align: right; }
-
   .mech { display: grid; grid-template-columns: 1fr; gap: var(--sp-3); align-items: start; }
   .mech-left { display: flex; justify-content: center; }
   .mech-right { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; }
@@ -207,7 +200,4 @@
   .mech-list :global(img) { display: inline-block; vertical-align: middle; height: 20px; }
 
   .lore-content { display: flex; flex-direction: column; gap: var(--sp-2); margin-top: var(--sp-3); }
-  .lore-entry { background: var(--bg-hover); padding: var(--sp-2) var(--sp-3); border-radius: var(--radius); }
-  .lore-entry summary { cursor: pointer; color: var(--accent); font-size: var(--fs-sm); font-weight: var(--fw-medium); }
-  .lore-body { margin-top: var(--sp-2); white-space: pre-line; line-height: 1.6; font-size: var(--fs-sm); color: var(--text-body); }
 </style>

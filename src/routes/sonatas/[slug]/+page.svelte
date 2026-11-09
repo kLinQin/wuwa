@@ -73,8 +73,6 @@
     gap: var(--sp-5);
   }
 
-  .info h1 { margin: 0 0 var(--sp-1); font-size: var(--fs-xl); color: var(--sonata-color, var(--text-body)); }
-
   .fetters-list { display: flex; flex-direction: column; gap: var(--sp-3); }
   .fetter-item { padding: var(--sp-3); display: flex; flex-direction: column; gap: var(--sp-2); }
   .key-badge {

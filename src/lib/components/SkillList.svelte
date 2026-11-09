@@ -87,10 +87,6 @@
   .effects li { background: var(--bg-hover); padding: var(--sp-2); border-radius: var(--radius); font-size: var(--fs-sm); line-height: 1.5; }
   .effects strong { display: block; margin-bottom: 2px; color: var(--text-body); font-weight: var(--fw-bold); }
   .multiplier { display: flex; flex-direction: column; gap: var(--sp-2); margin-top: var(--sp-2); }
-  .mult-head { display: flex; justify-content: space-between; align-items: center; }
-  .mult-label { font-size: var(--fs-xs); color: var(--text-secondary); text-transform: uppercase; }
-  .mult-badge { font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--accent); }
-  .multiplier input[type=range] { width: 100%; }
   .mult-table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); font-family: var(--font-mono); }
   .mult-table th, .mult-table td { text-align: left; padding: 4px var(--sp-2); border-bottom: 1px solid var(--border); }
   .mult-table th { color: var(--text-secondary); font-weight: var(--fw-medium); }
