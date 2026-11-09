@@ -46,12 +46,8 @@
   }));
 
   const ongoingChars = $derived(ongoingBanners.filter((e: any) => !/weapon/i.test(e.name)).slice(0, 3));
-  const ongoingWeapons = $derived(ongoingBanners.filter((e: any) => /weapon/i.test(e.name)).slice(0, 3));
-  const ongoingActivities = $derived((data.events || []).filter((e: any) => {
-    if (!e.startDate || !e.endDate || e.type !== 'event') return false;
-    const n = new Date().getTime(), a = new Date(e.startDate).getTime(), b = new Date(e.endDate).getTime();
-    return n >= a && n <= b;
-  }).slice(0, 3));
+
+
   const stats = $derived([
     { label: 'Characters', count: data.characters.length, href: '/characters' },
     { label: 'Weapons', count: data.weapons.length, href: '/weapons' },
@@ -94,7 +90,7 @@
 
 {#if ongoingChars.length > 0}
   <section class="events-home">
-    <h2>Ongoing Characters</h2>
+    <h2>Ongoing Banner</h2>
     <div class="events-scroll">
       {#each ongoingChars as ev}
         <a href="/calendar" class="event-card surface">
@@ -109,39 +105,7 @@
   </section>
 {/if}
 
-{#if ongoingWeapons.length > 0}
-  <section class="events-home">
-    <h2>Ongoing Weapons</h2>
-    <div class="events-scroll">
-      {#each ongoingWeapons as ev}
-        <a href="/calendar" class="event-card surface">
-          {#if ev.coverImgSrc}<img src={ev.coverImgSrc} alt={ev.name} class="event-img" />{/if}
-          <div class="event-info">
-            <h3>{ev.name}</h3>
-            <p class="date">Ends: {ev.endDate.split(' ')[0]}</p>
-          </div>
-        </a>
-      {/each}
-    </div>
-  </section>
-{/if}
 
-{#if ongoingActivities.length > 0}
-  <section class="events-home">
-    <h2>Ongoing Events</h2>
-    <div class="events-scroll">
-      {#each ongoingActivities as ev}
-        <a href="/calendar" class="event-card surface">
-          {#if ev.coverImgSrc}<img src={ev.coverImgSrc} alt={ev.name} class="event-img" />{/if}
-          <div class="event-info">
-            <h3>{ev.name}</h3>
-            <p class="date">Ends: {ev.endDate.split(' ')[0]}</p>
-          </div>
-        </a>
-      {/each}
-    </div>
-  </section>
-{/if}
 
 <section class="stats">
   {#each stats as s}
@@ -179,10 +143,24 @@
 
   .events-home { margin: var(--sp-4) 0; }
   .events-home h2 { font-size: var(--fs-md); margin: 0 0 var(--sp-2); }
-  .events-scroll { display: flex; overflow-x: auto; gap: var(--sp-2); padding-bottom: var(--sp-2); scrollbar-width: none; }
+  .events-scroll {
+    display: flex;
+    overflow-x: auto;
+    gap: var(--sp-2);
+    padding-bottom: var(--sp-2);
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
   .events-scroll::-webkit-scrollbar { display: none; }
-  .event-card { flex: 0 0 auto; width: 240px; display: flex; flex-direction: column; text-decoration: none; color: inherit; overflow: hidden; border-radius: var(--radius); }
-  .event-img { width: 100%; height: 100px; object-fit: cover; background: var(--bg-hover); }
+  .events-scroll .event-card { flex: 0 0 70%; } /* mobile: 70% width, kira-kira 1.4 card */
+
+  @media (min-width: 768px) {
+    .events-scroll { display: grid; grid-template-columns: repeat(3, 1fr); overflow: visible; }
+    .events-scroll .event-card { flex: initial; }
+  }
+  .events-scroll::-webkit-scrollbar { display: none; }
+  .event-card { display: flex; flex-direction: column; text-decoration: none; color: inherit; overflow: hidden; border-radius: var(--radius); }
+  .event-img { width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; background: var(--bg-hover); }
   .event-info { padding: var(--sp-2); display: flex; flex-direction: column; gap: 2px; }
   .event-info h3 { font-size: var(--fs-sm); margin: 0; color: var(--accent); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .event-info .date { font-size: var(--fs-xs); color: var(--text-secondary); margin: 0; font-family: var(--font-mono); }

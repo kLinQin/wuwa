@@ -160,7 +160,7 @@
     max-width: var(--max-content);
     margin: 0 auto;
     padding: var(--content-pad);
-    padding-bottom: calc(var(--nav-h) + var(--content-pad)); /* space untuk nav bawah (mobile) */
+    padding-bottom: calc(var(--nav-h) - 20px); /* space untuk nav bawah */
   }
   main::-webkit-scrollbar { display: none; }
   .content { max-width: var(--max-content); margin: 0 auto; }
