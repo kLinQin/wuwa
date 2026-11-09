@@ -27,7 +27,7 @@
   const imgSrc = $derived(kind === 'character' ? item.icon : item.image);
   const starStr = $derived(item.rarity ? '★'.repeat(item.rarity) : '');
 
-  // meta row only rendered when there is content
+  
   const hasMeta = $derived(
     kind === 'character' ? !!item.class
       : kind === 'weapon' ? !!(wpName || item.subStat)

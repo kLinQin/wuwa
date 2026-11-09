@@ -84,7 +84,7 @@
     height: 100%;
     margin-left: auto;
 
-    /* Menempel penuh di container; scroll horizontal terjadi di sini */
+    
     min-width: 0;
     flex: 1;
     width: 100%;

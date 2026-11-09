@@ -6,7 +6,7 @@ import type { RequestHandler } from './$types';
 
 const BASE = 'https://api-v2.encore.moe/resource';
 const CACHE_DIR = path.resolve('static/cache/img');
-const TTL_MS = 1000 * 60 * 60 * 24 * 7; // 7 hari
+const TTL_MS = 1000 * 60 * 60 * 24 * 7; 
 
 function hashOf(s: string): string {
   return crypto.createHash('sha1').update(s).digest('hex');
@@ -24,7 +24,7 @@ export const GET: RequestHandler = async ({ params, fetch, setHeaders }) => {
   const cachePath = path.join(CACHE_DIR, hash + '.bin');
   const metaPath = path.join(CACHE_DIR, hash + '.meta.json');
 
-  // cek cache
+  
   try {
     const stat = await fs.stat(cachePath);
     const age = Date.now() - stat.mtimeMs;
@@ -39,10 +39,10 @@ export const GET: RequestHandler = async ({ params, fetch, setHeaders }) => {
       return new Response(buf, { status: 200 });
     }
   } catch {
-    // miss
+    
   }
 
-  // fetch upstream
+  
   const res = await fetch(`${BASE}/${p}`);
   if (!res.ok) throw error(res.status, 'Upstream image failed');
   const ct = res.headers.get('content-type') || '';
@@ -50,7 +50,7 @@ export const GET: RequestHandler = async ({ params, fetch, setHeaders }) => {
 
   const buf = Buffer.from(await res.arrayBuffer());
 
-  // simpan ke cache (non-blocking)
+  
   ensureDir()
     .then(() => Promise.all([
       fs.writeFile(cachePath, buf),

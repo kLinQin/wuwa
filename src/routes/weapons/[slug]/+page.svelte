@@ -93,7 +93,7 @@
 
   
 
-  /* Stats Table */
+  
   .stats-table {
     width: 100%;
     border-collapse: collapse;
@@ -114,7 +114,7 @@
   .stats-table th { color: var(--text-secondary); font-weight: var(--fw-medium); }
   .stats-table tr:last-child td { border-bottom: none; }
 
-  /* Passive & Lore */
+  
   .desc { line-height: 1.6; color: var(--text-body); margin-bottom: var(--sp-3); }
   .lore-text { white-space: pre-line; line-height: 1.6; color: var(--text-secondary); font-style: italic; }
 </style>

@@ -13,15 +13,15 @@
   function prevMonth() { currentDate = new Date(currentYear, currentMonth - 1, 1); }
   function nextMonth() { currentDate = new Date(currentYear, currentMonth + 1, 1); }
 
-  // Hitung grid
+  
   const daysInMonth = $derived(new Date(currentYear, currentMonth + 1, 0).getDate());
   const firstDayIndex = $derived(new Date(currentYear, currentMonth, 1).getDay());
 
   const grid = $derived.by(() => {
     const cells: { date: number | null; events: any[] }[] = [];
-    // Padding awal
+    
     for (let i = 0; i < firstDayIndex; i++) cells.push({ date: null, events: [] });
-    // Tanggal
+    
     for (let d = 1; d <= daysInMonth; d++) {
       const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
       const dayEvents = events.filter(e => {
@@ -170,7 +170,7 @@
   .cal-event.banner { background: var(--accent); color: var(--text-inverse); }
   .cal-event:hover { opacity: 0.8; }
 
-  /* Modal */
+  
   .modal-overlay {
     position: fixed;
     inset: 0;

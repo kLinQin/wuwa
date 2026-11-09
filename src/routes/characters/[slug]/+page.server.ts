@@ -20,7 +20,7 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
 
   if (!encoreChar) throw error(404, 'Character not found');
 
-  // Merge build data (recommendedStats, build, analysisCharts) from wuwa-data
+  
   const mergedItem = {
     ...encoreChar,
     ...(buildData ? {

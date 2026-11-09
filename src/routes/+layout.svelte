@@ -35,7 +35,7 @@
     }).join(' / ');
   })());
 
-  // hide nav on mobile saat scroll down
+  
   let visible = $state(true);
   let last_scroll = 0;
   function handle_scroll() {
@@ -44,7 +44,7 @@
     last_scroll = s;
   }
 
-  $effect(() => { open; /* close saat route ganti */ });
+  $effect(() => { open;  });
   $effect(() => { page.url.pathname; open = false; });
 </script>
 
@@ -94,7 +94,7 @@
 </main>
 
 <style>
-  /* ===== Nav base ===== */
+  
   nav {
     position: fixed;
     left: 0;
@@ -103,13 +103,13 @@
     height: var(--nav-h);
     background: var(--bg-elev);
     font-family: var(--font-ui);
-    /* mobile: di bawah */
+    
     bottom: 0;
     top: unset;
     border-top: 1px solid var(--border);
   }
 
-  /* isi nav: lebar maks 1024px, di tengah */
+  
   .nav-inner {
     display: flex;
     justify-content: space-between;
@@ -148,7 +148,7 @@
 
   .menu { display: flex; gap: var(--sp-2); justify-self: end; }
 
-  /* ===== Main scroll area ===== */
+  
   :global(body) {
     overflow: hidden;
   }
@@ -161,12 +161,12 @@
     max-width: var(--max-content);
     margin: 0 auto;
     padding: var(--content-pad);
-    padding-bottom: calc(var(--nav-h) - 20px); /* space untuk nav bawah */
+    padding-bottom: calc(var(--nav-h) - 20px); 
   }
   main::-webkit-scrollbar { display: none; }
   .content { max-width: var(--max-content); margin: 0 auto; }
 
-  /* ===== Mobile menu ===== */
+  
   .mobile-menu {
     position: fixed;
     left: 0;
@@ -190,7 +190,7 @@
   .mobile-menu a:hover { background: var(--bg-hover); }
   .mobile-menu a[aria-current="page"] { color: var(--accent); }
 
-  /* ===== Mobile nav auto-hide (slide down) ===== */
+  
   @media (max-width: 831px) {
     nav {
       top: unset;
@@ -202,7 +202,7 @@
     }
   }
 
-  /* ===== Desktop: nav di atas ===== */
+  
   @media (min-width: 832px) {
     .nav-inner {
       display: grid;

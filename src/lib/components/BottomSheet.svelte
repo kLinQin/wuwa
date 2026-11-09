@@ -120,11 +120,11 @@
       margin: 0 auto;
       left: 0;
       right: 0;
-      transform: translateX(0); /* reset */
+      transform: translateX(0); 
     }
   }
 
-  /* Geser ke kiri 5px hanya untuk layar > 1024px */
+  
   @media (min-width: 1025px) {
     .sheet {
       transform: translateX(-10px);

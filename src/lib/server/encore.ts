@@ -1,4 +1,4 @@
-// Encore API client (server-side, cached)
+
 const BASE = 'https://api-v2.encore.moe/api';
 const TTL = 10 * 60 * 1000;
 const cache = new Map<string, { data: any; t: number }>();

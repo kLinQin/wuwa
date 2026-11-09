@@ -14,10 +14,10 @@
     return 'var(--rank-default)';
   }
 
-  // State untuk animasi
+  
   let mounted = $state(false);
   onMount(() => {
-    // Timeout kecil agar browser sempat render lebar 0 terlebih dahulu
+    
     setTimeout(() => {
       mounted = true;
     }, 50);

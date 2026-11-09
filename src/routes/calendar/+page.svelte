@@ -3,7 +3,7 @@
   import BottomSheet from '#lib/components/BottomSheet.svelte';
   let { data }: PageProps = $props();
 
-  // 1. Parse events with timestamp
+  
   interface ParsedEvent {
     title: string;
     type: 'banner' | 'weapon' | 'event' | string;
@@ -28,10 +28,10 @@
     }).filter(Boolean) as ParsedEvent[]
   );
 
-  // 2. Month selection state - Default to Current Real Date
+  
   const initialDate = new Date();
   let selectedYear = $state<number>(initialDate.getFullYear());
-  let selectedMonth = $state<number>(initialDate.getMonth()); // 0-indexed
+  let selectedMonth = $state<number>(initialDate.getMonth()); 
 
   function getStatusBadge(start: Date, end: Date): { label: string; state: string } {
     const now = Date.now();
@@ -70,12 +70,12 @@
   const monthStart = $derived(new Date(selectedYear, selectedMonth, 1, 0, 0, 0));
   const monthEnd = $derived(new Date(selectedYear, selectedMonth + 1, 0, 23, 59, 59));
 
-  // Filter events visible in selected month
+  
   const monthEvents = $derived(
     events.filter(e => e.end >= monthStart && e.start <= monthEnd)
   );
 
-  // Active filter
+  
   let filterType = $state<'all' | 'banner' | 'event'>('all');
   const filteredEvents = $derived(
     filterType === 'all' ? monthEvents : monthEvents.filter(e => e.type === filterType)
@@ -99,7 +99,7 @@
     }
   }
 
-  // Calculate grid column start and span (1-based, 1 to daysInMonth)
+  
   function getColRange(e: ParsedEvent) {
     const isStartInMonth = e.start >= monthStart && e.start <= monthEnd;
     const isEndInMonth = e.end >= monthStart && e.end <= monthEnd;
@@ -109,7 +109,7 @@
     return { start: s, span, isStartInMonth, isEndInMonth };
   }
 
-  // Today marker
+  
   const today = new Date();
   const isCurrentMonth = $derived(
     today.getFullYear() === selectedYear && today.getMonth() === selectedMonth
@@ -325,7 +325,7 @@
 
 
 
-  /* Timeline Grid Layout */
+  
 
 
   .timeline-container {
@@ -560,7 +560,7 @@
     background: #f39c12;
   }
 
-  /* Mobile Responsive: 1 baris untuk bulan & filter */
+  
   @media (max-width: 768px) {
     .cal-header {
       flex-direction: row;

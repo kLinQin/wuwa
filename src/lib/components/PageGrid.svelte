@@ -132,7 +132,7 @@
   @media (max-width: 639px) {
     .search-box {
       min-width: 100px;
-      max-width: 150px; /* Lebih kecil khusus mobile */
+      max-width: 150px; 
     }
   }
 
@@ -158,7 +158,7 @@
     min-width: 0;
   }
 
-  /* CSS ini digunakan sebagai fallback, tapi utamanya dikendalikan oleh state */
+  
   .filters-wrapper.hide-others :global(.inline-filter:not(.is-open)) {
     display: none;
   }
@@ -188,7 +188,7 @@
 
   @media (max-width: 639px) {
     .grid {
-      grid-template-columns: repeat(3, 1fr); /* Paksa 3 kolom di mobile */
+      grid-template-columns: repeat(3, 1fr); 
       gap: var(--sp-2);
     }
   }

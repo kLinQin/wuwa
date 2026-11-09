@@ -92,7 +92,7 @@
     .chips-container {
     position: absolute;
     top: calc(100% + 4px);
-    /* Default: nempel di kiri tombol */
+    
     left: 0;
     right: auto;
     z-index: 50;

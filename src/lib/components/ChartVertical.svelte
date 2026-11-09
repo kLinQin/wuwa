@@ -7,7 +7,7 @@
     data && data.length > 0 ? Math.max(...data.map((x: any) => x.value)) : 1
   );
 
-  // Ambil persentase terendah sebagai baseline (biasanya 100%)
+  
   const baseline = $derived(
     data && data.length > 0 ? Math.min(...data.map((x: any) => x.percentage)) : 100
   );
@@ -87,17 +87,17 @@
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 320px; /* Diperbesar */
+    height: 320px; 
     gap: 16px !important;
     margin-top: var(--sp-2);
   }
 
-  /* --- LEGEND KIRI --- */
+  
   .v-legend {
     display: flex;
     flex-direction: column;
     gap: var(--sp-2);
-    width: 50%; /* 50% lebar */
+    width: 50%; 
     flex-shrink: 0;
     overflow-y: auto;
     border-right: 1px solid var(--border);
@@ -118,7 +118,7 @@
   }
 
   .dot {
-    margin-top: 4px; /* Sejajarkan dengan baris pertama teks */
+    margin-top: 4px; 
   }
 
   .legend-info {
@@ -151,17 +151,17 @@
   .legend-diff:not(.positive):not(.negative) { color: var(--text-secondary); }
   .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
-  /* --- CHART KANAN --- */
+  
   .v-chart-wrapper {
     display: flex;
     align-items: flex-end;
     justify-content: space-around;
     height: 100%;
-    flex: 1; /* Sisa 50% */
+    flex: 1; 
     border-bottom: 1px solid var(--border);
     padding-bottom: var(--sp-1);
     overflow-x: auto;
-    /* Tidak ada gap disini, jarak diatur oleh margin di child */
+    
   }
 
   .v-bar-group {
@@ -171,9 +171,9 @@
     justify-content: flex-end;
     height: 100%;
     width: 100%;
-    max-width: 60px; /* Maksimal lebar bar */
+    max-width: 60px; 
     flex: 1;
-    margin: 0 2px; /* Jarak tipis */
+    margin: 0 2px; 
     cursor: pointer;
   }
 
@@ -204,21 +204,21 @@
     border-radius: var(--radius) var(--radius) 0 0;
   }
 
-  /* Mobile: Legend turun ke bawah */
+  
   @media (max-width: 639px) {
     .v-chart-layout {
       flex-direction: column-reverse;
-      height: auto !important; /* Biarkan tinggi mengikuti isi */
-      min-height: 350px; /* Tetap beri tinggi minimal */
+      height: auto !important; 
+      min-height: 350px; 
       gap: var(--sp-3);
     }
     .v-chart-wrapper {
-      height: 250px; /* Perbesar sedikit chart di mobile */
+      height: 250px; 
       border-bottom: none;
       border-top: 1px solid var(--border);
       padding-top: var(--sp-3);
       align-items: flex-end;
-      flex: none; /* Jangan memaksa chart mengambil sisa ruang */
+      flex: none; 
     }
     .v-bar-group {
       height: 100% !important;
@@ -226,16 +226,16 @@
     }
     .v-legend {
       width: 100% !important;
-      max-height: none; /* Hapus max-height */
-      flex: none; /* Jangan flex: 1 agar tidak memaksa scroll */
+      max-height: none; 
+      flex: none; 
       flex-direction: column;
       flex-wrap: nowrap;
-      gap: 4px; /* Jarak antar legend */
+      gap: 4px; 
       border-right: none;
       padding-right: 0;
       border-bottom: 1px solid var(--border);
       padding-bottom: var(--sp-2);
-      overflow-y: visible; /* Hilangkan scroll */
+      overflow-y: visible; 
     }
   }
 </style>

@@ -64,7 +64,7 @@
   .chart-card {
     padding: var(--sp-3);
     display: flex;
-    flex-direction: column; /* Paksa judul di atas, chart di bawah */
+    flex-direction: column; 
     gap: var(--sp-2);
   }
   .chart-card h4 { margin: 0 0 var(--sp-3) 0; font-size: var(--fs-md); color: var(--accent); }
@@ -84,7 +84,7 @@
     font-style: italic;
   }
 
-  /* Style untuk BottomSheet */
+  
   .detail-row {
     display: flex;
     justify-content: space-between;

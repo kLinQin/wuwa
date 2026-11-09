@@ -99,19 +99,19 @@
     margin: 0;
     font-size: var(--fs-sm);
     color: var(--text-body);
-    white-space: nowrap; /* Cegah judul turun/berubah lebar */
+    white-space: nowrap; 
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  /* Area Langkah */
+  
   .step-viewer {
-    position: relative; /* Untuk anchor tombol */
+    position: relative; 
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 80px;
-    padding: 0 40px; /* Beri ruang agar teks tidak tabrakan tombol */
+    padding: 0 40px; 
   }
 
   .nav-btn {
@@ -121,7 +121,7 @@
     width: 32px;
     height: 32px;
     font-size: var(--fs-md);
-    /* Biarkan class .raised yang atur border/background */
+    
   }
 
   .nav-btn.prev {
@@ -139,14 +139,14 @@
 
   .step-content {
     flex: 1;
-    min-width: 400px; /* Lebar minimum teks */
+    min-width: 400px; 
     display: flex;
     flex-direction: column;
   }
 
   .step-body {
     flex: 1;
-    min-height: 80px; /* Kunci tinggi minimal agar tidak layout shift */
+    min-height: 80px; 
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -174,7 +174,7 @@
     font-weight: var(--fw-bold);
   }
 
-  /* Footer (Indicator & Dots) */
+  
   .step-footer {
     display: flex;
     flex-direction: column;

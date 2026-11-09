@@ -7,7 +7,7 @@
     return map?.[id] || { name: 'ID:' + id, tier: 0, image: '/icons/materials/placeholder.png' };
   }
 
-  // Gabungkan data Ascension dan Skill
+  
   const ascensionMats = $derived.by(() => {
     const counts: Record<number, number> = {};
     materials.ascension?.forEach((step: any) => {
@@ -26,7 +26,7 @@
     return Object.entries(counts).map(([id, amount]) => ({ id: Number(id), amount }));
   });
 
-  // Total gabungan
+  
   const totalMats = $derived.by(() => {
     const counts: Record<number, number> = {};
     ascensionMats.forEach((m: any) => counts[m.id] = (counts[m.id] || 0) + m.amount);
@@ -49,7 +49,7 @@
     }
   }
 
-  // State Tab
+  
   let activeTab = $state('total');
   const tabs = [
     { id: 'total', label: 'Total' },
@@ -57,7 +57,7 @@
     { id: 'skills', label: 'Skills' }
   ];
 
-  // Data yang ditampilkan menyesuaikan tab
+  
   const displayedMats = $derived(
     activeTab === 'total' ? totalMats :
     activeTab === 'ascension' ? ascensionMats :
@@ -129,7 +129,7 @@
     border-color: var(--accent);
   }
 
-  /* Warna Tier */
+  
   .tier-5 { border-color: #f5c518 !important; background: rgba(245,197,24,0.1) !important; }
   .tier-4 { border-color: #a855f7 !important; background: rgba(168,85,247,0.1) !important; }
   .tier-3 { border-color: #3b82f6 !important; background: rgba(59,130,246,0.1) !important; }
@@ -154,7 +154,7 @@
     position: absolute;
     bottom: 0;
     right: 0;
-    background: var(--bg-elev); /* Ikut tema */
+    background: var(--bg-elev); 
     color: var(--text-body);
     font-size: var(--fs-sm);
     font-weight: var(--fw-bold);

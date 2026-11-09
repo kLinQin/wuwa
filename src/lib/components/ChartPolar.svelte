@@ -10,13 +10,13 @@
   const cy = size / 2;
   const maxRadius = (size / 2) - 30;
 
-  // Jarak antar bar (ketebalan)
+  
   const barThickness = 12;
   const gap = 4;
 
-  // Fungsi untuk menggambar busur (arc) SVG
+  
   function getArcPath(startAngle: number, endAngle: number, innerR: number, outerR: number) {
-    // SVG path menggunakan derajat, 0 derajat di sumbu X positif (jam 3), putar ke atas (-90)
+    
     const p1 = polarToCartesian(cx, cy, outerR, startAngle);
     const p2 = polarToCartesian(cx, cy, outerR, endAngle);
     const p3 = polarToCartesian(cx, cy, innerR, endAngle);

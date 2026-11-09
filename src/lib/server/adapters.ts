@@ -1,6 +1,6 @@
 import { encoreGet } from './encore';
 
-// ------- helpers -------
+
 export function slugify(name: string): string {
   return String(name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 }
@@ -38,7 +38,7 @@ const NAME_TO_WEAPON_ID: Record<string, number> = {
   broadblade: 1, sword: 2, pistols: 3, pistol: 3, gauntlet: 4, gauntlets: 4, rectifier: 5
 };
 
-// ------- characters -------
+
 export interface RawCharListItem {
   Id: number; Name: string; QualityId: number;
   Element?: { Id: number; Name: string };
@@ -57,7 +57,7 @@ async function getCharListRaw(): Promise<RawCharListItem[]> {
 
 export async function listCharacters(): Promise<any[]> {
   const raw = await getCharListRaw();
-  // Dedupe by Id (Encore kadang punya multiple skin/varian dengan Name sama)
+  
   const seenIds = new Set<number>();
   const unique = raw.filter(c => {
     if (seenIds.has(c.Id)) return false;
@@ -129,7 +129,7 @@ function buildMaterials(d: any, itemIdx: Map<number, any>): { materials: any; it
     }
   }
 
-  // Kumpulkan material unik dari SkillTree (untuk tahu ID material)
+  
   const uniqueSkillMats = new Set<number>();
   for (const t of (d.SkillTree || [])) {
     for (const c of (t.Consume || [])) {
@@ -137,54 +137,54 @@ function buildMaterials(d: any, itemIdx: Map<number, any>): { materials: any; it
     }
   }
 
-  // Mapping statis skill amount (universal WuWa)
+  
   const staticSkillAmounts: Record<string, number> = {
-    // Shell Credit selalu 2030000
+    
     'shellCredit': 2030000,
-    // LF/MF/HF/FF (Common Drops) - total dari 5 skill + inherent + stat nodes
+    
     'commonT1': 25,
     'commonT2': 28,
     'commonT3': 40,
     'commonT4': 57,
-    // Skill Material (Forgery) T1-T4
+    
     'skillT1': 25,
     'skillT2': 28,
     'skillT3': 55,
     'skillT4': 67,
-    // Weekly Boss
+    
     'weeklyBoss': 26
   };
 
-  // Resolve ID material skill dengan cara deteksi via itemIdx
-  // Kita perlu tahu mana yang common (Whisperin/Ring/Howler) vs skill material (Drip/Helix) vs weekly boss
-  // Shell credit = ID 2
+  
+  
+  
   const sk: Record<number, number> = {};
 
-  // Cari ID shell credit (2)
+  
   sk[2] = staticSkillAmounts['shellCredit'];
 
-  // Klasifikasi uniqueSkillMats berdasarkan item type / name
+  
   const sortedMats = Array.from(uniqueSkillMats).sort((a, b) => a - b);
 
-  // Strategi: ambil dari itemIdx, cek TypeName atau Name pattern
-  // Common drops biasanya namanya mengandung "Whisperin Core" / "Ring" / "Howler Core"
-  // Skill material: "Metallic Drip" / "Helix" / "Phlogiston"
-  // Weekly boss: biasanya satu-satunya yang bukan common/skill
+  
+  
+  
+  
 
   const commonMats: number[] = [];
   const skillMats: number[] = [];
 
   for (const id of sortedMats) {
-    if (id === 2) continue; // skip shell credit
+    if (id === 2) continue; 
     const item = itemIdx.get(id);
     if (!item) continue;
 
     const name = (item.name || '').toLowerCase();
-    // Deteksi common drop (Whisperin, Ring, Howler)
+    
     if (name.includes('whisperin') || name.includes('ring') || name.includes('howler')) {
       commonMats.push(id);
     } else {
-      // Sisanya: skill material atau weekly boss
+      
       skillMats.push(id);
     }
   }
@@ -243,7 +243,7 @@ export async function getCharacterDetail(encoreId: number): Promise<any | null> 
   if (!d || !d.Id) return null;
 
   const itemIdx = await getItemIndex();
-  // Skills
+  
   const skills: Record<string, any> = {};
   const inherent: any[] = [];
   const skillsObj = d.Skills || {};
@@ -268,7 +268,7 @@ export async function getCharacterDetail(encoreId: number): Promise<any | null> 
   }
   if (inherent.length) skills.inherent = inherent;
 
-  // Sequences
+  
   const sequences = (d.ResonantChain || [])
     .slice()
     .sort((a: any, b: any) => (a.GroupIndex || a.Id) - (b.GroupIndex || b.Id))
@@ -278,7 +278,7 @@ export async function getCharacterDetail(encoreId: number): Promise<any | null> 
       effects: [{ title: '', description: stripHtml(rc.AttributesDescription || ''), isTitleVisible: false }]
     }));
 
-  // Role labels (tags)
+  
   const roles: any[] = (d.Tags || []).filter((t: any) => t.TagName).map((t: any) => ({
     name: t.TagName,
     desc: stripHtml(t.TagDesc || ''),
@@ -349,7 +349,7 @@ export async function getCharacterDetail(encoreId: number): Promise<any | null> 
   };
 }
 
-// ------- weapons -------
+
 export interface RawWeaponListItem {
   Id: number; Name: string; QualityId: number; Type: number; TypeName?: string; Icon?: string;
 }
@@ -446,7 +446,7 @@ function propName(id: number): string {
   return map[id] || ('Stat ' + id);
 }
 
-// ------- echoes + sonatas -------
+
 export interface RawEchoListItem {
   Id: number; Name: string; Rarity: number; Icon?: string;
   Element?: { Id: number; Name: string };
@@ -553,7 +553,7 @@ export async function getSonataDetail(encoreId: number): Promise<any | null> {
   return all.find(s => s.id === encoreId) || null;
 }
 
-// ------- resolvers by slug -------
+
 export async function resolveCharIdBySlug(slug: string): Promise<number | null> {
   const raw = await getCharListRaw();
   const found = raw.find(c => String(c.Id) === slug || slugify(c.Name) === slug);

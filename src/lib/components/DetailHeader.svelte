@@ -103,7 +103,7 @@
     border-radius: var(--radius);
     backdrop-filter: blur(4px);
     border-left: 4px solid var(--sonata-color);
-    gap: var(--sp-2); /* Lebih rapat */
+    gap: var(--sp-2); 
   }
 
   .title-row {
@@ -117,7 +117,7 @@
 
   .content-row {
     display: flex;
-    align-items: flex-start; /* Gambar dan Info sejajar dari atas */
+    align-items: flex-start; 
     gap: var(--sp-4);
     width: 100%;
   }
@@ -158,7 +158,7 @@
     min-width: 0;
   }
 
-  /* --- BAGIAN ATAS (Element, Weapon, dll) --- */
+  
   .tags-top {
     display: flex;
     flex-direction: column;
@@ -177,7 +177,7 @@
     border-bottom: none;
   }
 
-  /* --- BAGIAN BAWAH (Role & Sonata) --- */
+  
   .bottom-tags {
     display: flex;
     flex-direction: column;

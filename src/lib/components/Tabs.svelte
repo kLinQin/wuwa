@@ -19,7 +19,7 @@
     display: flex;
     justify-content: center;
     gap: var(--sp-2);
-    margin: 0 0 var(--sp-2) 0; /* Jarak bawah pas (8px) */
+    margin: 0 0 var(--sp-2) 0; 
     overflow-x: auto;
     scrollbar-width: none;
   }

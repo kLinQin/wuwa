@@ -30,7 +30,7 @@ export const GET: RequestHandler = async ({ params, fetch }) => {
         console.error('[data proxy local]', filePath, e);
         throw error(500, 'Local read failed');
       }
-      // fallback
+      
     }
   }
 

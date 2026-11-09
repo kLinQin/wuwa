@@ -33,7 +33,7 @@
 
 <style>
 
-  /* Card pembungkus mirip dengan Echo Setup */
+  
   .echo-card {
     background: var(--bg-elev);
     border: 1px solid var(--border);

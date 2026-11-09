@@ -152,7 +152,7 @@
     -webkit-overflow-scrolling: touch;
   }
   .events-scroll::-webkit-scrollbar { display: none; }
-  .events-scroll .event-card { flex: 0 0 70%; } /* mobile: 70% width, kira-kira 1.4 card */
+  .events-scroll .event-card { flex: 0 0 70%; } 
 
   @media (min-width: 768px) {
     .events-scroll { display: grid; grid-template-columns: repeat(3, 1fr); overflow: visible; }
@@ -177,7 +177,7 @@
   .menu-grid strong { display: block; font-size: var(--fs-sm); }
   .menu-grid span { font-size: var(--fs-xs); color: var(--text-secondary); }
 
-  /* Terapkan scroll horizontal untuk semua ukuran layar */
+  
   .featured-grid, .stats, .menu-grid {
     display: flex;
     flex-wrap: nowrap;
@@ -185,7 +185,7 @@
     -webkit-overflow-scrolling: touch;
     gap: var(--sp-2);
     padding-bottom: var(--sp-2);
-    scrollbar-width: none; /* Sembunyikan scrollbar (opsional) */
+    scrollbar-width: none; 
   }
   .featured-grid::-webkit-scrollbar,
   .stats::-webkit-scrollbar,

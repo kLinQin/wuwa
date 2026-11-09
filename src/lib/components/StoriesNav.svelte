@@ -34,7 +34,7 @@
 
   @media (min-width: 832px) {
     .nav-sticky {
-      top: 0; /* memberi jarak tipis dari header */
+      top: 0; 
     }
   }
   .small-btn { padding: 4px 8px; font-size: var(--fs-xs); cursor: pointer; }

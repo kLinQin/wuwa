@@ -10,7 +10,7 @@
   const item = $derived(data.item);
   const chapters = $derived((item.Chapters || []).filter((c: any) => c.Dialogues && c.Dialogues.length));
 
-  // Kumpulkan speaker unik untuk navigasi
+  
   const speakers = $derived.by(() => {
     const set = new Set<string>();
     for (const c of chapters) {
@@ -26,7 +26,7 @@
 
   let activeId = $state('');
 
-  // Scrollspy
+  
   $effect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
