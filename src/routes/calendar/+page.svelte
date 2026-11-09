@@ -13,29 +13,19 @@
     end: Date;
   }
 
-  function parseDate(dateStr: string): { start: Date; end: Date } | null {
-    const match = dateStr.match(/<t:(\d+):[A-Z]>/g);
-    if (!match || match.length < 2) return null;
-    const t1 = parseInt(match[0].match(/\d+/)?.[0] || '0', 10) * 1000;
-    const t2 = parseInt(match[match.length - 1].match(/\d+/)?.[0] || '0', 10) * 1000;
-    return { start: new Date(t1), end: new Date(t2) };
-  }
-
   const events = $derived<ParsedEvent[]>(
-    data.items
-      .map((e: any) => {
-        const parsed = parseDate(e.date);
-        if (!parsed) return null;
-        return {
-          title: e.title,
-          type: e.type,
-          icon: e.icon,
-          background: e.background,
-          start: parsed.start,
-          end: parsed.end,
-        };
-      })
-      .filter(Boolean) as ParsedEvent[]
+    data.items.map((e: any) => {
+      if (!e.startDate || !e.endDate) return null;
+      return {
+        title: e.name,
+        description: e.description || '',
+        type: e.type || 'event',
+        icon: e.icon,
+        background: e.coverImgSrc,
+        start: new Date(e.startDate),
+        end: new Date(e.endDate),
+      };
+    }).filter(Boolean) as ParsedEvent[]
   );
 
   // 2. Month selection state - Default to Current Real Date
@@ -86,7 +76,7 @@
   );
 
   // Active filter
-  let filterType = $state<'all' | 'banner' | 'weapon' | 'event'>('all');
+  let filterType = $state<'all' | 'banner' | 'event'>('all');
   const filteredEvents = $derived(
     filterType === 'all' ? monthEvents : monthEvents.filter(e => e.type === filterType)
   );
@@ -136,7 +126,7 @@
 
   const typeColors: Record<string, string> = {
     banner: '#e06c75',
-    weapon: '#e5c07b',
+    
     event: '#61afef',
   };
 </script>
@@ -155,9 +145,8 @@
 
       <div class="filters">
         <button class="raised" aria-pressed={filterType === 'all'} onclick={() => filterType = 'all'}>All</button>
-        <button class="raised" aria-pressed={filterType === 'banner'} onclick={() => filterType = 'banner'}>Banners</button>
-        <button class="raised" aria-pressed={filterType === 'weapon'} onclick={() => filterType = 'weapon'}>Weapons</button>
-        <button class="raised" aria-pressed={filterType === 'event'} onclick={() => filterType = 'event'}>Events</button>
+        <button class="raised" aria-pressed={filterType === 'banner'} onclick={() => filterType = 'banner'}>Banners</button>
+        <button class="raised" aria-pressed={filterType === 'event'} onclick={() => filterType = 'event'}>Activities</button>
       </div>
     </div>
   </header>
@@ -242,6 +231,12 @@
           <span class="lbl">Status</span>
           <span class="val">{getStatusBadge(selectedEvent.start, selectedEvent.end).label}</span>
         </div>
+        {#if selectedEvent.description}
+          <div class="ev-detail-row" style="flex-direction: column; align-items: flex-start; gap: 4px;">
+            <span class="lbl">Description</span>
+            <span class="val" style="text-align: left;">{selectedEvent.description}</span>
+          </div>
+        {/if}
         {#if selectedEvent.background}
           <img class="ev-detail-img" src={selectedEvent.background} alt={selectedEvent.title} />
         {/if}

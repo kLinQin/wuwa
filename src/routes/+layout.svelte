@@ -17,7 +17,6 @@
     { href: '/echoes', label: 'Echoes' },
     { href: '/sonatas', label: 'Sonatas' },
     { href: '/stories', label: 'Stories' },
-    { href: '/quests', label: 'Quests' },
     { href: '/calendar', label: 'Calendar' },
   ];
 
