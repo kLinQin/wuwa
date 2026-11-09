@@ -56,9 +56,9 @@
         {/each}
       </div>
       <div class="echo-nav">
-        <button class="raised" onclick={prev} disabled={page === 0} aria-label="Prev">←</button>
+        <button class="raised" onclick={prev} disabled={page === 0} aria-label="Prev"><svg width="16" height="16" style="display:inline-block;vertical-align:middle"><use href="#arrow-left" /></svg></button>
         <span class="page-info">{page + 1} / {totalPages}</span>
-        <button class="raised" onclick={next} disabled={page >= totalPages - 1} aria-label="Next">→</button>
+        <button class="raised" onclick={next} disabled={page >= totalPages - 1} aria-label="Next"><svg width="16" height="16" style="display:inline-block;vertical-align:middle"><use href="#arrow-right" /></svg></button>
       </div>
     </DataSection>
   {/if}

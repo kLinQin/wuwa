@@ -43,9 +43,9 @@
 
 <div class="calendar-wrap">
   <div class="cal-header">
-    <button class="raised small-btn" onclick={prevMonth}>←</button>
+    <button class="raised small-btn" onclick={prevMonth}><svg width="16" height="16" style="display:inline-block;vertical-align:middle"><use href="#arrow-left" /></svg></button>
     <h2>{monthNames[currentMonth]} {currentYear}</h2>
-    <button class="raised small-btn" onclick={nextMonth}>→</button>
+    <button class="raised small-btn" onclick={nextMonth}><svg width="16" height="16" style="display:inline-block;vertical-align:middle"><use href="#arrow-right" /></svg></button>
   </div>
 
   <div class="cal-grid">
@@ -81,7 +81,7 @@
       {/if}
       <h3>{selectedEvent.name}</h3>
       <p class="modal-desc">{selectedEvent.description}</p>
-      <p class="modal-date">{selectedEvent.startDate} → {selectedEvent.endDate}</p>
+      <p class="modal-date">{selectedEvent.startDate} <svg width="16" height="16" style="display:inline-block;vertical-align:middle"><use href="#arrow-right" /></svg> {selectedEvent.endDate}</p>
     </div>
   </div>
 {/if}

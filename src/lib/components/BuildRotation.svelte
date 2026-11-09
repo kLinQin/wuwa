@@ -42,7 +42,7 @@
               class="raised nav-btn prev"
               onclick={() => prevStep(rotIdx)}
               disabled={stepIdx === 0}
-            >←</button>
+            ><svg width="16" height="16" style="display:inline-block;vertical-align:middle"><use href="#arrow-left" /></svg></button>
 
             <div class="step-content">
               <div class="step-body">
@@ -55,7 +55,7 @@
               class="raised nav-btn next"
               onclick={() => nextStep(rotIdx, maxSteps)}
               disabled={stepIdx >= maxSteps - 1}
-            >→</button>
+            ><svg width="16" height="16" style="display:inline-block;vertical-align:middle"><use href="#arrow-right" /></svg></button>
           </div>
 
           <!-- Indicator Bawah -->
