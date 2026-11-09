@@ -1,10 +1,11 @@
 <script lang="ts">
   import BottomSheet from './BottomSheet.svelte';
-  let { title, image, badges = [], roleDetails = [], color }: {
+  let { title, image, badges = [], roleDetails = [], hideDetails = false, color }: {
     title: string;
     image: string;
-    badges?: { label: string; type?: 'accent' | 'star' | 'muted'; prefix?: string }[];
+    badges?: { label: string; type?: 'accent' | 'star' | 'muted'; prefix?: string; value?: string }[];
     roleDetails?: { name: string; desc: string; icon: string; color: string }[];
+    hideDetails?: boolean;
     meta?: string;
     color?: string;
   } = $props();
@@ -16,7 +17,9 @@
 <header class="detail-header" style="--sonata-color: {color || 'var(--border)'}">
   <div class="title-row" style="display: flex; justify-content: space-between; align-items: baseline;">
     <h1 class="title">{title}</h1>
-    <button class="raised" type="button" onclick={() => sheetOpen = true} aria-label="Details">Details</button>
+    {#if !hideDetails}
+      <button class="raised" type="button" onclick={() => sheetOpen = true} aria-label="Details">Details</button>
+    {/if}
     {#if badges.some(b => b.prefix === 'Version')}
       {@const ver = badges.find(b => b.prefix === 'Version')}
       <span class="badge version-badge">{ver?.label}</span>
@@ -42,7 +45,9 @@
           {#each badges.filter(b => b.type !== 'star' && !['Role','Sonata','Version','Sex','Influence','CV EN','CV JP','CV CN','CV KO'].includes(b.prefix || '')) as b}
             <div class="row-group">
               {#if b.prefix}<span class="badge-prefix">{b.prefix}</span>{/if}
-              <span class="badge" class:accent={b.type === 'accent'} class:muted={b.type === 'muted'}>{b.label}</span>
+              <span class="badge" class:accent={b.type === 'accent'} class:muted={b.type === 'muted'}>
+                {b.label}{#if b.value} <span style="color:var(--accent); margin-left:4px;">{b.value}</span>{/if}
+              </span>
             </div>
           {/each}
         </div>

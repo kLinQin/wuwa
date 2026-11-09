@@ -407,7 +407,7 @@ export async function getWeaponDetail(encoreId: number): Promise<any | null> {
     name: d.WeaponName,
     weaponType: d.WeaponType,
     rarity: d.QualityId,
-    image: proxyImg(d.Icon),
+    image: d.Icon ? ('/api/img/Data' + d.Icon.replace(/\.[^./]+$/, '') + '.webp') : '',
     subStat: subName,
     stats,
     version: '',

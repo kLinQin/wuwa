@@ -14,20 +14,29 @@
   const typeName = $derived(weaponTypes[item.weaponType as number] ?? '');
   let wLevel = $state(90);
   let wRefine = $state(1);
-  const currentStats = $derived((item.stats || {})[wLevel] || [0, 0]);
+  const statsObj = $derived((item.stats || {}) as Record<string, any>);
+  const baseAtk = $derived((statsObj['90']?.[0]) ?? 0);
+  const subVal = $derived((statsObj['90']?.[1]) ?? 0);
+  const currentStats = $derived(statsObj[String(wLevel)] || [0, 0]);
+
+
+
+
+
 </script>
 
 <svelte:head><title>{item.name} — WuWa DB</title></svelte:head>
 
 <div class="detail-page">
   <DetailHeader
+    hideDetails={true}
     title={item.name}
     image={item.image}
     badges={[
       ...(typeName ? [{ label: typeName, prefix: 'Type' }] : []),
       { label: '★'.repeat(item.rarity), type: 'star' },
-      { label: item.subStat, prefix: 'SubStat' },
-      { label: 'v' + item.version, prefix: 'Version' }
+      { label: '', prefix: 'Base ATK', value: String(baseAtk) },
+      { label: '', prefix: item.subStat, value: subVal + (item.subStat.includes('%') ? '%' : '') }
     ]}
   />
 
