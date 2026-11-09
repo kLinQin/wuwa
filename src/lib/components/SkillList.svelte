@@ -1,5 +1,6 @@
 <script lang="ts">
   import SkillCard from './SkillCard.svelte';
+  import Slider from './Slider.svelte';
 
   let { skills, charSlug }: { skills: any; charSlug: string } = $props();
 
@@ -45,11 +46,7 @@
 
           {#if skills[key].attributes && skills[key].attributes.length}
             <div class="multiplier">
-              <div class="mult-head">
-                <span class="mult-label">Skill Level</span>
-                <span class="mult-badge">Lv. {lv}</span>
-              </div>
-              <input type="range" min="1" max="10" value={lv} oninput={(e) => setLevel(key, +e.currentTarget.value)} />
+              <Slider label="Skill Level" value={lv} min={1} max={10} onchange={(v) => setLevel(key, v)} />
               <table class="mult-table">
                 <thead><tr><th>Attribute</th><th>Value</th></tr></thead>
                 <tbody>

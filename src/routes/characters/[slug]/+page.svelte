@@ -6,6 +6,7 @@
   import Tabs from '../../../lib/components/Tabs.svelte';
   import DetailHeader from '../../../lib/components/DetailHeader.svelte';
   import MaterialList from '../../../lib/components/MaterialList.svelte';
+  import Slider from '../../../lib/components/Slider.svelte';
 
   let props: PageProps = $props();
   const item = $derived(props.data.item);
@@ -76,13 +77,18 @@
       </DataSection>
     {/if}
 
-    {#if item.stats && item.stats.length}
+    {#if item.levelStats}
+      {@const lvStats = item.levelStats[charLevel] || {}}
+      {@const statNames = Object.keys(item.levelStats[1] || {})}
       <DataSection title="Base Stats">
+        <div style="margin-bottom: var(--sp-3);">
+          <Slider label="Character Level" value={charLevel} min={1} max={90} onchange={(v) => charLevel = v} />
+        </div>
         <table class="stats-table">
-          <thead><tr><th>Stat</th><th>Lv.1</th><th>Lv.90</th></tr></thead>
+          <thead><tr><th>Stat</th><th>Lv.{charLevel}</th></tr></thead>
           <tbody>
-            {#each item.stats as s}
-              <tr><td>{s.name}</td><td>{s.base}</td><td>{s.lv90}</td></tr>
+            {#each statNames as name}
+              <tr><td>{name}</td><td>{lvStats[name] ?? '-'}</td></tr>
             {/each}
           </tbody>
         </table>
@@ -171,8 +177,9 @@
   .desc { line-height: 1.6; color: var(--text-body); }
   .kit-content { min-height: 400px; }
 
-  .stats-table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); font-family: var(--font-mono); }
-  .stats-table th, .stats-table td { text-align: left; padding: var(--sp-2); border-bottom: 1px solid var(--border); }
+  .stats-table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); font-family: var(--font-mono); table-layout: fixed; }
+  .stats-table th, .stats-table td { text-align: left; padding: var(--sp-2); border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; }
+  .stats-table th:nth-child(2), .stats-table td:nth-child(2) { width: 30%; text-align: right; }
   .stats-table th { color: var(--text-secondary); font-weight: var(--fw-medium); }
   .stats-table tr:last-child td { border-bottom: none; }
 
