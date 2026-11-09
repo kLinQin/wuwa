@@ -21,7 +21,7 @@
   });
 </script>
 
-<svelte:head><title>Stories — WuWa DB</title></svelte:head>
+<svelte:head><title>Stories — WWI</title></svelte:head>
 
 <div class="page">
   

@@ -46,7 +46,7 @@
   }
 </script>
 
-<svelte:head><title>{item.Name} — WuWa DB</title></svelte:head>
+<svelte:head><title>{item.Name} — WWI</title></svelte:head>
 
 <div class="detail-page">
   {#if item.MaleTexture || item.FemaleTexture}

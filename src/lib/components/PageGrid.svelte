@@ -36,7 +36,7 @@
   );
 </script>
 
-<svelte:head><title>{title} — WuWa DB</title></svelte:head>
+<svelte:head><title>{title} — WWI</title></svelte:head>
 
 <div class="page-container">
   <div class="page-header">

@@ -64,7 +64,7 @@
   ];
 </script>
 
-<svelte:head><title>WuWa DB</title></svelte:head>
+<svelte:head><title>WWI</title></svelte:head>
 
 <section class="hero">
   <h1>Wuthering Waves DB</h1>

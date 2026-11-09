@@ -27,7 +27,7 @@
   function next() { page = Math.min(totalPages - 1, page + 1); }
 </script>
 
-<svelte:head><title>{item.name} — WuWa DB</title></svelte:head>
+<svelte:head><title>{item.name} — WWI</title></svelte:head>
 
 <div class="detail-page">
   <DetailHeader

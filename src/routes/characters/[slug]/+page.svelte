@@ -45,7 +45,7 @@
   );
 </script>
 
-<svelte:head><title>{item.name} — WuWa DB</title></svelte:head>
+<svelte:head><title>{item.name} — WWI</title></svelte:head>
 
 <div class="detail-page">
   {#if item.imageBanner}

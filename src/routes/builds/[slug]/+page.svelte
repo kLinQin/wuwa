@@ -36,7 +36,7 @@
   const sonataLabels = $derived((item.sonatas || []).map((id: any) => sonatasMap[id]?.name || ('Sonata ' + id)));
 </script>
 
-<svelte:head><title>{item.name} Build — WuWa DB</title></svelte:head>
+<svelte:head><title>{item.name} Build — WWI</title></svelte:head>
 
 <div class="detail-page">
   {#if item.imageBanner}

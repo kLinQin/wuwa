@@ -18,6 +18,7 @@
     { href: '/sonatas', label: 'Sonatas' },
     { href: '/stories', label: 'Stories' },
     { href: '/calendar', label: 'Calendar' },
+    { href: '/about', label: 'About' },
   ];
 
   let open = $state(false);
@@ -53,8 +54,8 @@
 
 <nav class:visible class:open>
   <div class="nav-inner">
-  <a class="home-link" href="/" aria-label="WuWa DB">
-    <span class="brand-name">WuWa DB</span>
+  <a class="home-link" href="/" aria-label="WWI">
+    <span class="brand-name">WWI</span>
     <span class="brand-page">{pageLabel}</span>
   </a>
 

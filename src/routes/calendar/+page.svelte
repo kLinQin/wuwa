@@ -131,7 +131,7 @@
   };
 </script>
 
-<svelte:head><title>Calendar — WuWa DB</title></svelte:head>
+<svelte:head><title>Calendar — WWI</title></svelte:head>
 
 <div class="calendar-page">
   <header class="cal-header">
