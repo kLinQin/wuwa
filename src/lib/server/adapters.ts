@@ -66,6 +66,7 @@ export async function listCharacters(): Promise<any[]> {
   });
   return unique.map(c => ({
     id: c.Id,
+    slug: String(c.Id),
     name: c.Name,
     element: c.Element?.Id ?? NAME_TO_ELEMENT_ID[(c.Element?.Name || '').toLowerCase()] ?? 0,
     weapon: c.WeaponType?.Id ?? NAME_TO_WEAPON_ID[(c.WeaponType?.Name || '').toLowerCase()] ?? 0,
@@ -287,6 +288,7 @@ export async function getCharacterDetail(encoreId: number): Promise<any | null> 
 
   return {
     id: d.Id,
+    slug: String(d.Id),
     name: pickText(d.Name) || d.Name?.Content || '',
     element: d.ElementId ?? 0,
     weapon: d.WeaponType ?? 0,
@@ -364,7 +366,7 @@ export async function listWeapons(): Promise<any[]> {
   const raw = await getWeaponListRaw();
   return raw.map(wp => ({
     id: wp.Id,
-    slug: slugify(wp.Name),
+    slug: String(wp.Id),
     name: wp.Name,
     weaponType: wp.Type,
     rarity: wp.QualityId,
@@ -380,9 +382,10 @@ export async function getWeaponDetail(encoreId: number): Promise<any | null> {
   try { d = await encoreGet<any>(`en/weapon/${encoreId}`); } catch { return null; }
   if (!d || !d.ItemId) return null;
   const props = d.Properties || [];
-  const atkPropObj = props.find((x: any) => x.Name === 'ATK');
-  const subPropObj = props.find((x: any) => x.Name !== 'ATK');
-  const subName = subPropObj ? subPropObj.Name : (d.SecondPropId?.Id ? propName(d.SecondPropId.Id) : '');
+  const atkPropObj = props[0];
+  const subPropObj = props[1];
+  let subName = subPropObj?.Name || '';
+  if ((!subName || subName === 'ATK') && d.SecondPropId?.Id === 10007) subName = 'ATK%';
 
   const atkProp = atkPropObj;
   const subProp = subPropObj;
@@ -403,7 +406,7 @@ export async function getWeaponDetail(encoreId: number): Promise<any | null> {
 
   return {
     id: d.ItemId,
-    slug: slugify(d.WeaponName),
+    slug: String(d.ItemId),
     name: d.WeaponName,
     weaponType: d.WeaponType,
     rarity: d.QualityId,
@@ -433,9 +436,14 @@ export async function getWeaponDetail(encoreId: number): Promise<any | null> {
 function propName(id: number): string {
   const map: Record<number, string> = {
     1: 'HP', 2: 'HP%', 3: 'DEF', 4: 'DEF%', 5: 'ATK', 6: 'ATK%',
-    7: 'CRIT Rate', 8: 'CRIT DMG', 9: 'Energy Regen', 10: 'Healing Bonus'
+    7: 'CRIT Rate', 8: 'CRIT DMG', 9: 'Energy Regen', 10: 'Healing Bonus',
+    11: 'ATK%', 12: 'DEF%', 13: 'HP%', 14: 'Energy Regen',
+    10001: 'HP%', 10002: 'ATK%', 10003: 'DEF%',
+    10004: 'CRIT Rate', 10005: 'CRIT DMG', 10006: 'Energy Regen',
+    10007: 'ATK%', 10008: 'CRIT Rate', 10009: 'CRIT DMG',
+    10010: 'HP%'
   };
-  return map[id] || ('Prop' + id);
+  return map[id] || ('Stat ' + id);
 }
 
 // ------- echoes + sonatas -------
@@ -461,11 +469,11 @@ export async function listEchoes(): Promise<any[]> {
   return raw.map(e => ({
     id: e.Id,
     name: e.Name,
-    slug: slugify(e.Name),
+    slug: String(e.Id),
     image: proxyImg(e.Icon),
     description: '',
     sonatas: (e.FetterGroups || []).map(g => g.Id),
-    cost: 0,
+    cost: ([1,3,4,4][e.Rarity ?? 0] ?? 1),
     rarity: e.Rarity,
     elementId: e.Element?.Id ?? 0,
     version: ''
@@ -476,17 +484,40 @@ export async function getEchoDetail(encoreId: number): Promise<any | null> {
   let d: any;
   try { d = await encoreGet<any>(`en/echo/${encoreId}`); } catch { return null; }
   if (!d || !d.ItemId) return null;
+  const hb = d.Handbook || {};
+  const fdetails = d.FetterDetails || {};
+  const sonataDetails = (d.FetterGroupDetails || []).map((fg: any) => {
+    const g = fg.Group || {};
+    const name = g.FetterGroupName || '';
+    const fd = fdetails[name] || {};
+    return {
+      id: g.Id,
+      name,
+      icon: g.FetterElementPath ? ('/api/img/Data' + g.FetterElementPath.replace(/\.[^./]+$/, '') + '.webp') : '',
+      color: g.FetterElementColor ? ('#' + g.FetterElementColor.slice(0, 6)) : '',
+      effects: (fd.EffectDescriptions || []).map((e: string, i: number) => ({
+        key: (fd.EffectKeys || [])[i] || (i + 1) * 2,
+        description: stripHtml(e)
+      })),
+      description: (() => { const d = stripHtml((fd.DefineDescriptions || [])[0] || ''); return d === '???' ? '' : d; })()
+    };
+  });
+
   return {
     id: d.MonsterId,
     name: d.MonsterName || '',
-    slug: slugify(d.MonsterName || ''),
+    slug: String(d.MonsterId || ''),
     image: proxyImg(d.Icon),
     description: stripHtml(d.Skill?.DescriptionEx || d.AttributesDescription || ''),
     sonatas: d.FetterGroup || [],
-    cost: d.QualityId ?? 0,
+    sonataDetails,
+    cost: ([1,3,4,4][d.Rarity ?? 0] ?? 1),
     rarity: d.Rarity ?? 0,
     elementId: (d.ElementType && d.ElementType[0]) || d.Element?.Id || 0,
-    version: ''
+    version: '',
+    echoClass: stripHtml(hb.TypeDescrtption || ''),
+    location: stripHtml(hb.Place || ''),
+    possibleStats: (hb.Descrtption1 || '').replace(/\[([^\]]+)\]/g, '$1').replace(/\s+/g, ' ').trim()
   };
 }
 
@@ -499,7 +530,7 @@ export async function listSonatas(): Promise<any[]> {
         byId.set(g.Id, {
           id: g.Id,
           name: g.Name,
-          slug: slugify(g.Name),
+          slug: String(g.Id),
           image: proxyImg(g.Icon),
           fetters: [],
           version: '',
@@ -525,21 +556,21 @@ export async function getSonataDetail(encoreId: number): Promise<any | null> {
 // ------- resolvers by slug -------
 export async function resolveCharIdBySlug(slug: string): Promise<number | null> {
   const raw = await getCharListRaw();
-  const found = raw.find(c => slugify(c.Name) === slug);
+  const found = raw.find(c => String(c.Id) === slug || slugify(c.Name) === slug);
   return found ? found.Id : null;
 }
 export async function resolveWeaponIdBySlug(slug: string): Promise<number | null> {
   const raw = await getWeaponListRaw();
-  const found = raw.find(w => slugify(w.Name) === slug);
+  const found = raw.find(w => String(w.Id) === slug || slugify(w.Name) === slug);
   return found ? found.Id : null;
 }
 export async function resolveEchoIdBySlug(slug: string): Promise<number | null> {
   const raw = await getEchoListRaw();
-  const found = raw.find(e => slugify(e.Name) === slug);
+  const found = raw.find(e => String(e.Id) === slug);
   return found ? found.Id : null;
 }
 export async function resolveSonataIdBySlug(slug: string): Promise<number | null> {
   const all = await listSonatas();
-  const found = all.find(s => s.slug === slug);
+  const found = all.find(s => String(s.id) === slug || s.slug === slug);
   return found ? found.id : null;
 }

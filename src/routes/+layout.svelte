@@ -15,13 +15,25 @@
     { href: '/builds', label: 'Builds' },
     { href: '/weapons', label: 'Weapons' },
     { href: '/echoes', label: 'Echoes' },
-    { href: '/sonatas', label: 'Sonatas' },
+    { href: '/sonatas', label: 'Sonatas' },
     { href: '/stories', label: 'Stories' },
     { href: '/quests', label: 'Quests' },
     { href: '/calendar', label: 'Calendar' },
   ];
 
   let open = $state(false);
+  const pageLabel = $derived((() => {
+    const p = page.url.pathname;
+    if (p === '/') return 'homepage';
+    const parts = p.split('/').filter(Boolean);
+    return parts.map((seg, i) => {
+      if (i === parts.length - 1 && i > 0) {
+        const item = (page.data as any)?.item;
+        if (item?.name) return item.name;
+      }
+      return seg.charAt(0).toUpperCase() + seg.slice(1);
+    }).join(' / ');
+  })());
 
   // hide nav on mobile saat scroll down
   let visible = $state(true);
@@ -44,7 +56,7 @@
   <div class="nav-inner">
   <a class="home-link" href="/" aria-label="WuWa DB">
     <span class="brand-name">WuWa DB</span>
-    <span class="brand-page">{page.url.pathname === '/' ? 'homepage' : page.url.pathname.slice(1)}</span>
+    <span class="brand-page">{pageLabel}</span>
   </a>
 
   <div class="desktop links">

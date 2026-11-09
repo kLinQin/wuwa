@@ -8,5 +8,5 @@ export const load: PageServerLoad = async ({ fetch }) => {
     listSonatas(),
     loadWuwaJSON('constants/elements.json', fetch)
   ]);
-  return { items, sonatasList, elements };
+  return { items, sonatasConst: sonatasList, elements };
 };

@@ -41,7 +41,9 @@
   {#if imgSrc}
     <div class="card-img">
       <img src={imgSrc} alt={item.name} loading="lazy" />
-      {#if starStr}
+      {#if kind === 'echo' && item.cost != null}
+        <span class="rarity">Cost {item.cost}</span>
+      {:else if starStr}
         <span class="rarity">{starStr}</span>
       {/if}
       {#if elName}
@@ -74,9 +76,7 @@
         <span class="badge" style:color={item.color}>{item.color}</span>
       {/if}
     {:else if kind === 'echo'}
-      {#if item.cost != null}
-        <span class="badge">Cost {item.cost}</span>
-      {/if}
+      
     {/if}
   </div>
   {/if}

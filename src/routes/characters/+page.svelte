@@ -23,6 +23,6 @@
     <InlineFilter label="Rarity" bind:value={rr} options={[{value: 5, label: '5 Star'}, {value: 4, label: '4 Star'}]} />
   {/snippet}
   {#snippet children(c)}
-    <DataCard item={c} kind="character" href={`/characters/${c.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}`} />
+    <DataCard item={c} kind="character" href={`/characters/${c.slug || c.id}`} />
   {/snippet}
 </PageGrid>

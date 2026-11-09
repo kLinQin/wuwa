@@ -1,11 +1,12 @@
 <script lang="ts">
   import BottomSheet from './BottomSheet.svelte';
-  let { title, image, badges = [], roleDetails = [], hideDetails = false, color }: {
+  let { title, image, badges = [], roleDetails = [], hideDetails = false, color, imageSize = 140 }: {
     title: string;
     image: string;
     badges?: { label: string; type?: 'accent' | 'star' | 'muted'; prefix?: string; value?: string }[];
     roleDetails?: { name: string; desc: string; icon: string; color: string }[];
     hideDetails?: boolean;
+    imageSize?: number;
     meta?: string;
     color?: string;
   } = $props();
@@ -29,8 +30,8 @@
   <div class="content-row">
     {#if image}
       <div class="img-wrapper">
-        <div class="img-container">
-          <img src={image} alt={title} class="header-img" width="140" height="140" />
+        <div class="img-container" style="width:{imageSize}px;height:{imageSize}px;">
+          <img src={image} alt={title} class="header-img" width={imageSize} height={imageSize} />
           {#if badges.some(b => b.type === 'star')}
             {@const star = badges.find(b => b.type === 'star')}
             <span class="stars-below">{star?.label}</span>
@@ -131,8 +132,6 @@
     display: flex;
     border-radius: var(--radius);
     background: var(--bg-hover);
-    width: 140px;
-    height: 140px;
   }
 
   .header-img {

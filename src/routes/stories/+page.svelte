@@ -1,42 +1,51 @@
 <script lang="ts">
   import type { PageProps } from './$types';
-  import PageGrid from '#lib/components/PageGrid.svelte';
+  import Accordion from '#lib/components/Accordion.svelte';
+
   let { data }: PageProps = $props();
 </script>
 
 <svelte:head><title>Stories — WuWa DB</title></svelte:head>
 
-<PageGrid title="Stories" items={data.items} countLabel="stories">
-  {#snippet children(s)}
-    <a href={'/stories/' + s.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')} class="row card-link">
-      <div class="name">{s.name}</div>
-      <div class="desc">{s.description ?? ''}</div>
-    </a>
-  {/snippet}
-</PageGrid>
+<div class="page">
+  <h1>Stories</h1>
+
+  {#each data.groups as group}
+    <section class="group">
+      <h2>{group.name}</h2>
+      {#each group.chapters as chap}
+        {#if chap.stories.length}
+          <Accordion title={chap.group || '(ungrouped)'}>
+            <div class="story-list">
+              {#each chap.stories as s}
+                <a href={`/stories/${s.id}`} class="story-row">
+                  {#if s.areaIcon}
+                    <img src={s.areaIcon} alt={s.name} class="story-icon" />
+                  {/if}
+                  <div class="story-info">
+                    <span class="story-name">{s.name}</span>
+                    {#if s.questDesc}<span class="story-desc">{s.questDesc}</span>{/if}
+                  </div>
+                </a>
+              {/each}
+            </div>
+          </Accordion>
+        {/if}
+      {/each}
+    </section>
+  {/each}
+</div>
 
 <style>
-  .row {
-    grid-column: 1 / -1; /* Agar list memanjang penuh, bukan kotak-kotak */
-    display: flex;
-    flex-direction: column;
-    padding: var(--sp-3);
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    background: var(--bg-elev);
-    text-decoration: none;
-    color: var(--text-body);
-  }
-  .row:hover {
-    background: var(--bg-hover);
-  }
-  .row .name {
-    font-weight: var(--fw-medium);
-    font-size: var(--fs-md);
-  }
-  .row .desc {
-    font-size: var(--fs-sm);
-    color: var(--text-secondary);
-    margin-top: var(--sp-1);
-  }
+  .page { padding: var(--content-pad); display: flex; flex-direction: column; gap: var(--sp-5); max-width: var(--max-content); margin: 0 auto; }
+  h1 { font-size: var(--fs-xl); margin: 0; }
+  .group { display: flex; flex-direction: column; gap: var(--sp-3); }
+  h2 { font-size: var(--fs-lg); color: var(--accent); margin: 0; }
+  .story-list { display: flex; flex-direction: column; gap: var(--sp-2); }
+  .story-row { display: flex; align-items: center; gap: var(--sp-2); padding: var(--sp-2); background: var(--bg-hover); border-radius: var(--radius); text-decoration: none; color: var(--text-body); }
+  .story-row:hover { background: var(--bg-elev); }
+  .story-icon { width: 32px; height: 32px; object-fit: contain; flex-shrink: 0; }
+  .story-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .story-name { font-size: var(--fs-sm); font-weight: var(--fw-medium); }
+  .story-desc { font-size: var(--fs-xs); color: var(--text-secondary); line-height: 1.4; }
 </style>

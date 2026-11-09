@@ -14,7 +14,7 @@
 
 <PageGrid title="Echoes" items={filtered} countLabel="echoes">
   {#snippet filters()}
-    <InlineFilter label="Sonata" bind:value={sn} options={data.sonatasConst.map(s => ({ value: s.id, label: s.name }))} />
+    <InlineFilter label="Sonata" bind:value={sn} options={data.sonatasConst.map((s: any) => ({ value: s.id, label: s.name }))} />
   {/snippet}
   {#snippet children(e)}
     <DataCard item={e} kind="echo" href={`/echoes/${e.slug}`} />
