@@ -1,56 +1,69 @@
-# sv
+# WWI (Wuthering Waves Info)
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+WWI adalah database dan *companion app* untuk game **Wuthering Waves**. Proyek ini dibangun dengan SvelteKit dan dirancang untuk menyajikan data karakter, senjata, echo, sonata, hingga jadwal event secara cepat, rapi, dan tanpa iklan.
 
-## Creating a project
+## Fitur Utama
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **Characters, Weapons, Echoes, & Sonatas**: Data lengkap beserta statistik, skill, dan detail interaktif (slider level).
+- **Builds**: Rekomendasi build dari komunitas, lengkap dengan stat target dan tim yang cocok.
+- **Stories & Lore**: Arsip cerita (Main Quest, Companion, Event) dengan dialog yang rapi.
+- **Timeline / Calendar**: Jadwal event dan banner yang berlangsung, diambil secara dinamis.
+- **PWA & Theme**: Mendukung berbagai tema (Light, Dark, Claude) dan *custom fonts*.
 
-```sh
-# create a new project
-npx sv create my-app
-```
+## Tech Stack
 
-To recreate this project with the same configuration:
+- **Framework**: [SvelteKit 2](https://kit.svelte.dev/) (Svelte 5 Runes)
+- **Styling**: Vanilla CSS (CSS Variables) dengan desain responsif.
+- **Data Sources**:
+  - **Encore API** (`api-v2.encore.moe`) - Data utama karakter, senjata, echo, dll.
+  - **WuWa Tracker** - Data timeline event dan banner.
+  - **WuWa-Data (KLinQin)** - Data build, stat, dan rekomendasi tim.
 
-```sh
-# recreate this project
-npx sv@1.3.0 create --template minimal --types ts --install npm wuwa-db
-```
+## Cara Menjalankan (Local)
 
-## Adding features
+1. **Clone repository**:
+   ```bash
+   git clone https://github.com/kLinQin/wuwa.git
+   cd wuwa-db
+   ```
 
-Add features to your project with `sv add`:
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-```sh
-npx sv add
-```
+3. **Setup Environment (Opsional)**:
+   Untuk menggunakan data lokal (seperti build wuwa-data), buat file `.env` di root:
+   ```env
+   LOCAL_DATA_DIR=C:/path/to/wuwa-data
+   ```
 
-For example, to add Tailwind CSS:
+4. **Jalankan Development Server**:
+   ```bash
+   npm run dev
+   ```
+   Buka `http://localhost:5173`.
 
-```sh
-npx sv add tailwindcss
-```
+5. **Build untuk Production**:
+   ```bash
+   npm run build
+   npm run preview
+   ```
 
-## Developing
+## Struktur Folder
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+- `src/lib/components/` - Komponen UI global (Card, Accordion, Tabs, dll).
+- `src/lib/server/` - Logika backend, fetch API (Encore, WuWa-Tracker, WuWa-Data), dan adapters.
+- `src/routes/` - Halaman (Home, Characters, Weapons, Builds, Calendar, About, dll).
+- `src/routes/api/` - Endpoint internal (Proxy Image, Timeline scraper).
 
-```sh
-npm run dev
+## Credits & Acknowledgements
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+Proyek ini tidak akan berjalan tanpa bantuan komunitas:
+- **[Kuro Games](https://wutheringwaves.kurogames.com/)** - Developer game Wuthering Waves.
+- **[Encore](https://encore.moe/)** - API data game yang sangat lengkap.
+- **[WuWa Tracker](https://wuwatracker.com/)** - Referensi timeline event dan banner.
+- **Data Miners & Community** - Untuk semua aset dan data mentah.
 
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+---
+Dibuat dengan ❤️ untuk komunitas Wuthering Waves.

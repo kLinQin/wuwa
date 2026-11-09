@@ -100,8 +100,8 @@
   :root { --sidebar-w: 220px; --content-pad: 4px; --max-content: 1024px; }
 }
 
-/* CLAUDE DARK (dari Zed theme) */
-[data-theme="claude"] {
+/* EGG DARK (dari Zed theme) */
+[data-theme="egg"] {
   --raised-highlight: #2a2826;
   --raised-shadow: #0a0908;
   --raised-color: var(--border) var(--raised-shadow) var(--raised-shadow) var(--border);

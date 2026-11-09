@@ -1,7 +1,7 @@
 <script lang="ts">
   import Icons from '#lib/components/Icons.svelte';
   import '../app.css';
-  import favicon from '#lib/assets/favicon.svg';
+  
   import ThemeToggle from '#lib/components/ThemeToggle.svelte';
   import FontToggle from '#lib/components/FontToggle.svelte';
   import { page } from '$app/state';
@@ -48,7 +48,7 @@
   $effect(() => { page.url.pathname; open = false; });
 </script>
 
-<svelte:head><link rel="icon" href={favicon} /></svelte:head>
+
 <Icons />
 <svelte:window onscroll={handle_scroll} />
 

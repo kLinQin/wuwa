@@ -89,7 +89,7 @@
   --text-secondary: #5a5a72;
   --text-faded:     #9090a8;
 }
-[data-theme="claude"] {
+[data-theme="egg"] {
   --text-heading:   #f0eee4;
   --text-body:      #e8e6dc;
   --text-secondary: #c9c4b8;

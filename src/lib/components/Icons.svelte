@@ -40,7 +40,7 @@
       <polyline points="18 15 12 9 6 15" />
     </symbol>
 
-    <symbol id="theme-claude" viewBox="0 0 24 24">
+    <symbol id="theme-egg" viewBox="0 0 24 24">
       <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/>
       <circle cx="12" cy="12" r="3.5" fill="currentColor"/>
     </symbol>

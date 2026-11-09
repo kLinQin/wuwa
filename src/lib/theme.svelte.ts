@@ -1,12 +1,12 @@
 import { browser } from '$app/env';
 
-type Theme = 'dark' | 'light' | 'claude';
-const ORDER: Theme[] = ['dark', 'light', 'claude'];
+type Theme = 'dark' | 'light' | 'egg';
+const ORDER: Theme[] = ['dark', 'light', 'egg'];
 
 function read(): Theme {
   if (!browser) return 'dark';
   const saved = localStorage.getItem('theme');
-  if (saved === 'light' || saved === 'dark' || saved === 'claude') return saved;
+  if (saved === 'light' || saved === 'dark' || saved === 'egg') return saved;
   return 'dark';
 }
 

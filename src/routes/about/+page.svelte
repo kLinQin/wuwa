@@ -13,7 +13,10 @@
 <svelte:head><title>About — WWI</title></svelte:head>
 
 <div class="about-page">
-  <header class="page-header">
+  <header class="page-header" style="text-align: center;">
+    <div class="logo-wrap" style="margin-bottom: var(--sp-3);">
+      <div class="logo-mask"></div>
+    </div>
     <h1>Information</h1>
     <p class="desc">Details about the project, data sources, and acknowledgements.</p>
   </header>
@@ -66,6 +69,13 @@
     display: flex;
     flex-direction: column;
     gap: var(--sp-4);
+  }
+  .logo-wrap { display: flex; justify-content: center; }
+  .logo-mask {
+    width: 80px; height: 80px;
+    background-color: var(--text);
+    mask: url('/logo.svg') center/contain no-repeat;
+    -webkit-mask: url('/logo.svg') center/contain no-repeat;
   }
   .page-header h1 { font-size: var(--fs-xl); margin: 0 0 var(--sp-1); }
   .page-header .desc { color: var(--text-secondary); font-size: var(--fs-sm); margin: 0; }

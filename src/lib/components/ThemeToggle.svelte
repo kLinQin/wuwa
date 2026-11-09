@@ -4,7 +4,7 @@
   const iconId = $derived(
     theme.value === 'dark' ? '#theme-dark'
     : theme.value === 'light' ? '#theme-light'
-    : '#theme-claude'
+    : '#theme-egg'
   );
 </script>
 
