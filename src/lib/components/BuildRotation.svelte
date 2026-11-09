@@ -33,7 +33,7 @@
         {@const stepIdx = currentSteps[rotIdx] ?? 0}
         {@const maxSteps = rot.steps.length}
 
-        <div class="rotation-card raised">
+        <div class="rotation-card surface">
           <h4 class="rot-title">{rot.title}</h4>
 
           <!-- View Step -->

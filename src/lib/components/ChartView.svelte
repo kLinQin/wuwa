@@ -18,7 +18,7 @@
 
 <div class="chart-list">
   {#each charts as c}
-    <div class="chart-card raised">
+    <div class="chart-card surface">
       <h4>{c.title}</h4>
 
       {#if c.chartType === 'radar'}

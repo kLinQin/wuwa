@@ -377,3 +377,24 @@
 @media (min-width: 768px) {
   .grid-2 { grid-template-columns: 1fr 1fr; }
 }
+
+.surface {
+  background: var(--bg-elev);
+  color: var(--text-body);
+  border-style: solid;
+  border-color: var(--raised-color);
+  border-width: var(--raised-width);
+  border-radius: var(--radius);
+  padding: var(--sp-2);
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+}
+.surface.icon {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}

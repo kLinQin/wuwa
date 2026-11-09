@@ -18,7 +18,7 @@
 <div class="team-wrapper">
   <div class="team-container">
     {#each teams as t, i}
-      <div class="team-card raised" class:show={i === currentIndex || i === currentIndex + 1 || i === currentIndex + 2}>
+      <div class="team-card surface" class:show={i === currentIndex || i === currentIndex + 1 || i === currentIndex + 2}>
         <div class="team-header">
           <h4>{t.name}</h4>
           {#if teamNote}

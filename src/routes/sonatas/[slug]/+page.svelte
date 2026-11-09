@@ -11,7 +11,7 @@
 <svelte:head><title>{item.name} — WuWa DB</title></svelte:head>
 
 <div class="detail-page">
-  <header class="sonata-header card" style="--sonata-color: {item.color}">
+  <header class="sonata-header surface" style="--sonata-color: {item.color}">
     <img src={item.image} alt={item.name} class="sonata-img" />
     <div class="info">
       <h1>{item.name}</h1>
@@ -22,7 +22,7 @@
   <DataSection title="Fetters">
     <div class="fetters-list">
       {#each item.fetters as f}
-        <div class="fetter-item raised">
+        <div class="fetter-item surface">
           <span class="key-badge">{f.key} pcs</span>
           <p class="desc">{f.effectDescription}</p>
         </div>

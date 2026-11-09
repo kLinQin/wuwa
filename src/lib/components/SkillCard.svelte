@@ -14,7 +14,7 @@
   } = $props();
 </script>
 
-<div class="card raised">
+<div class="skill-card surface">
   <div class="header">
     {#if icon}
       <img src={icon} alt={name} class="icon" onerror={(e) => e.currentTarget.style.display = 'none'} />
@@ -31,7 +31,7 @@
 </div>
 
 <style>
-  .card {
+  .skill-card {
     padding: var(--sp-3);
     display: flex;
     flex-direction: column;

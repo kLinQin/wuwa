@@ -147,7 +147,7 @@
   <header class="cal-header">
     <h1>Event Calendar</h1>
     <div class="controls">
-      <div class="month-nav raised">
+      <div class="month-nav surface">
         <button onclick={prevMonth} aria-label="Previous Month">&lsaquo;</button>
         <span class="current-month">{monthNames[selectedMonth]} {selectedYear}</span>
         <button onclick={nextMonth} aria-label="Next Month">&rsaquo;</button>

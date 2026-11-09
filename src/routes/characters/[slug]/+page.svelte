@@ -7,6 +7,7 @@
   import DetailHeader from '../../../lib/components/DetailHeader.svelte';
   import MaterialList from '../../../lib/components/MaterialList.svelte';
   import Slider from '../../../lib/components/Slider.svelte';
+  import Accordion from '../../../lib/components/Accordion.svelte';
 
   let props: PageProps = $props();
   const item = $derived(props.data.item);
@@ -160,10 +161,9 @@
           <p class="desc">No entries.</p>
         {:else}
           {#each loreItems as entry}
-            <details class="lore-entry">
-              <summary>{entry.title || '(untitled)'}</summary>
-              <div class="lore-body">{entry.content}</div>
-            </details>
+            <Accordion title={entry.title || '(untitled)'} image={entry.pic || ''}>
+              {entry.content}
+            </Accordion>
           {/each}
         {/if}
       </div>

@@ -21,7 +21,7 @@
 <svelte:head><title>{item.name} — WuWa DB</title></svelte:head>
 
 <div class="detail-page">
-  <header class="echo-header card">
+  <header class="echo-header surface">
     <img src={item.image} alt={item.name} class="echo-img" />
     <div class="info">
       <h1>{item.name}</h1>

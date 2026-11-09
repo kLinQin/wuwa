@@ -84,7 +84,7 @@ const SKILL_KEY_MAP: Record<string, string> = {
   'Intro Skill': 'intro',
   'Outro Skill': 'outro',
   'Inherent Skill': 'inherent',
-  'Tune Break': 'tuneBreak'
+  'Tune Break': 'inherent'
 };
 
 
@@ -258,7 +258,11 @@ export async function getCharacterDetail(encoreId: number): Promise<any | null> 
         values: att.values || []
       })).filter((x: any) => x.values.length > 0)
     };
-    if (key === 'inherent') inherent.push({ name: entry.name, effects: entry.effects });
+    if (key === 'inherent') {
+      if (!/skillful cooking/i.test(entry.name)) {
+        inherent.push({ name: entry.name, effects: entry.effects });
+      }
+    }
     else if (!skills[key]) skills[key] = entry;
   }
   if (inherent.length) skills.inherent = inherent;
@@ -334,7 +338,7 @@ export async function getCharacterDetail(encoreId: number): Promise<any | null> 
     },
     stories: (d.Stories || []).map((s: any) => ({ title: stripHtml(s.Title || ''), content: stripHtml(s.Content || '') })),
     words: (d.Words || []).map((w: any) => ({ title: stripHtml(w.Title || ''), content: stripHtml(w.Content || '') })),
-    goods: (d.Goods || []).map((g: any) => ({ title: stripHtml(g.Title || ''), content: stripHtml(g.Content || '') })),
+    goods: (d.Goods || []).map((g: any) => ({ title: stripHtml(g.Title || ''), content: stripHtml(g.Content || ''), pic: proxyImg(g.Pic) })),
     ...buildMaterials(d, itemIdx),
     skillTree: (d.SkillTree || []).map((t: any) => ({
       title: stripHtml(t.PropertyNodeTitle || ''),

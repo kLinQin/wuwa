@@ -25,14 +25,14 @@
 
   {#if info.TalentDoc}
     <details class="doc-section">
-      <summary class="raised">{info.TalentDoc.Title || 'Resonance Evaluation Report'}</summary>
+      <summary class="surface">{info.TalentDoc.Title || 'Resonance Evaluation Report'}</summary>
       <div class="doc-content">{@html info.TalentDoc.Content}</div>
     </details>
   {/if}
 
   {#if info.TalentCertification}
     <details class="doc-section">
-      <summary class="raised">{info.TalentCertification.Title || 'Overclock Diagnostic Report'}</summary>
+      <summary class="surface">{info.TalentCertification.Title || 'Overclock Diagnostic Report'}</summary>
       <div class="doc-content">{@html info.TalentCertification.Content}</div>
     </details>
   {/if}

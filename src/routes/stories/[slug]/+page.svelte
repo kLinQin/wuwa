@@ -10,7 +10,7 @@
 <svelte:head><title>{item.name} — WuWa DB</title></svelte:head>
 
 <div class="detail-page">
-  <header class="story-header card">
+  <header class="story-header surface">
     <div class="info">
       <h1>{item.name}</h1>
       <p class="meta-text">{item.faction} • {item.affiliation}</p>
@@ -27,7 +27,7 @@
     <DataSection title="Manual Entries">
       <div class="entries-grid">
         {#each lore.manualEntries as entry}
-          <div class="entry-box raised">
+          <div class="entry-box surface">
             <span class="label">{entry.title}</span>
             <span class="value">{entry.description}</span>
           </div>
@@ -65,7 +65,7 @@
     <DataSection title="Key Items">
       <div class="items-list">
         {#each lore.items as it}
-          <div class="item-card raised">
+          <div class="item-card surface">
             {#if it.imageUrl}
               <img src={it.imageUrl} alt={it.name} class="item-img" />
             {/if}
@@ -81,7 +81,7 @@
 
   {#if lore.specialFood}
     <DataSection title="Special Food">
-      <div class="food-card raised">
+      <div class="food-card surface">
         {#if lore.specialFood.imageUrl}
           <img src={lore.specialFood.imageUrl} alt={lore.specialFood.name} class="food-img" />
         {/if}

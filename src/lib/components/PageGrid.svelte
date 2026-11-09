@@ -41,7 +41,7 @@
 <div class="page-container">
   <div class="page-header">
     {#if !openedFilter}
-      <div class="search-box raised" class:read-only={searchAsLabel}>
+      <div class="search-box surface" class:read-only={searchAsLabel}>
         {#if searchAsLabel}
           <span class="label-text">{title}</span>
         {:else}
