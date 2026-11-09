@@ -1,10 +1,10 @@
 import type { PageServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
+import { encoreGet } from '#lib/server/encore';
 
 export const load: PageServerLoad = async ({ params, fetch }) => {
-  const res = await fetch(`https://api-v2.encore.moe/api/en/story/${params.slug}`);
-  if (!res.ok) throw error(404, 'Story not found');
-  const item = await res.json();
+  let item: any;
+  try { item = await encoreGet(`en/story/${params.slug}`); } catch { throw error(404, 'Story not found'); }
   const proxy = (u: string) => {
     if (!u) return '';
     return u.replace('https://api-v2.encore.moe/api/resource/', '/api/img/');
