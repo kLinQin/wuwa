@@ -26,13 +26,12 @@
     const p = page.url.pathname;
     if (p === '/') return 'homepage';
     const parts = p.split('/').filter(Boolean);
-    return parts.map((seg, i) => {
-      if (i === parts.length - 1 && i > 0) {
-        const item = (page.data as any)?.item;
-        if (item?.name) return item.name;
-      }
-      return seg.charAt(0).toUpperCase() + seg.slice(1);
-    }).join(' / ');
+    const last = parts[parts.length - 1];
+    if (parts.length > 1) {
+      const item = (page.data as any)?.item;
+      if (item?.name) return item.name;
+    }
+    return last.charAt(0).toUpperCase() + last.slice(1);
   })());
 
   

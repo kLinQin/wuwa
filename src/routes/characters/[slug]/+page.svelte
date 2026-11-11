@@ -9,6 +9,60 @@
   import MaterialList from '../../../lib/components/MaterialList.svelte';
   import Slider from '../../../lib/components/Slider.svelte';
   import Accordion from '../../../lib/components/Accordion.svelte';
+  import TranslatableSection from '../../../lib/components/TranslatableSection.svelte';
+
+  function stripTags(html: string): string {
+    return String(html || '')
+      .replace(/<br\s*\/?>/gi, '\n')
+      .replace(/<[^>]+>/g, '')
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  let mechTranslated = $state<{ descriptions: string[]; inputs: string[] } | null>(null);
+  let mechLoading = $state(false);
+  let mechError = $state<string | null>(null);
+
+  async function toggleMechTranslate() {
+    if (mechTranslated) { mechTranslated = null; mechError = null; return; }
+    const m = item.mechanics;
+    if (!m) return;
+    mechLoading = true; mechError = null;
+    try {
+      const descText = (m.descriptions || []).join('\n');
+      const inputTexts = (m.inputs || []).map((x: any) => stripTags(x.html));
+      const jobs: Promise<string>[] = [
+        descText ? callTranslate(descText) : Promise.resolve(''),
+        ...inputTexts.map((t) => t ? callTranslate(t) : Promise.resolve(''))
+      ];
+      const results = await Promise.all(jobs);
+      const translatedDesc = results[0];
+      const translatedInputs = results.slice(1);
+      mechTranslated = {
+        descriptions: descText ? translatedDesc.split('\n') : [],
+        inputs: translatedInputs
+      };
+    } catch (e: any) {
+      mechError = e?.message || 'Translate failed';
+    } finally {
+      mechLoading = false;
+    }
+  }
+
+  async function callTranslate(text: string, sl = 'auto', tl = 'id'): Promise<string> {
+    const res = await fetch('/api/translate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text, sl, tl })
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const j = await res.json();
+    return j.text || '';
+  }
 
   let props: PageProps = $props();
   const item = $derived(props.data.item);
@@ -72,9 +126,7 @@
 
   {#if activeTab === 'overview'}
     {#if item.intro}
-      <DataSection title="Introduction">
-        <p class="desc">{item.intro}</p>
-      </DataSection>
+      <TranslatableSection title="Introduction" text={item.intro} sl="auto" tl="id" />
     {/if}
 
     {#if item.levelStats}
@@ -94,6 +146,17 @@
 
     {#if item.mechanics}
       <DataSection title="Basic Mechanics">
+        {#snippet actions()}
+          <button
+            class="raised"
+            onclick={toggleMechTranslate}
+            disabled={mechLoading}
+            aria-pressed={!!mechTranslated}
+            title={mechError || 'Translate Basic Mechanics'}
+          >
+            {mechLoading ? 'Translating…' : mechTranslated ? 'Original' : 'Translate'}
+          </button>
+        {/snippet}
         <div class="mech">
           <div class="mech-left">
             {#if item.mechanics.icon}
@@ -103,7 +166,7 @@
           <div class="mech-right">
             {#if item.mechanics.descriptions.length}
               <ul class="mech-list">
-                {#each item.mechanics.descriptions as d}
+                {#each (mechTranslated?.descriptions ?? item.mechanics.descriptions) as d}
                   <li>{d}</li>
                 {/each}
               </ul>
@@ -112,9 +175,15 @@
               <div class="mech-inputs">
                 <span class="mech-label">Input Details</span>
                 <ul class="mech-list">
-                  {#each item.mechanics.inputs as i}
-                    <li>{@html i.html}</li>
-                  {/each}
+                  {#if mechTranslated}
+                    {#each mechTranslated.inputs as t}
+                      <li>{t}</li>
+                    {/each}
+                  {:else}
+                    {#each item.mechanics.inputs as i}
+                      <li>{@html i.html}</li>
+                    {/each}
+                  {/if}
                 </ul>
               </div>
             {/if}
@@ -189,4 +258,5 @@
   .mech-list :global(img) { display: inline-block; vertical-align: middle; height: 20px; }
 
   .lore-content { display: flex; flex-direction: column; gap: var(--sp-2); margin-top: var(--sp-3); }
+
 </style>

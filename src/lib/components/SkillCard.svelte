@@ -5,11 +5,13 @@
     icon,
     typeLabel,
     name,
+    actions,
     children
   }: {
     icon?: string;
     typeLabel: string;
     name: string;
+    actions?: Snippet;
     children?: Snippet;
   } = $props();
 </script>
@@ -23,6 +25,7 @@
       <span class="type">{typeLabel}</span>
       <span class="name">{name}</span>
     </div>
+    {#if actions}<div class="actions">{@render actions()}</div>{/if}
   </div>
 
   <div class="body">
@@ -75,6 +78,8 @@
     font-weight: var(--fw-medium);
     color: var(--accent);
   }
+
+  .actions { margin-left: auto; display: flex; align-items: center; gap: var(--sp-1); }
 
   .body {
     display: flex;
