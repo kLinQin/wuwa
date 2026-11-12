@@ -5,6 +5,7 @@
     data && data.length > 0 ? Math.max(...data.map((x: any) => x.value)) : 1
   );
 
+  let hoverIndex = $state<number | null>(null);
   const size = 220;
   const cx = size / 2;
   const cy = size / 2;
@@ -50,32 +51,38 @@
       {@const startAngle = i * angleSpan + (gap / 2)}
       {@const endAngle = (i + 1) * angleSpan - (gap / 2)}
 
-      <!-- Gambar batang melingkar -->
-      <path
-        d={getArcPath(startAngle, startAngle + (endAngle - startAngle) * ratio, maxRadius - barThickness, maxRadius)}
-        fill="var(--accent)"
-        stroke="var(--bg-elev)"
-        stroke-width="1"
-      />
-
-      <!-- Background bar (opsional, agar terlihat seperti track) -->
+      <!-- Background track -->
       <path
         d={getArcPath(startAngle, endAngle, maxRadius - barThickness, maxRadius)}
         fill="var(--bg-hover)"
-        opacity="0.3"
-        style="mix-blend-mode: multiply; z-index: -1;"
+        opacity="0.6"
       />
 
-      <!-- Label Teks -->
+      <!-- Bar data -->
+      <path
+        d={getArcPath(startAngle, startAngle + (endAngle - startAngle) * ratio, maxRadius - barThickness, maxRadius)}
+        fill={hoverIndex === i ? 'var(--accent-hover)' : 'var(--accent)'}
+        style="cursor: pointer; transition: fill 0.15s;"
+        role="presentation"
+        onmouseenter={() => hoverIndex = i}
+        onmouseleave={() => hoverIndex = null}
+      />
+
+      <!-- Label -->
       {@const midAngle = startAngle + (endAngle - startAngle) / 2}
-      {@const labelPos = polarToCartesian(cx, cy, maxRadius + 12, midAngle)}
+      {@const labelPos = polarToCartesian(cx, cy, maxRadius + 14, midAngle)}
       <text
         x={labelPos.x}
         y={labelPos.y}
         text-anchor={midAngle > 90 && midAngle < 270 ? 'end' : 'start'}
         dominant-baseline="middle"
         font-size="9"
-        fill="var(--text-secondary)"
+        font-weight={hoverIndex === i ? 700 : 400}
+        fill={hoverIndex === i ? 'var(--accent)' : 'var(--text-secondary)'}
+        style="cursor: pointer; transition: fill 0.15s, font-weight 0.15s;"
+        role="presentation"
+        onmouseenter={() => hoverIndex = i}
+        onmouseleave={() => hoverIndex = null}
       >
         {d.type}
       </text>
@@ -84,6 +91,15 @@
 </div>
 
 <style>
-  .polar-chart-wrapper { display: flex; justify-content: center; margin: var(--sp-2) 0; width: 100%; }
-  .polar-chart-wrapper svg { overflow: visible; }
+  .polar-chart-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: var(--sp-3) 0;
+    width: 100%;
+  }
+  .polar-chart-wrapper svg {
+    overflow: visible;
+    max-width: 100%;
+    height: auto;
+  }
 </style>

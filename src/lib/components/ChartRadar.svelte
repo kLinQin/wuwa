@@ -26,6 +26,14 @@
     });
   }
 
+  function getRankColor(index: number) {
+    if (index === 0) return 'var(--rank-1)';
+    if (index === 1) return 'var(--rank-2)';
+    if (index === 2) return 'var(--rank-3)';
+    return 'var(--rank-default)';
+  }
+
+  let hoverIndex = $state<number | null>(null);
   const size = 220;
   const cx = size / 2;
   const cy = size / 2;
@@ -34,49 +42,121 @@
 
 <div class="radar-chart-wrapper">
   <svg width={size} height={size} viewBox="0 0 {size} {size}">
-    <!-- Garis Grid (Web) -->
+    <!-- Grid rings -->
     {#each [1, 0.75, 0.5, 0.25] as scale}
       <polygon
         points={getRadarPoints(data.map(() => ({ value: maxVal * scale })), radius, cx, cy, maxVal)}
         fill="none"
         stroke="var(--border)"
-        stroke-width="1"
+        stroke-width={scale === 1 ? 1.5 : 0.75}
+        stroke-opacity={scale === 1 ? 0.9 : 0.6}
       />
     {/each}
 
-    <!-- Garis Sumbu -->
-    {#each getRadarAxes(data, radius, cx, cy) as axis}
-      <line x1={axis.x1} y1={axis.y1} x2={axis.x2} y2={axis.y2} stroke="var(--border)" stroke-width="1" />
+    <!-- Axes -->
+    {#each getRadarAxes(data, radius, cx, cy) as axis, i}
+      <line
+        x1={axis.x1} y1={axis.y1} x2={axis.x2} y2={axis.y2}
+        stroke={hoverIndex === i ? getRankColor(i) : 'var(--border)'}
+        stroke-width={hoverIndex === i ? 1.5 : 0.75}
+        stroke-opacity="0.7"
+        style="transition: stroke 0.15s, stroke-width 0.15s;"
+      />
     {/each}
 
-    <!-- Area Data -->
+    <defs>
+      <radialGradient id="radar-fill" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.45" />
+        <stop offset="100%" stop-color="var(--accent)" stop-opacity="0.08" />
+      </radialGradient>
+    </defs>
+
+    <!-- Data area -->
     <polygon
       points={getRadarPoints(data, radius, cx, cy, maxVal)}
-      fill="var(--accent)"
-      fill-opacity="0.3"
+      fill="url(#radar-fill)"
       stroke="var(--accent)"
       stroke-width="2"
+      stroke-linejoin="round"
     />
 
-    <!-- Titik Data -->
-    {#each getRadarPoints(data, radius, cx, cy, maxVal).split(' ') as point}
+    <!-- Data points -->
+    {#each getRadarPoints(data, radius, cx, cy, maxVal).split(' ') as point, i}
       {@const [x, y] = point.split(',')}
-      <circle cx={x} cy={y} r="3" fill="var(--accent)" />
+      <circle
+        cx={x}
+        cy={y}
+        r={hoverIndex === i ? 5.5 : 3.5}
+        fill={getRankColor(i)}
+        stroke="var(--bg-elev)"
+        stroke-width="1.5"
+        style="cursor: pointer; transition: r 0.15s, fill 0.15s;"
+        role="presentation"
+        onmouseenter={() => hoverIndex = i}
+        onmouseleave={() => hoverIndex = null}
+      />
     {/each}
 
-    <!-- Label -->
+    <!-- Value tooltip on hover -->
+    {#if hoverIndex !== null && data[hoverIndex]}
+      {@const hv = data[hoverIndex]}
+      {@const angle = (hoverIndex * (Math.PI * 2) / data.length) - Math.PI / 2}
+      {@const r = (hv.value / maxVal) * radius + 14}
+      {@const tx = cx + r * Math.cos(angle)}
+      {@const ty = cy + r * Math.sin(angle)}
+      <g style="pointer-events: none;">
+        <rect
+          x={tx - 30} y={ty - 11}
+          width="60" height="20" rx="4"
+          fill="var(--bg-elev)" stroke={getRankColor(hoverIndex)} stroke-width="1"
+        />
+        <text
+          x={tx} y={ty}
+          text-anchor="middle" dominant-baseline="middle"
+          font-size="10" font-weight="700"
+          fill={getRankColor(hoverIndex)}
+        >
+          {hv.percentage}%
+        </text>
+      </g>
+    {/if}
+
+    <!-- Labels -->
     {#each data as d, i}
       {@const angle = (i * (Math.PI * 2) / data.length) - Math.PI / 2}
-      {@const lx = cx + (radius + 15) * Math.cos(angle)}
-      {@const ly = cy + (radius + 15) * Math.sin(angle)}
-      <text x={lx} y={ly} text-anchor="middle" dominant-baseline="middle" font-size="10" fill="var(--text-secondary)">
+      {@const lx = cx + (radius + 22) * Math.cos(angle)}
+      {@const ly = cy + (radius + 22) * Math.sin(angle)}
+      {@const anchor = Math.cos(angle) > 0.3 ? 'start' : Math.cos(angle) < -0.3 ? 'end' : 'middle'}
+      <text
+        x={lx}
+        y={ly}
+        text-anchor={anchor}
+        dominant-baseline="middle"
+        font-size="10"
+        font-weight={hoverIndex === i ? 700 : 500}
+        fill={hoverIndex === i ? getRankColor(i) : 'var(--text-secondary)'}
+        style="cursor: pointer; transition: fill 0.15s, font-weight 0.15s;"
+        role="presentation"
+        onmouseenter={() => hoverIndex = i}
+        onmouseleave={() => hoverIndex = null}
+      >
         {d.type}
       </text>
     {/each}
   </svg>
 </div>
-
 <style>
-  .radar-chart-wrapper { display: flex; justify-content: center; margin: var(--sp-2) 0; width: 100%; }
-  .radar-chart-wrapper svg { overflow: visible; }
+  .radar-chart-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: var(--sp-4) 0;
+    width: 100%;
+    min-height: 300px;
+  }
+  .radar-chart-wrapper svg {
+    overflow: visible;
+    max-width: 100%;
+    height: auto;
+  }
 </style>

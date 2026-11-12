@@ -19,6 +19,7 @@
     return 'var(--rank-default)';
   }
 
+  let hoverIndex = $state<number | null>(null);
   let mounted = $state(false);
   onMount(() => {
     setTimeout(() => { mounted = true; }, 50);
@@ -30,7 +31,7 @@
   <div class="v-legend">
     {#each data as d, i}
       <div
-        class="v-legend-item"
+        class="v-legend-item" class:active={hoverIndex === i} onmouseenter={() => hoverIndex = i} onmouseleave={() => hoverIndex = null}
         role="button"
         tabindex="0"
         onclick={() => onTap?.(d)}
@@ -56,7 +57,7 @@
   <div class="v-chart-wrapper">
     {#each data as d, i}
       <div
-        class="v-bar-group"
+        class="v-bar-group" class:highlight={hoverIndex === i} onmouseenter={() => hoverIndex = i} onmouseleave={() => hoverIndex = null}
         role="button"
         tabindex="0"
         onclick={() => onTap?.(d)}
@@ -87,44 +88,53 @@
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 320px; 
-    gap: 16px !important;
-    margin-top: var(--sp-2);
+    min-height: 360px;
+    gap: var(--sp-4);
+    margin-top: var(--sp-3);
   }
 
-  
   .v-legend {
     display: flex;
     flex-direction: column;
-    gap: var(--sp-2);
-    width: 50%; 
+    gap: var(--sp-1);
+    width: 42%;
     flex-shrink: 0;
     overflow-y: auto;
     border-right: 1px solid var(--border);
-    padding-right: var(--sp-2);
+    padding-right: var(--sp-3);
+    max-height: 360px;
   }
 
   .v-legend-item {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: var(--sp-2);
     font-size: var(--fs-xs);
     cursor: pointer;
-    padding-bottom: 4px;
-    border-bottom: 1px solid transparent;
+    padding: 6px var(--sp-2);
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    transition: background 0.15s, border-color 0.15s;
   }
-  .v-legend-item:hover {
-    border-bottom-color: var(--border);
+  .v-legend-item:hover,
+  .v-legend-item.active {
+    background: var(--bg-hover);
+    border-color: var(--border);
   }
 
   .dot {
-    margin-top: 4px; 
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 2px var(--bg-elev);
   }
 
   .legend-info {
     display: flex;
     flex-direction: column;
     width: 100%;
+    min-width: 0;
   }
 
   .legend-name {
@@ -142,6 +152,7 @@
     color: var(--text-secondary);
     font-family: var(--font-mono);
     font-size: var(--fs-2xs);
+    margin-top: 2px;
   }
 
   .legend-pct { font-weight: var(--fw-bold); color: var(--accent); }
@@ -149,19 +160,21 @@
   .legend-diff.positive { color: var(--status-active); }
   .legend-diff.negative { color: var(--status-ended); }
   .legend-diff:not(.positive):not(.negative) { color: var(--text-secondary); }
-  .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
-  
   .v-chart-wrapper {
     display: flex;
     align-items: flex-end;
     justify-content: space-around;
-    height: 100%;
-    flex: 1; 
+    height: 320px;
+    flex: 1;
+    min-width: 0;
     border-bottom: 1px solid var(--border);
     padding-bottom: var(--sp-1);
     overflow-x: auto;
-    
+    position: relative;
+    background-image: linear-gradient(to top, var(--border) 1px, transparent 1px);
+    background-size: 100% 25%;
+    background-position: bottom;
   }
 
   .v-bar-group {
@@ -170,23 +183,31 @@
     align-items: center;
     justify-content: flex-end;
     height: 100%;
-    width: 100%;
-    max-width: 60px; 
+    min-width: 24px;
+    max-width: 64px;
     flex: 1;
-    margin: 0 2px; 
+    margin: 0 2px;
     cursor: pointer;
+    position: relative;
   }
+
+  .v-bar-group.dim { opacity: 0.35; }
+  .v-bar-group.highlight { opacity: 1; }
 
   .v-value {
     display: flex;
     flex-direction: column;
     align-items: center;
     font-size: var(--fs-2xs);
-    line-height: 1.1;
+    line-height: 1.15;
     margin-bottom: 4px;
     font-family: var(--font-mono);
+    font-weight: var(--fw-bold);
+    color: var(--text-body);
+    transition: transform 0.2s;
   }
-  .raw { font-size: var(--fs-4xs); color: var(--text-secondary); }
+  .v-bar-group:hover .v-value { transform: translateY(-2px); }
+  .raw { font-size: var(--fs-4xs); color: var(--text-secondary); font-weight: normal; }
 
   .v-track {
     width: 100%;
@@ -196,46 +217,50 @@
     display: flex;
     align-items: flex-end;
     overflow: hidden;
+    position: relative;
   }
 
   .v-fill {
     width: 100%;
-    transition: height 0.8s ease;
+    transition: height 0.9s cubic-bezier(0.22, 1, 0.36, 1);
     border-radius: var(--radius) var(--radius) 0 0;
+    position: relative;
+    box-shadow: inset 0 -2px 0 rgba(0,0,0,0.15);
+  }
+  .v-fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, transparent 0%, rgba(255,255,255,0.15) 100%);
+    border-radius: inherit;
+    pointer-events: none;
   }
 
-  
   @media (max-width: 639px) {
     .v-chart-layout {
       flex-direction: column-reverse;
-      height: auto !important; 
-      min-height: 350px; 
+      min-height: 0;
       gap: var(--sp-3);
     }
     .v-chart-wrapper {
-      height: 250px; 
+      height: 240px;
       border-bottom: none;
       border-top: 1px solid var(--border);
       padding-top: var(--sp-3);
-      align-items: flex-end;
-      flex: none; 
+      flex: none;
+      background-size: 100% 25%;
     }
-    .v-bar-group {
-      height: 100% !important;
-      max-width: 40px;
-    }
+    .v-bar-group { max-width: 40px; }
     .v-legend {
-      width: 100% !important;
-      max-height: none; 
-      flex: none; 
-      flex-direction: column;
-      flex-wrap: nowrap;
-      gap: 4px; 
+      width: 100%;
+      max-height: none;
+      flex: none;
+      gap: 4px;
       border-right: none;
       padding-right: 0;
       border-bottom: 1px solid var(--border);
       padding-bottom: var(--sp-2);
-      overflow-y: visible; 
+      overflow-y: visible;
     }
   }
 </style>

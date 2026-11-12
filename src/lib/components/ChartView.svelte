@@ -25,8 +25,9 @@
         <ChartRadar data={c.data} />
       {:else if c.chartType === 'polar'}
         <ChartPolar data={c.data} />
+      {:else if c.chartType === 'bar'}
+        <ChartBar data={c.data} onTap={handleTap} />
       {:else}
-        <!-- Default ke Vertical -->
         <ChartVertical data={c.data} onTap={handleTap} />
       {/if}
 
@@ -60,20 +61,31 @@
 </BottomSheet>
 
 <style>
-  .chart-list { display: flex; flex-direction: column; gap: var(--sp-4); }
-  .chart-card {
-    padding: var(--sp-3);
+  .chart-list {
     display: flex;
-    flex-direction: column; 
-    gap: var(--sp-2);
+    flex-direction: column;
+    gap: var(--sp-4);
   }
-  .chart-card h4 { margin: 0 0 var(--sp-3) 0; font-size: var(--fs-md); color: var(--accent); }
+  .chart-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    transition: border-color 0.15s;
+  }
+  .chart-card h4 {
+    margin: 0;
+    font-size: var(--fs-md);
+    color: var(--accent);
+    border-left: 4px solid var(--accent);
+    padding-left: var(--sp-2);
+    font-weight: var(--fw-medium);
+  }
   .note-wrapper {
     display: flex;
     justify-content: flex-end;
-    margin-top: var(--sp-3);
+    margin-top: var(--sp-2);
     border-top: 1px solid var(--border);
-    padding-top: var(--sp-1);
+    padding-top: var(--sp-2);
   }
   .note {
     font-size: var(--fs-2xs);
@@ -84,7 +96,6 @@
     font-style: italic;
   }
 
-  
   .detail-row {
     display: flex;
     justify-content: space-between;
@@ -92,12 +103,8 @@
     border-bottom: 1px solid var(--border);
     font-size: var(--fs-sm);
   }
-  .detail-row:last-child {
-    border-bottom: none;
-  }
-  .detail-label {
-    color: var(--text-secondary);
-  }
+  .detail-row:last-child { border-bottom: none; }
+  .detail-label { color: var(--text-secondary); }
   .detail-val {
     font-weight: var(--fw-medium);
     text-align: right;
