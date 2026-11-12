@@ -9,7 +9,6 @@
   import MaterialList from '../../../lib/components/MaterialList.svelte';
   import Slider from '../../../lib/components/Slider.svelte';
   import Accordion from '../../../lib/components/Accordion.svelte';
-  import TranslatableSection from '../../../lib/components/TranslatableSection.svelte';
 
   function stripTags(html: string): string {
     return String(html || '')
@@ -126,7 +125,9 @@
 
   {#if activeTab === 'overview'}
     {#if item.intro}
-      <TranslatableSection title="Introduction" text={item.intro} sl="auto" tl="id" />
+      <DataSection title="Introduction">
+        <p class="desc">{item.intro}</p>
+      </DataSection>
     {/if}
 
     {#if item.levelStats}

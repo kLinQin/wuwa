@@ -30,7 +30,7 @@
 }
 .data-table th,
 .data-table td {
-  text-align: center;
+  text-align: left;
   padding: 6px var(--sp-2);
   border-bottom: 1px solid var(--border);
 }

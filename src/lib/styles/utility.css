@@ -241,25 +241,16 @@
   .card-img .weapon-wrap span { display: none; }
 }
 
-/* ===== Global scrollbar ===== */
+/* ===== Global scrollbar (hidden) ===== */
 * {
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
-  scrollbar-gutter: stable;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 *::-webkit-scrollbar {
-  width: var(--sp-1);
-  height: var(--sp-1);
-}
-
-*::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-*::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: var(--radius);
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 /* ===== Quest reader ===== */

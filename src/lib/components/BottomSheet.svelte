@@ -120,14 +120,6 @@
       margin: 0 auto;
       left: 0;
       right: 0;
-      transform: translateX(0); 
-    }
-  }
-
-  
-  @media (min-width: 1025px) {
-    .sheet {
-      transform: translateX(-10px);
     }
   }
 </style>
