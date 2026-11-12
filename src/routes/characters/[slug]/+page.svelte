@@ -97,6 +97,29 @@
     : loreTab === 'words' ? (item.words || [])
     : (item.goods || [])
   );
+
+  const skillsMap = $derived.by(() => {
+    const map: Record<string, { type: string; name: string; description: string }> = {};
+    const labels: Record<string, string> = {
+      basic: 'Basic Attack', skill: 'Resonance Skill', liberation: 'Resonance Liberation',
+      forte: 'Forte Circuit', intro: 'Intro Skill', outro: 'Outro Skill'
+    };
+    for (const k of Object.keys((item.skills as any) || {})) {
+      if (k === 'inherent') continue;
+      const sk = (item.skills as any)[k];
+      if (sk?.name) {
+        const desc = (sk.effects || []).map((e: any) => e.description).filter(Boolean).join('\n');
+        map[sk.name] = { type: labels[k] || k, name: sk.name, description: desc };
+      }
+    }
+    for (const inh of ((item.skills as any)?.inherent || [])) {
+      if (inh?.name) {
+        const desc = (inh.effects || []).map((e: any) => e.description).filter(Boolean).join('\n');
+        map[inh.name] = { type: 'Inherent Skill', name: inh.name, description: desc };
+      }
+    }
+    return map;
+  });
 </script>
 
 <svelte:head><title>{item.name} — WWI</title></svelte:head>
@@ -213,7 +236,7 @@
           <SkillList skills={item.skills} charSlug={item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')} />
         {/if}
         {#if kitTab === 'sequences' && item.sequences}
-          <SequenceList sequences={item.sequences} charSlug={item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')} />
+          <SequenceList sequences={item.sequences} skillsMap={skillsMap} charSlug={item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')} />
         {/if}
       </div>
     </DataSection>

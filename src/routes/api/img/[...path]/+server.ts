@@ -4,7 +4,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import type { RequestHandler } from './$types';
 
-const BASE = 'https://api-v2.encore.moe/resource';
+const BASE = 'https://api-v2.encore.moe';
 const CACHE_DIR = path.resolve('static/cache/img');
 const TTL_MS = 1000 * 60 * 60 * 24 * 7; 
 

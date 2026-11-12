@@ -27,7 +27,7 @@ function pickText(v: any): string {
 
 function proxyImg(url: string | undefined): string {
   if (!url) return '';
-  const prefix = 'https://api-v2.encore.moe/api/resource/';
+  const prefix = 'https://api-v2.encore.moe/';
   if (url.startsWith(prefix)) return '/api/img/' + url.slice(prefix.length);
   return url;
 }
@@ -245,6 +245,7 @@ export async function getCharacterDetail(encoreId: number): Promise<any | null> 
     .map((rc: any, i: number) => ({
       stage: 'S' + (i + 1),
       name: (rc.NodeName || '').replace(/\s+/g, ' ').trim(),
+      icon: rc.NodeIcon ? ('/api/img/resource/Data' + rc.NodeIcon) : '',
       effects: [{ title: '', description: stripHtml(rc.AttributesDescription || ''), isTitleVisible: false }]
     }));
 
@@ -252,7 +253,7 @@ export async function getCharacterDetail(encoreId: number): Promise<any | null> 
   const roles: any[] = (d.Tags || []).filter((t: any) => t.TagName).map((t: any) => ({
     name: t.TagName,
     desc: stripHtml(t.TagDesc || ''),
-    icon: t.TagIcon ? ('/api/img/Data' + t.TagIcon) : '',
+    icon: t.TagIcon ? ('/api/img/resource/Data' + t.TagIcon) : '',
     color: t.TagNameColor ? ('#' + t.TagNameColor) : ''
   }));
 
@@ -379,7 +380,7 @@ export async function getWeaponDetail(encoreId: number): Promise<any | null> {
     name: d.WeaponName,
     weaponType: d.WeaponType,
     rarity: d.QualityId,
-    image: d.Icon ? ('/api/img/Data' + d.Icon.replace(/\.[^./]+$/, '') + '.webp') : '',
+    image: d.Icon ? ('/api/img/resource/Data' + d.Icon.replace(/\.[^./]+$/, '') + '.webp') : '',
     subStat: subName,
     stats,
     version: '',
@@ -462,7 +463,7 @@ export async function getEchoDetail(encoreId: number): Promise<any | null> {
     return {
       id: g.Id,
       name,
-      icon: g.FetterElementPath ? ('/api/img/Data' + g.FetterElementPath.replace(/\.[^./]+$/, '') + '.webp') : '',
+      icon: g.FetterElementPath ? ('/api/img/resource/Data' + g.FetterElementPath.replace(/\.[^./]+$/, '') + '.webp') : '',
       color: g.FetterElementColor ? ('#' + g.FetterElementColor.slice(0, 6)) : '',
       effects: (fd.EffectDescriptions || []).map((e: string, i: number) => ({
         key: (fd.EffectKeys || [])[i] || (i + 1) * 2,
