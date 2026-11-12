@@ -22,7 +22,8 @@
 
   const tabList = [
     { id: 'overview', label: 'Overview' },
-    { id: 'teams', label: 'Teams & Stats' },
+    { id: 'teams', label: 'Teams' },
+    { id: 'stats', label: 'Stats' },
     { id: 'lore', label: 'Changelog' }
   ];
 
@@ -66,9 +67,20 @@
   {#if activeTab === 'teams'}
     {#if resolvedTeams.length > 0}
       <DataSection title="Recommended Teams">
-        <TeamList teams={resolvedTeams} teamNote={item.build?.teamNote} onnote={(note: string) => { currentTeamNote = note; isTeamNoteOpen = true; }} />
+        {#snippet actions()}
+          {#if item.build?.teamNote}
+            <button
+              class="raised small-btn"
+              onclick={() => { currentTeamNote = item.build.teamNote; isTeamNoteOpen = true; }}
+            >ℹ Note</button>
+          {/if}
+        {/snippet}
+        <TeamList teams={resolvedTeams} />
       </DataSection>
     {/if}
+  {/if}
+
+  {#if activeTab === 'stats'}
     {#if item.analysisCharts}
       <DataSection title="Analysis & Stats">
         <ChartView charts={item.analysisCharts} />
