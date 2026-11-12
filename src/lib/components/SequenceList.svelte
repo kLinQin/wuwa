@@ -2,18 +2,13 @@
   import Markdown from '#lib/components/Markdown.svelte';
   import SkillCard from './SkillCard.svelte';
 
-  let { sequences, skillsMap, charSlug }: { sequences: any[]; skillsMap?: Record<string, any>; charSlug: string } = $props();
-
-  function getSeqIcon(stage: string) {
-    const num = stage.replace(/[^0-9]/g, '');
-    return `/icons/sequences/${charSlug}/${charSlug}-${num}.webp`;
-  }
+  let { sequences, skillsMap, charSlug }: { sequences: any[]; skillsMap?: Record<string, any>; charSlug: string } = $props();
 </script>
 
 <div class="seq-list">
   <div class="grid-2">
     {#each sequences as s}
-      <SkillCard icon={s.icon || getSeqIcon(s.stage)} typeLabel={s.stage} name={s.name}>
+      <SkillCard icon={s.icon} typeLabel={s.stage} name={s.name}>
         <ul class="effects">
           {#each s.effects || [] as eff}
             <li>
