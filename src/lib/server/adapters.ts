@@ -123,115 +123,83 @@ async function getItemIndex(): Promise<Map<number, any>> {
 
 function buildMaterials(d: any, itemIdx: Map<number, any>): { materials: any; itemMap: Record<number, any> } {
   const asc: Record<number, number> = {};
-  for (const b of (d.Breaches || [])) {
-    for (const c of (b.BreachConsume || [])) {
-      asc[c.Key] = (asc[c.Key] || 0) + c.Value;
-    }
-  }
+  for (const b of (d.Breaches || [])) for (const c of (b.BreachConsume || [])) asc[c.Key] = (asc[c.Key] || 0) + c.Value;
 
-  
-  const uniqueSkillMats = new Set<number>();
-  for (const t of (d.SkillTree || [])) {
-    for (const c of (t.Consume || [])) {
-      uniqueSkillMats.add(c.Key);
-    }
-  }
+  const uniq = new Set<number>();
+  for (const t of (d.SkillTree || [])) for (const c of (t.Consume || [])) uniq.add(c.Key);
 
-  
-  const staticSkillAmounts: Record<string, number> = {
-    
-    'shellCredit': 2030000,
-    
-    'commonT1': 25,
-    'commonT2': 28,
-    'commonT3': 40,
-    'commonT4': 57,
-    
-    'skillT1': 25,
-    'skillT2': 28,
-    'skillT3': 55,
-    'skillT4': 67,
-    
-    'weeklyBoss': 26
+  const staticAmt: Record<string, number> = {
+    shellCredit: 2030000,
+    commonT1: 25, commonT2: 28, commonT3: 40, commonT4: 57,
+    skillT1: 25, skillT2: 28, skillT3: 55, skillT4: 67,
+    weeklyBoss: 26
   };
+  const sk: Record<number, number> = { 2: staticAmt.shellCredit };
 
-  
-  
-  
-  const sk: Record<number, number> = {};
+  const sorted = Array.from(uniq).sort((a, b) => a - b);
 
-  
-  sk[2] = staticSkillAmounts['shellCredit'];
-
-  
-  const sortedMats = Array.from(uniqueSkillMats).sort((a, b) => a - b);
-
-  
-  
-  
-  
-
-  const commonMats: number[] = [];
-  const skillMats: number[] = [];
-
-  for (const id of sortedMats) {
-    if (id === 2) continue; 
-    const item = itemIdx.get(id);
-    if (!item) continue;
-
-    const name = (item.name || '').toLowerCase();
-    
-    if (name.includes('whisperin') || name.includes('ring') || name.includes('howler')) {
-      commonMats.push(id);
-    } else {
-      
-      skillMats.push(id);
-    }
+  function seriesKey(id: number): string {
+    return String(Math.floor(id / 10) * 10);
   }
 
-  function completeSeries(baseNamePart: string, amounts: number[]) {
+  const grouped = new Map<string, number[]>();
+  for (const id of sorted) {
+    if (id === 2) continue;
+    const it = itemIdx.get(id);
+    if (!it) continue;
+    const k = seriesKey(id);
+    if (!grouped.has(k)) grouped.set(k, []);
+    grouped.get(k)!.push(id);
+  }
+
+  function completeSeriesByKey(key: string, amounts: number[]) {
     const series = Array.from(itemIdx.values())
-      .filter(x => (x.name || '').toLowerCase().includes(baseNamePart))
-      .sort((a, b) => a.tier - b.tier);
-    for (let i = 0; i < Math.min(4, series.length); i++) {
-      sk[series[i].id] = amounts[i];
-    }
+      .filter((x: any) => seriesKey(x.id) === key)
+      .sort((a: any, b: any) => a.tier - b.tier);
+    for (let i = 0; i < Math.min(4, series.length); i++) sk[series[i].id] = amounts[i];
   }
 
-  if (commonMats.length > 0) {
-    const name = (itemIdx.get(commonMats[0])?.name || '').toLowerCase();
-    let base = '';
-    if (name.includes('whisperin')) base = 'whisperin core';
-    else if (name.includes('ring')) base = 'ring';
-    else if (name.includes('howler')) base = 'howler core';
-    if (base) completeSeries(base, [staticSkillAmounts['commonT1'], staticSkillAmounts['commonT2'], staticSkillAmounts['commonT3'], staticSkillAmounts['commonT4']]);
+  const multiSeries: Array<[string, number[]]> = [];
+  const singleIds: number[] = [];
+  for (const [k, ids] of grouped) {
+    if (ids.length >= 2) multiSeries.push([k, ids]);
+    else singleIds.push(ids[0]);
   }
 
-  let skillBase = '';
-  let weeklyBossId = 0;
-  for (const id of skillMats) {
-    const item = itemIdx.get(id);
-    const name = (item?.name || '').toLowerCase();
-    if (name.includes('drip')) skillBase = 'metallic drip';
-    else if (name.includes('helix')) skillBase = 'helix';
-    else if (name.includes('phlogiston')) skillBase = 'phlogiston';
-    else if (name.includes('polarizer')) skillBase = 'polarizer';
-    else weeklyBossId = id;
-  }
-  if (skillBase) completeSeries(skillBase, [staticSkillAmounts['skillT1'], staticSkillAmounts['skillT2'], staticSkillAmounts['skillT3'], staticSkillAmounts['skillT4']]);
-  if (weeklyBossId) sk[weeklyBossId] = staticSkillAmounts['weeklyBoss'];
+  multiSeries.sort((a, b) => {
+    const ta = Math.min(...a[1].map((id: number) => itemIdx.get(id)?.tier || 99));
+    const tb = Math.min(...b[1].map((id: number) => itemIdx.get(id)?.tier || 99));
+    return ta - tb;
+  });
 
-  const toList = (obj: Record<number, number>) =>
-    Object.entries(obj).map(([k, v]) => ({ item: Number(k), amount: v }));
+  const commonSeries = multiSeries.slice(0, 1);
+  const skillSeries = multiSeries.slice(1);
+
+  for (const [k] of commonSeries) {
+    completeSeriesByKey(k, [staticAmt.commonT1, staticAmt.commonT2, staticAmt.commonT3, staticAmt.commonT4]);
+  }
+  for (const [k] of skillSeries) {
+    completeSeriesByKey(k, [staticAmt.skillT1, staticAmt.skillT2, staticAmt.skillT3, staticAmt.skillT4]);
+  }
+  for (const id of singleIds) {
+    sk[id] = staticAmt.weeklyBoss;
+  }
+
+  const toList = (o: Record<number, number>) =>
+    Object.entries(o).map(([k, v]) => ({ item: Number(k), amount: v }));
+  const sortShellLast = (list: Array<{ item: number; amount: number }>) =>
+    list.filter(x => x.item !== 2).concat(list.filter(x => x.item === 2));
+
   const itemMap: Record<number, any> = {};
   for (const k of [...Object.keys(asc), ...Object.keys(sk)]) {
     const it = itemIdx.get(Number(k));
     if (it) itemMap[it.id] = it;
   }
+
   return {
     materials: {
-      ascension: [{ cost: toList(asc), level: 90 }],
-      skills: { totalCosts: toList(sk) }
+      ascension: [{ cost: sortShellLast(toList(asc)), level: 90 }],
+      skills: { totalCosts: sortShellLast(toList(sk)) }
     },
     itemMap
   };
