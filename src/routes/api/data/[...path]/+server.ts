@@ -7,6 +7,10 @@ const REMOTE_BASE = 'https://raw.githubusercontent.com/kLinQin/wuwa-data/main';
 const LOCAL_DATA_DIR = process.env.LOCAL_DATA_DIR || 'C:/Users/eggs/wuwa-data';
 const isDev = process.env.NODE_ENV !== 'production';
 
+const MEM_TTL = 5 * 60 * 1000;
+const memCache = new Map<string, { data: any; t: number }>();
+const memPending = new Map<string, Promise<any>>();
+
 async function fetchRemote(filePath: string, fetchFn: typeof fetch) {
   const res = await fetchFn(`${REMOTE_BASE}/${filePath}`, {
     headers: { Accept: 'application/json' }
@@ -34,7 +38,17 @@ export const GET: RequestHandler = async ({ params, fetch }) => {
   }
 
   try {
-    const data = await fetchRemote(filePath, fetch);
+    const c = memCache.get(filePath);
+    if (c && Date.now() - c.t < MEM_TTL) {
+      return json(c.data, { headers: { 'Cache-Control': 'public, max-age=60, must-revalidate' } });
+    }
+    let p = memPending.get(filePath);
+    if (!p) {
+      p = fetchRemote(filePath, fetch).finally(() => memPending.delete(filePath));
+      memPending.set(filePath, p);
+    }
+    const data = await p;
+    memCache.set(filePath, { data, t: Date.now() });
     return json(data, {
       headers: { 'Cache-Control': 'public, max-age=0, s-maxage=60, must-revalidate' }
     });

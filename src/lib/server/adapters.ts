@@ -219,7 +219,22 @@ function buildMaterials(d: any, itemIdx: Map<number, any>): { materials: any; it
   };
 }
 
+const DETAIL_TTL = 10 * 60 * 1000;
+const detailCache = new Map<string, { data: any; t: number }>();
+
+function getCached(key: string) {
+  const c = detailCache.get(key);
+  if (c && Date.now() - c.t < DETAIL_TTL) return c.data;
+  return undefined;
+}
+function setCached(key: string, data: any) {
+  detailCache.set(key, { data, t: Date.now() });
+}
+
 export async function getCharacterDetail(encoreId: number): Promise<any | null> {
+  const ck = 'char:' + encoreId;
+  const hit = getCached(ck);
+  if (hit !== undefined) return hit;
   let d: any;
   try { d = await encoreGet<any>(`en/character/${encoreId}`); } catch { return null; }
   if (!d || !d.Id) return null;
@@ -270,7 +285,7 @@ export async function getCharacterDetail(encoreId: number): Promise<any | null> 
     color: t.TagNameColor ? ('#' + t.TagNameColor) : ''
   }));
 
-  return {
+  const result = {
     id: d.Id,
     slug: String(d.Id),
     name: pickText(d.Name) || d.Name?.Content || '',
@@ -330,9 +345,9 @@ export async function getCharacterDetail(encoreId: number): Promise<any | null> 
       desc: stripHtml(t.PropertyNodeDescribe || '')
     }))
   };
+  setCached(ck, result);
+  return result;
 }
-
-
 export interface RawWeaponListItem {
   Id: number; Name: string; QualityId: number; Type: number; TypeName?: string; Icon?: string;
 }
