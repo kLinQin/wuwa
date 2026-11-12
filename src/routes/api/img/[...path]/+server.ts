@@ -5,6 +5,7 @@ import crypto from 'node:crypto';
 import type { RequestHandler } from './$types';
 
 const BASE = 'https://api-v2.encore.moe';
+const IS_PROD = process.env.NODE_ENV === 'production';
 const CACHE_DIR = path.resolve('static/cache/img');
 const TTL_MS = 1000 * 60 * 60 * 24 * 7; 
 
@@ -29,7 +30,9 @@ export const GET: RequestHandler = async ({ params, fetch, setHeaders }) => {
   const metaPath = path.join(CACHE_DIR, hash + '.meta.json');
 
   
-  try {
+  if (!IS_PROD) try {
+
+  
     const stat = await fs.stat(cachePath);
     const age = Date.now() - stat.mtimeMs;
     if (age < TTL_MS) {
@@ -66,11 +69,13 @@ export const GET: RequestHandler = async ({ params, fetch, setHeaders }) => {
         throw error(404, 'Not an image');
       }
       const buf = Buffer.from(await res.arrayBuffer());
-      await ensureDir();
-      await Promise.all([
-        fs.writeFile(cachePath, buf),
-        fs.writeFile(metaPath, JSON.stringify({ contentType: ct }))
-      ]).catch((e) => console.error('[img cache write]', e));
+      if (!IS_PROD) {
+        await ensureDir();
+        await Promise.all([
+          fs.writeFile(cachePath, buf),
+          fs.writeFile(metaPath, JSON.stringify({ contentType: ct }))
+        ]).catch((e) => console.error('[img cache write]', e));
+      }
       setHeaders({
         'Content-Type': ct,
         'Cache-Control': 'public, max-age=604800, immutable',
