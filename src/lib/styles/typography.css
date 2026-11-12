@@ -1,43 +1,29 @@
-/* Typography tokens + utilities.
-   Prefer `font: var(--font-x)` shorthand over manual font-family/size/weight.
-   Inspired by visual-svelte. */
-
 :root {
-  /* families */
   --font-family-ui: 'Fira Sans', -apple-system, sans-serif;
   --font-family-body: Georgia, serif;
   --font-family-heading: 'DM Serif Display', Georgia, serif;
   --font-family-mono: 'Fira Mono', monospace;
 
-  /* aliases (backward-compat) */
   --font-ui: var(--font-family-ui);
   --font-body: var(--font-family-body);
   --font-heading: var(--font-family-heading);
   --font-mono: var(--font-family-mono);
 
-  /* sizes */
-  --fs-4xs: 0.5rem;     /* 8px  - chart micro values */
-  --fs-3xs: 0.5625rem;  /* 9px  - micro labels */
-  --fs-2xs: 0.625rem;   /* 10px - tiny badges */
-  --fs-xs-2: 0.6875rem; /* 11px - compact card labels */
-  --fs-xs: 0.875rem;
+  --fs-4xs: 0.5rem;     --fs-3xs: 0.5625rem;  --fs-2xs: 0.625rem;   --fs-xs-2: 0.6875rem; --fs-xs: 0.875rem;
   --fs-sm: 1rem;
   --fs-md: 1.125rem;
   --fs-lg: 1.375rem;
   --fs-xl: 1.625rem;
   --fs-2xl: 1.875rem;
 
-  /* weights */
   --fw-normal: 400;
   --fw-medium: 500;
   --fw-bold: 600;
 
-  /* line heights */
   --lh-tight: 1.2;
   --lh-normal: 1.5;
   --lh-relaxed: 1.7;
 
-  /* shorthands: font: var(--font-x) */
   --font-h1: var(--fw-bold) var(--fs-xl) / var(--lh-tight) var(--font-family-heading);
   --font-h2: var(--fw-bold) var(--fs-lg) / var(--lh-tight) var(--font-family-heading);
   --font-h3: var(--fw-bold) var(--fs-md) / var(--lh-tight) var(--font-family-heading);
@@ -53,7 +39,6 @@
   --font-mono-md: var(--fw-normal) var(--fs-sm) / var(--lh-relaxed) var(--font-family-mono);
 }
 
-/* High-DPI: swap body to EB Garamond (like visual-svelte) */
 @media (min-resolution: 1.75x) {
   :root {
     --font-family-body: 'EB Garamond', Georgia, serif;
@@ -68,7 +53,6 @@
   --fs-sm: 1.0625rem;
 }
 
-/* Large screens: bump h1-xl */
 @media (min-width: 1024px) {
   :root {
     --fs-xl: 1.875rem;
@@ -76,7 +60,6 @@
   }
 }
 
-/* ===== Text color hierarchy (4 levels, solid per theme) ===== */
 :root, [data-theme="dark"] {
   --text-heading:   #f4f4fa;
   --text-body:      #e6e6ee;
@@ -96,15 +79,11 @@
   --text-faded:     #8a8780;
 }
 
-/* ===== Utilities ===== */
-
-/* family */
 .font-ui     { font-family: var(--font-family-ui); }
 .font-body   { font-family: var(--font-family-body); }
 .font-heading{ font-family: var(--font-family-heading); }
 .font-mono   { font-family: var(--font-family-mono); }
 
-/* size */
 .text-xs { font-size: var(--fs-xs); }
 .text-sm { font-size: var(--fs-sm); }
 .text-md { font-size: var(--fs-md); }
@@ -112,12 +91,10 @@
 .text-xl { font-size: var(--fs-xl); }
 .text-2xl{ font-size: var(--fs-2xl); }
 
-/* weight */
 .fw-normal { font-weight: var(--fw-normal); }
 .fw-medium { font-weight: var(--fw-medium); }
 .fw-bold   { font-weight: var(--fw-bold); }
 
-/* color */
 .text-muted   { color: var(--text-secondary); }
 .text-accent  { color: var(--accent); }
 .text-default { color: var(--text-body); }
@@ -126,7 +103,6 @@
 .text-secondary { color: var(--text-secondary); }
 .text-faded     { color: var(--text-faded); }
 
-/* combinators */
 .text-label {
   font: var(--font-ui-sm);
   text-transform: uppercase;

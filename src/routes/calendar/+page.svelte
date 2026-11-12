@@ -157,7 +157,6 @@
       {#if todayNum}
         <div class="global-today-line" style="left: calc((100% * ({todayNum} - 0.5) / {daysInMonth}));"></div>
       {/if}
-      <!-- Days Header -->
       <div class="header-row">
         <div class="days-cols">
           {#each monthDays as d}
@@ -169,7 +168,6 @@
         </div>
       </div>
 
-      <!-- Events Rows -->
       <div class="events-body" class:empty-state={filteredEvents.length === 0}>
         {#if filteredEvents.length === 0}
           <div class="empty">No events in this month</div>

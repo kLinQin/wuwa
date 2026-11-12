@@ -42,7 +42,6 @@
 
 <div class="radar-chart-wrapper">
   <svg width={size} height={size} viewBox="0 0 {size} {size}">
-    <!-- Grid rings -->
     {#each [1, 0.75, 0.5, 0.25] as scale}
       <polygon
         points={getRadarPoints(data.map(() => ({ value: maxVal * scale })), radius, cx, cy, maxVal)}
@@ -53,7 +52,6 @@
       />
     {/each}
 
-    <!-- Axes -->
     {#each getRadarAxes(data, radius, cx, cy) as axis, i}
       <line
         x1={axis.x1} y1={axis.y1} x2={axis.x2} y2={axis.y2}
@@ -71,7 +69,6 @@
       </radialGradient>
     </defs>
 
-    <!-- Data area -->
     <polygon
       points={getRadarPoints(data, radius, cx, cy, maxVal)}
       fill="url(#radar-fill)"
@@ -80,7 +77,6 @@
       stroke-linejoin="round"
     />
 
-    <!-- Data points -->
     {#each getRadarPoints(data, radius, cx, cy, maxVal).split(' ') as point, i}
       {@const [x, y] = point.split(',')}
       <circle
@@ -97,7 +93,6 @@
       />
     {/each}
 
-    <!-- Value tooltip on hover -->
     {#if hoverIndex !== null && data[hoverIndex]}
       {@const hv = data[hoverIndex]}
       {@const angle = (hoverIndex * (Math.PI * 2) / data.length) - Math.PI / 2}
@@ -121,7 +116,6 @@
       </g>
     {/if}
 
-    <!-- Labels -->
     {#each data as d, i}
       {@const angle = (i * (Math.PI * 2) / data.length) - Math.PI / 2}
       {@const lx = cx + (radius + 22) * Math.cos(angle)}

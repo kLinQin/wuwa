@@ -2,9 +2,26 @@
   import DataTable from '#lib/components/DataTable.svelte';
   let { build, weapons = [], onnote }: { build: any; weapons?: any[]; onnote?: () => void } = $props();
 
-  function getWeaponImage(slugOrName: string) {
-    const found = weapons.find((w: any) => w.slug === slugOrName || w.name.toLowerCase() === slugOrName.toLowerCase());
+  function getWeaponImage(ref: string | number) {
+    if (ref == null || ref === '') return '';
+    const id = Number(ref);
+    const found = weapons.find((w: any) =>
+      (Number.isFinite(id) && w.id === id) ||
+      w.slug === ref ||
+      (typeof ref === 'string' && w.name?.toLowerCase() === ref.toLowerCase())
+    );
     return found ? found.image : '';
+  }
+
+  function getWeaponName(ref: string | number) {
+    if (ref == null || ref === '') return '';
+    const id = Number(ref);
+    const found = weapons.find((w: any) =>
+      (Number.isFinite(id) && w.id === id) ||
+      w.slug === ref ||
+      (typeof ref === 'string' && w.name?.toLowerCase() === ref.toLowerCase())
+    );
+    return found ? found.name : String(ref);
   }
 </script>
 
@@ -23,7 +40,7 @@
         {#if img}
           <img src={img} alt={build.bestWeapon} class="weapon-img" />
         {/if}
-        <span class="weapon-name accent">{build.bestWeapon}</span>
+        <span class="weapon-name accent">{getWeaponName(build.bestWeapon)}</span>
       {/if}
     </div>
 
@@ -33,7 +50,7 @@
           {#each build.weaponOptions as w}
             <tr>
               <td>
-                {w.id.replace(/-/g, ' ').replace(/w/g, (c: string) => c.toUpperCase())}
+                {getWeaponName(w.id)}
                 {#if w.rank}<span class="rank-text">(R{w.rank})</span>{/if}
               </td>
               <td class="num">{w.percentage}%</td>

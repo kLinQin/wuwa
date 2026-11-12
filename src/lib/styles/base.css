@@ -13,7 +13,6 @@ h2 { font: var(--font-h2); margin: 0 0 var(--sp-3); }
 h3 { font: var(--font-h3); margin: 0 0 var(--sp-2); }
 code, pre { font-family: var(--font-mono); }
 
-/* Prevent image context menu / drag / copy-link on all images */
 img {
   -webkit-user-drag: none;
   user-drag: none;

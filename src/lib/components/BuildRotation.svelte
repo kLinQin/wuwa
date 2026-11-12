@@ -36,7 +36,6 @@
         <div class="rotation-card surface">
           <h4 class="rot-title">{rot.title}</h4>
 
-          <!-- View Step -->
           <div class="step-viewer">
             <button
               class="raised nav-btn prev"
@@ -60,7 +59,6 @@
             ><svg width="16" height="16" style="display:inline-block;vertical-align:middle"><use href="#arrow-right" /></svg></button>
           </div>
 
-          <!-- Indicator Bawah -->
           <div class="step-footer">
             <div class="step-indicator">Step {stepIdx + 1} / {maxSteps}</div>
             <div class="step-dots">

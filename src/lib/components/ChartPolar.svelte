@@ -51,14 +51,12 @@
       {@const startAngle = i * angleSpan + (gap / 2)}
       {@const endAngle = (i + 1) * angleSpan - (gap / 2)}
 
-      <!-- Background track -->
       <path
         d={getArcPath(startAngle, endAngle, maxRadius - barThickness, maxRadius)}
         fill="var(--bg-hover)"
         opacity="0.6"
       />
 
-      <!-- Bar data -->
       <path
         d={getArcPath(startAngle, startAngle + (endAngle - startAngle) * ratio, maxRadius - barThickness, maxRadius)}
         fill={hoverIndex === i ? 'var(--accent-hover)' : 'var(--accent)'}
@@ -68,7 +66,6 @@
         onmouseleave={() => hoverIndex = null}
       />
 
-      <!-- Label -->
       {@const midAngle = startAngle + (endAngle - startAngle) / 2}
       {@const labelPos = polarToCartesian(cx, cy, maxRadius + 14, midAngle)}
       <text

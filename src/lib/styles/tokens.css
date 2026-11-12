@@ -1,5 +1,4 @@
 :root {
-  /* spacing */
   --sp-1: 0.25rem;
   --sp-2: 0.5rem;
   --sp-3: 0.75rem;
@@ -15,7 +14,6 @@
   --max-content: 1600px;
 }
 
-/* DARK (default) */
 :root, [data-theme="dark"] {
   --raised-highlight: hsl(240, 8%, 20%);
   --raised-shadow: #101018;
@@ -47,14 +45,9 @@
   --status-ended: #8a8aa3;
   --status-ended-bg: rgba(138,138,163,0.18);
 
-  /* Rank Colors */
-  --rank-1: #f5c518; /* Emas */
-  --rank-2: #c0c0c0; /* Perak */
-  --rank-3: #cd7f32; /* Perunggu */
-  --rank-default: var(--accent);
+  --rank-1: #f5c518; --rank-2: #c0c0c0; --rank-3: #cd7f32; --rank-default: var(--accent);
 }
 
-/* LIGHT */
 [data-theme="light"] {
   --raised-highlight: hsl(0, 0%, 95%);
   --raised-shadow: hsl(0, 0%, 92%);
@@ -84,14 +77,12 @@
   --status-ended: #6b6b85;
   --status-ended-bg: rgba(107,107,133,0.14);
 
-  /* Rank Colors */
   --rank-1: #d4a300;
   --rank-2: #808080;
   --rank-3: #a0522d;
   --rank-default: var(--accent);
 }
 
-/* mobile: konten full-width edge-to-edge */
 @media (max-width: 639px) {
   :root { --content-pad: 5px; }
 }
@@ -106,7 +97,6 @@
   :root { --sidebar-w: 220px; --content-pad: 4px; --max-content: 1024px; }
 }
 
-/* EGG DARK (dari Zed theme) */
 [data-theme="egg"] {
   --raised-highlight: #2a2826;
   --raised-shadow: #0a0908;

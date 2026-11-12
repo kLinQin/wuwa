@@ -1,5 +1,4 @@
-// Minimal markdown renderer: bold, italic, inline code, links, paragraphs, bullet lists.
-// Content is HTML-escaped before substitution, so it's safe for trusted JSON data.
+
 
 function esc(s: string): string {
   return s

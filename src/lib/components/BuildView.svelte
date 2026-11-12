@@ -15,7 +15,6 @@
 
 <div class="build-view">
   {#if stats || build}
-    <!-- BARIS 1: Stats & Echo -->
     <div class="row">
       <div class="col">
         {#if stats}
@@ -32,8 +31,6 @@
       </div>
     </div>
 
-
-    <!-- BARIS 2: Weapon & Talent -->
     <div class="row">
       <div class="col">
         {#if build?.bestWeapon || build?.weaponOptions || build?.weaponNote}
@@ -46,7 +43,6 @@
       </div>
     </div>
 
-    <!-- BARIS 3: Rotations Full Width -->
     <div class="row">
       <div class="col" style="grid-column: 1 / -1;">
         <BuildRotation {build} />
@@ -97,7 +93,6 @@
     gap: var(--sp-4);
     min-width: 0;
   }
-
 
   .note-text {
     font-size: var(--fs-xs);

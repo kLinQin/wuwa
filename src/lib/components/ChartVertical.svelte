@@ -27,7 +27,6 @@
 </script>
 
 <div class="v-chart-layout">
-  <!-- Legend (Kiri di Desktop, Bawah di Mobile) -->
   <div class="v-legend">
     {#each data as d, i}
       <div
@@ -53,7 +52,6 @@
     {/each}
   </div>
 
-  <!-- Chart Area (Kanan) -->
   <div class="v-chart-wrapper">
     {#each data as d, i}
       <div
@@ -64,13 +62,11 @@
         onkeydown={(e) => e.key === 'Enter' && onTap?.(d)}
         title="{d.type} - {d.percentage}%"
       >
-        <!-- Value -->
         <div class="v-value">
           <span>{d.percentage}%</span>
           <span class="raw">({(d.value / 1000).toFixed(1)}k)</span>
         </div>
 
-        <!-- Bar -->
         <div class="v-track">
           <div
             class="v-fill"

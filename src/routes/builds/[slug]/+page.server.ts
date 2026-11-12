@@ -1,6 +1,6 @@
 import type { PageServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
-import { resolveCharIdBySlug, getCharacterDetail } from '../../../lib/server/adapters';
+import { resolveCharIdBySlug, getCharacterDetail, listEchoes, listWeapons, listSonatas } from '../../../lib/server/adapters';
 import { loadWuwaJSON } from '../../../lib/server/wuwa';
 
 export const load: PageServerLoad = async ({ params, fetch }) => {
@@ -16,9 +16,9 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
     loadWuwaJSON(`resonators/${params.slug}.json`, fetch),
     loadWuwaJSON('teams/index.json', fetch),
     loadWuwaJSON('constants/combatRoles.json', fetch),
-    loadWuwaJSON('echoes/echoes.json', fetch).then((r: any) => r || []),
-    loadWuwaJSON('weapons/index.json', fetch).then((r: any) => r || []),
-    loadWuwaJSON('sonatas/sonatas.json', fetch).then((r: any) => r || [])
+    listEchoes().catch(() => []),
+    listWeapons().catch(() => []),
+    listSonatas().catch(() => [])
   ]);
   if (!encoreChar) throw error(404, 'Character not found');
 

@@ -40,7 +40,6 @@
   flex-shrink: 0;
 }
 
-/* ===== Toolbar & search ===== */
 .toolbar { display: flex; gap: var(--sp-2); margin-bottom: var(--sp-4); }
 .toolbar input {
   flex: 1; padding: var(--sp-2) var(--sp-3);
@@ -51,7 +50,6 @@
 .toolbar input:focus { outline: none; border-color: transparent; }
 .count { color: var(--text-secondary); font-size: var(--fs-xs); margin: 0 0 var(--sp-3); }
 
-/* ===== Card grid ===== */
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -129,7 +127,6 @@
   white-space: nowrap;
 }
 
-/* responsive: tablet / laptop / PC */
 @media (min-width: 640px) {
   .card-img .element-wrap img { width: 24px; height: 24px; }
   .card-img .element-wrap span { font-size: var(--fs-sm); }
@@ -144,7 +141,6 @@
 }
 
 
-/* mobile & tablet: icon only, no text */
 @media (max-width: 1023px) {
   .card-img .element-wrap span { display: none; }
 }
@@ -182,7 +178,6 @@
 }
 .stars { color: #f5c518; font-size: var(--fs-xs); }
 
-/* ===== List ===== */
 .list { display: flex; flex-direction: column; gap: var(--sp-2); }
 .row {
   padding: var(--sp-3); border: 1px solid var(--border);
@@ -193,7 +188,6 @@
 .row .name { font-weight: var(--fw-medium); }
 .row .desc { font-size: var(--fs-sm); color: var(--text-secondary); width: 100%; }
 
-/* ===== Tabs ===== */
 .tabs { display: flex; gap: var(--sp-2); margin-bottom: var(--sp-4); }
 
 .card-img .weapon-wrap {
@@ -223,7 +217,6 @@
   white-space: nowrap;
 }
 
-/* responsive weapon-wrap: same as element-wrap */
 @media (min-width: 640px) {
   .card-img .weapon-wrap img { width: 24px; height: 24px; }
   .card-img .weapon-wrap span { font-size: var(--fs-2xs); }
@@ -241,7 +234,6 @@
   .card-img .weapon-wrap span { display: none; }
 }
 
-/* ===== Global scrollbar (hidden) ===== */
 * {
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -253,23 +245,19 @@
   height: 0;
 }
 
-/* ===== Quest reader ===== */
 .reader { max-width: 720px; margin-top: var(--sp-4); }
 .block-text { font-family: var(--font-body); font-size: var(--fs-sm); line-height: 1.7; color: var(--text-body); margin: 0 0 var(--sp-4); white-space: pre-line; }
 .block-img { margin: 0 0 var(--sp-4); }
 .block-img img { max-width: 100%; border-radius: var(--radius); display: block; }
 
-/* ===== Quest row clickable ===== */
 .quest-row { cursor: pointer; text-align: left; font-family: inherit; font-size: inherit; width: 100%; }
 .quest-row:hover { background: var(--bg-hover); }
 
-/* ===== Glossary row ===== */
 .glossary-row { align-items: flex-start; }
 .glossary-img { width: 64px; height: 64px; object-fit: cover; border-radius: var(--radius); flex-shrink: 0; background: var(--bg-hover); }
 .glossary-body { flex: 1; min-width: 0; }
 
 
-/* ===== Data Table ===== */
 .data-table {
   width: 100%;
   border-collapse: collapse;
@@ -291,7 +279,6 @@
 .data-table .key { font-family: var(--font-mono); color: var(--text-secondary); width: 50px; }
 .data-table .val { font-weight: var(--fw-medium); }
 
-/* ===== Box Header ===== */
 .box-header {
   margin: 0 0 var(--sp-2) 0;
   font-size: var(--fs-sm);
@@ -303,7 +290,6 @@
   padding-bottom: var(--sp-1);
 }
 
-/* ===== Section head (header-row pattern) ===== */
 .section-head {
   display: flex;
   align-items: center;
@@ -321,14 +307,12 @@
   color: var(--accent);
 }
 
-/* ===== Small button ===== */
 .small-btn {
   padding: 2px 8px;
   font-size: var(--fs-xs);
   cursor: pointer;
 }
 
-/* ===== Stat table base ===== */
 .stat-table {
   width: 100%;
   border-collapse: collapse;
@@ -349,7 +333,6 @@
 .stat-table .cost { font-family: var(--font-mono); width: 1%; white-space: nowrap; color: var(--text-secondary); }
 .stat-table .stat { font-weight: var(--fw-medium); width: 99%; }
 
-/* ===== Box header inset (stats-box heading) ===== */
 .box-header-inset {
   margin: 0 calc(var(--sp-3) * -1) var(--sp-3) calc(var(--sp-3) * -1);
   padding: var(--sp-2) var(--sp-3);
@@ -358,7 +341,6 @@
   border-bottom: 1px solid var(--border);
 }
 
-/* ===== Two column grid (1 -> 2) ===== */
 .grid-2 {
   display: grid;
   grid-template-columns: 1fr;

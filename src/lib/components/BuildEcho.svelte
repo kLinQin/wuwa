@@ -29,19 +29,44 @@
     })) || []
   );
 
-  function getEchoBySlug(slug: string) {
-    if (!slug) return null;
-    return echoes.find((e: any) => e.slug === slug) || null;
+  function getEchoBySlug(ref: string | number) {
+    if (ref == null || ref === '') return null;
+    const id = Number(ref);
+    return echoes.find((e: any) =>
+      (Number.isFinite(id) && e.id === id) || e.slug === ref
+    ) || null;
   }
 
-  function getEchoImage(name: string) {
-    const found = echoes.find((e: any) => e.name.toLowerCase() === name.toLowerCase());
+  function getEchoImage(ref: string | number) {
+    if (ref == null || ref === '') return '';
+    const id = Number(ref);
+    const found = echoes.find((e: any) =>
+      (Number.isFinite(id) && e.id === id) ||
+      e.slug === ref ||
+      (typeof ref === 'string' && e.name?.toLowerCase() === ref.toLowerCase())
+    );
     return found ? found.image : '';
   }
 
-  function getSonataImage(name: string) {
-    const found = sonatas.find((s: any) => s.name.toLowerCase() === name.toLowerCase());
+  function getSonataImage(ref: string | number) {
+    if (ref == null || ref === '') return '';
+    const id = Number(ref);
+    const found = sonatas.find((s: any) =>
+      (Number.isFinite(id) && s.id === id) ||
+      s.slug === ref ||
+      (typeof ref === 'string' && s.name?.toLowerCase() === ref.toLowerCase())
+    );
     return found ? found.image : '';
+  }
+  function getSonataName(ref: string | number) {
+    if (ref == null || ref === '') return '';
+    const id = Number(ref);
+    const found = sonatas.find((s: any) =>
+      (Number.isFinite(id) && s.id === id) ||
+      s.slug === ref ||
+      (typeof ref === 'string' && s.name?.toLowerCase() === ref.toLowerCase())
+    );
+    return found ? found.name : String(ref);
   }
 </script>
 
@@ -61,7 +86,6 @@
     {#if activeSet}
       <div class="echo-card">
         <div class="echo-top-grid">
-          <!-- ECHO -->
           <div class="echo-img-box">
             {#if getEchoBySlug(activeSet.echoSlug)}
               {@const primaryEcho = getEchoBySlug(activeSet.echoSlug)}
@@ -87,16 +111,15 @@
             {/if}
           </div>
 
-          <!-- SONATA -->
           <div class="sonata-box">
             {#if activeSet.sonataCustom && activeSet.sonataCustom.length > 0}
               {@const sonata = activeSet.sonataCustom[sonataIndex] || activeSet.sonataCustom[0]}
-              {@const img = getSonataImage(sonata.name)}
+              {@const img = getSonataImage(sonata.id ?? sonata.name)}
               <div class="echo-img-box">
                 {#if img}
-                  <img src={img} alt={sonata.name} class="main-echo-img" />
+                  <img src={img} alt={sonata.id ? getSonataName(sonata.id) : sonata.name} class="main-echo-img" />
                 {/if}
-                <span class="main-echo-name">{sonata.name} ({sonata.set})</span>
+                <span class="main-echo-name">{sonata.id ? getSonataName(sonata.id) : sonata.name} ({sonata.set})</span>
               </div>
             {:else}
               <div class="no-echo">No Sonata</div>

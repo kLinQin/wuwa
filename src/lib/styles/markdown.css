@@ -1,4 +1,3 @@
-/* markdown renderer styles (from md.ts / Markdown.svelte / highlight) */
 .md { white-space: normal; line-height: 1.6; }
 .md p { margin: 0 0 0.6em; }
 .md p:last-child { margin-bottom: 0; }
@@ -21,7 +20,6 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* generic data table */
 .data-table {
   font-variant-numeric: tabular-nums;
   width: 100%;
@@ -58,7 +56,6 @@
 .data-table-wrap .box-header-inset {
   text-align: center;
 }
-
 
 .data-table-wrap.surface {
   --raised-shadow: var(--text-muted);
