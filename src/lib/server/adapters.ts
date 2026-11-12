@@ -8,6 +8,7 @@ function stripHtml(s: string): string {
   if (!s) return '';
   return String(s)
     .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<span[^>]*color\s*:\s*#ffd12f[^>]*>([\s\S]*?)<\/span>/gi, '[[skill:$1]]')
     .replace(/<[^>]+>/g, '')
     .replace(/&nbsp;/g, ' ')
     .replace(/&amp;/g, '&')
@@ -220,6 +221,7 @@ export async function getCharacterDetail(encoreId: number): Promise<any | null> 
     const key = SKILL_KEY_MAP[s.SkillType] || 'other';
     const entry = {
       name: s.SkillName || '',
+      icon: proxyImg(s.Icon),
       description: '',
       effects: [{ title: '', description: stripHtml(s.SkillDescribe || ''), isTitleVisible: false }],
       attributes: (s.SkillAttributes || []).map((att: any) => ({
@@ -229,7 +231,7 @@ export async function getCharacterDetail(encoreId: number): Promise<any | null> 
     };
     if (key === 'inherent') {
       if (!/skillful cooking/i.test(entry.name)) {
-        inherent.push({ name: entry.name, effects: entry.effects });
+        inherent.push({ name: entry.name, icon: entry.icon, effects: entry.effects });
       }
     }
     else if (!skills[key]) skills[key] = entry;

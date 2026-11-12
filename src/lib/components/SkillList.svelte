@@ -13,11 +13,21 @@
   const iconSuffix: Record<string, string> = {
     basic: 'na', skill: 'rs', liberation: 'rl', forte: 'fc', intro: 'intro', outro: 'outro'
   };
-  function getIconUrl(key: string) {
-    return `/icons/skills/${charSlug}/${charSlug}-${iconSuffix[key]}.webp`;
+
+  const skillMap: Record<string, { type: string; name: string; description: string }> = {};
+  for (const k of Object.keys(skills || {})) {
+    if (k === 'inherent') continue;
+    const sk = (skills as any)[k];
+    if (sk?.name) {
+      const desc = (sk.effects || []).map((e: any) => e.description).filter(Boolean).join('\n');
+      skillMap[sk.name] = { type: labels[k] || k, name: sk.name, description: desc };
+    }
   }
-  function getInherentIconUrl(idx: number) {
-    return `/icons/skills/${charSlug}/${charSlug}-in${idx + 1}.webp`;
+  for (const inh of ((skills as any).inherent || [])) {
+    if (inh?.name) {
+      const desc = (inh.effects || []).map((e: any) => e.description).filter(Boolean).join('\n');
+      skillMap[inh.name] = { type: 'Inherent Skill', name: inh.name, description: desc };
+    }
   }
 
   const levels: Record<string, number> = $state({});
@@ -30,16 +40,16 @@
     {#each orderedKeys as key}
       {#if skills[key]}
         {@const lv = getLevel(key)}
-        <SkillCard icon={getIconUrl(key)} typeLabel={labels[key]} name={skills[key].name || ''}>
+        <SkillCard icon={skills[key].icon} typeLabel={labels[key]} name={skills[key].name || ''}>
           {#if skills[key].description}
-            <div class="desc"><Markdown text={skills[key].description} /></div>
+            <div class="desc"><Markdown text={skills[key].description} skillsMap={skillMap} /></div>
           {/if}
           {#if skills[key].effects}
             <ul class="effects">
               {#each skills[key].effects as eff}
                 <li>
                   {#if eff.isTitleVisible && eff.title}<strong>{eff.title}</strong>{/if}
-                  <Markdown text={eff.description} />
+                  <Markdown text={eff.description} skillsMap={skillMap} />
                 </li>
               {/each}
             </ul>
@@ -64,13 +74,13 @@
 
     {#if skills.inherent && Array.isArray(skills.inherent)}
       {#each skills.inherent as inh, idx}
-        <SkillCard icon={getInherentIconUrl(idx)} typeLabel={`Inherent ${idx + 1}`} name={inh.name || ''}>
+        <SkillCard icon={inh.icon} typeLabel={`Inherent ${idx + 1}`} name={inh.name || ''}>
           {#if inh.effects}
             <ul class="effects">
               {#each inh.effects as eff}
                 <li>
                   {#if eff.isTitleVisible && eff.title}<strong>{eff.title}</strong>{/if}
-                  <Markdown text={eff.description} />
+                  <Markdown text={eff.description} skillsMap={skillMap} />
                 </li>
               {/each}
             </ul>

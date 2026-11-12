@@ -15,8 +15,14 @@ function highlightNumbers(s: string): string {
   });
 }
 
-function inline(s: string): string {
+function inline(s: string, skillMap?: Record<string, any>): string {
   return s
+    .replace(/\[\[skill:([^\]]+)\]\]/g, (m, name) => {
+      if (skillMap && skillMap[name]) {
+        return `<button type="button" class="md-skill md-skill-btn" data-skill="${name}">${name}</button>`;
+      }
+      return `<span class="md-skill">${name}</span>`;
+    })
     .replace(/`([^`]+)`/g, '<code>$1</code>')
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
     .replace(/__([^_]+)__/g, '<strong>$1</strong>')
@@ -29,9 +35,11 @@ export function highlight(src: string | null | undefined): string {
   return highlightNumbers(esc(String(src)));
 }
 
-export function md(src: string | null | undefined): string {
+export function md(src: string | null | undefined, skillMap?: Record<string, any>): string {
   if (!src) return '';
-  const text = highlightNumbers(esc(String(src))).replace(/\r\n/g, '\n');
+  const raw0 = esc(String(src)).replace(/\r\n/g, '\n');
+  const protected0 = raw0.replace(/\[\[skill:([^\]]+)\]\]/g, (_m, name) => '\u0001SKILL' + name + '\u0002');
+  let text = highlightNumbers(protected0).replace(/\u0001SKILL([^\u0002]+)\u0002/g, (_m, name) => '[[skill:' + name + ']]');
   const blocks = text.split(/\n{2,}/);
   const out: string[] = [];
 
@@ -42,10 +50,10 @@ export function md(src: string | null | undefined): string {
     const lines = block.split('\n');
     const isList = lines.every((l) => /^\s*[-*]\s+/.test(l));
     if (isList) {
-      const items = lines.map((l) => '<li>' + inline(l.replace(/^\s*[-*]\s+/, '')) + '</li>').join('');
+      const items = lines.map((l) => '<li>' + inline(l.replace(/^\s*[-*]\s+/, ''), skillMap) + '</li>').join('');
       out.push('<ul>' + items + '</ul>');
     } else {
-      const html = lines.map((l) => inline(l)).join('<br>');
+      const html = lines.map((l) => inline(l, skillMap)).join('<br>');
       out.push('<p>' + html + '</p>');
     }
   }
