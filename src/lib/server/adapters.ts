@@ -555,7 +555,15 @@ export async function getSonataDetail(encoreId: number): Promise<any | null> {
 export async function resolveCharIdBySlug(slug: string): Promise<number | null> {
   const raw = await getCharListRaw();
   const found = raw.find(c => String(c.Id) === slug || slugify(c.Name) === slug);
-  return found ? found.Id : null;
+  if (found) return found.Id;
+
+  const rv = /^(electro|aero|havoc|spectro)-rover$/.exec(slug);
+  if (rv) {
+    const el = rv[1];
+    const m = raw.find(c => /^Rover:/i.test(c.Name) && String(c.Element?.Name || '').toLowerCase() === el);
+    return m ? m.Id : null;
+  }
+  return null;
 }
 export async function resolveWeaponIdBySlug(slug: string): Promise<number | null> {
   const raw = await getWeaponListRaw();

@@ -4,9 +4,19 @@ import { resolveCharIdBySlug, getCharacterDetail, listEchoes, listWeapons, listS
 import { loadWuwaJSON } from '../../../lib/server/wuwa';
 
 export const load: PageServerLoad = async ({ params, fetch }) => {
+  const isNumeric = /^\d+$/.test(params.slug);
   const [encoreId, buildData] = await Promise.all([
-    resolveCharIdBySlug(params.slug),
-    loadWuwaJSON(`builds/${params.slug}.json`, fetch)
+    isNumeric ? Promise.resolve(Number(params.slug)) : resolveCharIdBySlug(params.slug),
+    (async () => {
+      if (isNumeric) {
+        const idx = await loadWuwaJSON('builds/index.json', fetch);
+        const entry = (idx || []).find((b: any) => String(b.id) === params.slug);
+        if (!entry) return null;
+        const slug = (entry.slug || entry.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        return loadWuwaJSON(`builds/${slug}.json`, fetch);
+      }
+      return loadWuwaJSON(`builds/${params.slug}.json`, fetch);
+    })()
   ]);
   if (!encoreId) throw error(404, 'Character not found');
   if (!buildData) throw error(404, 'Build not found');

@@ -15,8 +15,14 @@ export const load: PageServerLoad = async ({ fetch }) => {
   const resBySlug = new Map<string, any>();
   for (const r of (resonators || [])) resBySlug.set(slugify(r.name), r);
 
+  const charSlug = (c: any) => {
+    const base = slugify(c.name);
+    const m = /^rover-(\w+)$/.exec(base);
+    if (m) return m[1] + '-rover';
+    return base;
+  };
   const withBuilds = chars
-    .filter(c => buildSlugs.has(slugify(c.name)))
+    .filter(c => buildSlugs.has(charSlug(c)))
     .map(c => {
       const r = resBySlug.get(slugify(c.name));
       if (!r) return c;
