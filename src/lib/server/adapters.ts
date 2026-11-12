@@ -8,6 +8,19 @@ function stripHtml(s: string): string {
   if (!s) return '';
   return String(s)
     .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
+function stripHtmlSkills(s: string): string {
+  if (!s) return '';
+  return String(s)
+    .replace(/<br\s*\/?>/gi, '\n')
     .replace(/<span[^>]*color\s*:\s*#ffd12f[^>]*>([\s\S]*?)<\/span>/gi, '[[skill:$1]]')
     .replace(/<[^>]+>/g, '')
     .replace(/&nbsp;/g, ' ')
@@ -223,7 +236,7 @@ export async function getCharacterDetail(encoreId: number): Promise<any | null> 
       name: s.SkillName || '',
       icon: proxyImg(s.Icon),
       description: '',
-      effects: [{ title: '', description: stripHtml(s.SkillDescribe || ''), isTitleVisible: false }],
+      effects: [{ title: '', description: stripHtmlSkills(s.SkillDescribe || ''), isTitleVisible: false }],
       attributes: (s.SkillAttributes || []).map((att: any) => ({
         name: att.attributeName,
         values: att.values || []
@@ -246,7 +259,7 @@ export async function getCharacterDetail(encoreId: number): Promise<any | null> 
       stage: 'S' + (i + 1),
       name: (rc.NodeName || '').replace(/\s+/g, ' ').trim(),
       icon: rc.NodeIcon ? ('/api/img/resource/Data' + rc.NodeIcon) : '',
-      effects: [{ title: '', description: stripHtml(rc.AttributesDescription || ''), isTitleVisible: false }]
+      effects: [{ title: '', description: stripHtmlSkills(rc.AttributesDescription || ''), isTitleVisible: false }]
     }));
 
   

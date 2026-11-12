@@ -66,9 +66,7 @@
   let props: PageProps = $props();
   const item = $derived(props.data.item);
   const sonatasMap = $derived(props.data.sonatasMap || {});
-  let activeTab = $state('overview');
-  let kitTab = $state('skills');
-  let loreTab = $state('stories');
+  let activeTab = $state('overview');
   let charLevel = $state(90);
   const levelStats = $derived(item.levelStats || {});
   const statNames = $derived(Object.keys((levelStats[1] as any) || {}));
@@ -76,27 +74,18 @@
 
   const tabList = [
     { id: 'overview', label: 'Overview' },
-    { id: 'kit', label: 'Kit & Sequences' },
-    { id: 'lore', label: 'Lore' }
+    { id: 'skills', label: 'Skills' },
+    { id: 'sequences', label: 'Sequences' },
+    { id: 'stories', label: 'Stories' },
+    { id: 'words', label: 'Voice Lines' },
+    { id: 'goods', label: 'Items' }
   ];
 
   const elementNames: Record<number, string> = { 1: 'Glacio', 2: 'Fusion', 3: 'Electro', 4: 'Aero', 5: 'Spectro', 6: 'Havoc' };
   const weaponNames: Record<number, string> = { 1: 'Broadblade', 2: 'Sword', 3: 'Pistol', 4: 'Gauntlet', 5: 'Rectifier' };
   const elName = $derived(elementNames[item.element as number] ?? '');
   const wpName = $derived(weaponNames[item.weapon as number] ?? '');
-  const sonataLabels = $derived((item.sonatas || []).map((id: any) => sonatasMap[id]?.name || ('Sonata ' + id)));
-
-  const loreTabs = [
-    { id: 'stories', label: 'Stories' },
-    { id: 'words', label: 'Voice Lines' },
-    { id: 'goods', label: 'Items' }
-  ];
-
-  const loreItems = $derived(
-    loreTab === 'stories' ? (item.stories || [])
-    : loreTab === 'words' ? (item.words || [])
-    : (item.goods || [])
-  );
+  const sonataLabels = $derived((item.sonatas || []).map((id: any) => sonatasMap[id]?.name || ('Sonata ' + id)));
 
   const skillsMap = $derived.by(() => {
     const map: Record<string, { type: string; name: string; description: string }> = {};
@@ -224,32 +213,34 @@
 
   {/if}
 
-  {#if activeTab === 'kit'}
-    <DataSection title="Skills & Sequences">
-      <Tabs
-        tabs={[{ id: 'skills', label: 'Skills' }, { id: 'sequences', label: 'Sequences' }]}
-        activeTab={kitTab}
-        onchange={(id) => kitTab = id}
-      />
-      <div class="kit-content">
-        {#if kitTab === 'skills' && item.skills}
-          <SkillList skills={item.skills} charSlug={item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')} />
-        {/if}
-        {#if kitTab === 'sequences' && item.sequences}
-          <SequenceList sequences={item.sequences} skillsMap={skillsMap} charSlug={item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')} />
-        {/if}
-      </div>
+  {#if activeTab === 'skills'}
+    <DataSection title="Skills">
+      {#if item.skills}
+        <SkillList skills={item.skills} charSlug={item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')} />
+      {/if}
     </DataSection>
   {/if}
 
-  {#if activeTab === 'lore'}
-    <DataSection title="Lore">
-      <Tabs tabs={loreTabs} activeTab={loreTab} onchange={(id) => loreTab = id} />
+  {#if activeTab === 'sequences'}
+    <DataSection title="Sequences">
+      {#if item.sequences}
+        <SequenceList sequences={item.sequences} skillsMap={skillsMap} charSlug={item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')} />
+      {/if}
+    </DataSection>
+  {/if}
+
+  {#if activeTab === 'stories' || activeTab === 'words' || activeTab === 'goods'}
+    {@const entries =
+      activeTab === 'stories' ? (item.stories || [])
+      : activeTab === 'words' ? (item.words || [])
+      : (item.goods || [])
+    }
+    <DataSection title={activeTab === 'stories' ? 'Stories' : activeTab === 'words' ? 'Voice Lines' : 'Items'}>
       <div class="lore-content">
-        {#if loreItems.length === 0}
+        {#if entries.length === 0}
           <p class="desc">No entries.</p>
         {:else}
-          {#each loreItems as entry}
+          {#each entries as entry}
             <Accordion title={entry.title || '(untitled)'} image={entry.pic || ''}>
               {entry.content}
             </Accordion>
